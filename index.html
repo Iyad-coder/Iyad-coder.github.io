@@ -1,0 +1,351 @@
+<title>Iyad Abid</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Iyad Abid — EPFL microengineering student building robots and edge-AI hardware.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a single column of project "datasheets" — media left, spec table right — under a hero built from a live 16×4 thermal array. */
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --fg: #141821;
+  --muted: #5b6474;
+  --line: #dde1e8;
+  --accent: #e2531d;      /* thermal orange */
+  --accent-ink: #b8400f;
+  --cool: #2b4fd8;        /* thermal cold end */
+  --font-display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Figtree", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1218; --surface: #161b24; --fg: #e8ebf1; --muted: #98a1b2;
+    --line: #262d3a; --accent: #ff6a33; --accent-ink: #ff8a5c; --cool: #6d8cff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1218; --surface: #161b24; --fg: #e8ebf1; --muted: #98a1b2;
+  --line: #262d3a; --accent: #ff6a33; --accent-ink: #ff8a5c; --cool: #6d8cff;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font: 400 16px/1.6 var(--font-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1040px; margin: 0 auto; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+.mono { font-family: var(--font-mono); }
+
+/* Nav */
+nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding-block: 24px; font-family: var(--font-mono); font-size: 13px; }
+nav .links { display: flex; gap: 20px; flex-wrap: wrap; }
+nav a { text-decoration: none; color: var(--muted); }
+nav a:hover { color: var(--fg); }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: center; padding-block: 40px 64px; }
+.hero > * { min-width: 0; }
+.eyebrow { font: 500 12px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); }
+h1 { font: 700 clamp(40px, 6vw, 64px)/1.02 var(--font-display); letter-spacing: -0.02em; margin: 14px 0 18px; text-wrap: balance; }
+.lede { font-size: 18px; color: var(--muted); max-width: 32em; margin: 0 0 28px; }
+.cta { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 15px; border: 1px solid var(--line); background: var(--surface); }
+.btn.primary { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.btn:hover { border-color: var(--accent); }
+
+.sensor { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; }
+.sensor-head { display: flex; justify-content: space-between; font: 12px var(--font-mono); color: var(--muted); margin-bottom: 12px; gap: 8px; flex-wrap: wrap; }
+#thermal { display: grid; grid-template-columns: repeat(16, 1fr); gap: 3px; }
+#thermal span { aspect-ratio: 1; border-radius: 2px; background: var(--line); transition: background-color .5s linear; }
+.scale { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 12px; font: 11px var(--font-mono); color: var(--muted); }
+.scale .bar { flex: 1; height: 6px; border-radius: 3px; background: linear-gradient(90deg, #1b2a8c, #2b4fd8, #19a7a1, #f2c230, #e2531d, #c0161b); }
+
+/* Sections */
+section { padding-block: 56px; border-top: 1px solid var(--line); }
+h2 { font: 700 30px/1.15 var(--font-display); letter-spacing: -0.01em; margin: 0 0 8px; }
+.section-sub { color: var(--muted); margin: 0 0 36px; max-width: 40em; }
+
+/* Project datasheets */
+.projects { display: grid; gap: 28px; }
+.project { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
+.project > * { min-width: 0; }
+.media { aspect-ratio: 16 / 10; max-width: 100%; border-radius: 8px; border: 1px dashed var(--line); display: grid; place-items: center; text-align: center; color: var(--muted); font: 12px/1.5 var(--font-mono); padding: 16px; background: repeating-linear-gradient(135deg, transparent 0 10px, color-mix(in srgb, var(--line) 45%, transparent) 10px 11px); }
+.media img, .media video { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block; }
+.media.has-img { padding: 0; border: 1px solid var(--line); background: var(--bg); overflow: hidden; }
+.media.has-img { position: relative; }
+.media.has-img img { position: absolute; inset: 0; object-position: center; }
+.media.contain img { object-fit: contain; background: #fff; }
+.media.portrait img.fill { object-fit: cover; filter: blur(18px) brightness(.9); transform: scale(1.15); }
+.media.portrait img.fit { object-fit: contain; }
+.tag-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
+.award { font: 500 11px/1 var(--font-mono); letter-spacing: .04em; padding: 5px 8px; border-radius: 4px; background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent-ink); }
+.status { font: 500 11px/1 var(--font-mono); padding: 5px 8px; border-radius: 4px; border: 1px solid var(--line); color: var(--muted); }
+.project h3 { font: 700 22px/1.2 var(--font-display); margin: 0 0 8px; text-wrap: balance; }
+.project p { margin: 0 0 16px; color: var(--muted); }
+.specs { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
+.specs th, .specs td { text-align: left; padding: 7px 0; border-top: 1px solid var(--line); vertical-align: top; }
+.specs th { width: 88px; font: 500 11px var(--font-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding-right: 12px; }
+.specs td { font-variant-numeric: tabular-nums; }
+.plinks { display: flex; gap: 16px; flex-wrap: wrap; font: 13px var(--font-mono); }
+.plinks a { color: var(--accent-ink); text-underline-offset: 3px; }
+.plinks .soon { color: var(--muted); }
+
+
+.media.has-chart { padding: 8px; border: 1px solid var(--line); background: var(--bg); }
+.media.has-chart svg { width: 100%; height: 100%; display: block; }
+.c-title { font: 600 13px var(--font-body); fill: var(--fg); }
+.c-grid line { stroke: var(--line); stroke-width: 1; }
+.c-tick, .c-note { font: 10px var(--font-mono); fill: var(--muted); }
+.c-label { font: 12px var(--font-body); fill: var(--muted); }
+.c-strong { font-weight: 600; fill: var(--fg); }
+.c-base { fill: var(--muted); opacity: .45; }
+.c-ours { fill: var(--accent); }
+.c-val { font: 600 12px var(--font-mono); fill: var(--fg); }
+.c-inv { fill: #fff; }
+.c-ref { stroke: var(--fg); stroke-width: 1; stroke-dasharray: 3 3; opacity: .5; }
+.c-delta { font: 700 13px var(--font-mono); fill: var(--accent-ink); }
+
+/* About + contact */
+.about { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.about > * { min-width: 0; }
+.about p { margin: 0 0 14px; max-width: 34em; }
+.facts { display: grid; gap: 10px; font-size: 15px; }
+.facts div { display: grid; grid-template-columns: 110px 1fr; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.facts dt, .facts span:first-child { font: 500 11px/1.9 var(--font-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.contact-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
+.email { font: 15px var(--font-mono); user-select: all; padding: 9px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); overflow-wrap: anywhere; }
+button.copy { font: 600 14px var(--font-body); padding: 9px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); cursor: pointer; }
+button.copy:hover { border-color: var(--accent); }
+footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px var(--font-mono); color: var(--muted); }
+
+@media (max-width: 760px) {
+  .hero, .project, .about { grid-template-columns: 1fr; }
+  .hero { gap: 32px; padding-block: 16px 48px; }
+}
+@media (prefers-reduced-motion: reduce) { #thermal span { transition: none; } }
+</style>
+
+<div class="wrap">
+  <nav>
+    <span>iyad abid</span>
+    <div class="links">
+      <a href="#projects">Projects</a>
+      <a href="#about">About</a>
+      <!-- Put your PDF next to index.html as cv.pdf -->
+      <a href="cv.pdf">CV</a>
+      <a href="https://github.com/Iyad-coder">GitHub</a>
+      <a href="https://linkedin.com/in/iyad-abid-387715368">LinkedIn</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Robotics · Microengineering at EPFL</div>
+      <h1>Hi, I'm Iyad. I build robots.</h1>
+      <p class="lede">I'm a microengineering student at EPFL who can't stop building things that move. Rovers, drones, robot arms, and now a humanoid: I love designing the electronics, writing the code, and watching it all work in the real world.</p>
+      <div class="cta">
+        <a class="btn primary" href="#projects">See projects</a>
+        <a class="btn" href="cv.pdf">Download CV</a>
+      </div>
+    </div>
+    <div class="sensor" aria-label="Animated readout of a 16 by 4 thermal sensor">
+      <div class="sensor-head"><span>Live from my thermal camera · 16×4 px</span><span id="tmax">max — °C</span></div>
+      <div id="thermal"></div>
+      <div class="scale"><span>18 °C</span><span class="bar"></span><span>42 °C</span></div>
+    </div>
+  </header>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <p class="section-sub">Things I designed, built and debugged, from the PCB up to the code.</p>
+
+    <div class="projects">
+
+      <!-- PROJECT: copy this <article> block to add a new one. Replace the .media div content with
+           <video src="media/xxx.mp4" autoplay muted loop playsinline></video> or <img src="media/xxx.jpg" alt="..."> -->
+
+      <article class="project">
+        <div class="media has-img"><img src="media/rover-team.jpg" alt="The Xplore team at EPFL sitting behind the rover" loading="lazy"></div>
+        <div>
+          <div class="tag-row"><span class="status">Xplore · ERC</span></div>
+          <h3>Autonomous rover with sensor fusion</h3>
+          <p>Custom PCB, full electronics and autonomy stack for a differential-drive rover that finds and approaches a target on its own.</p>
+          <table class="specs">
+            <tr><th>Hardware</th><td>ESP32, 4 DC motors, 5 servos, custom PCB</td></tr>
+            <tr><th>Fusion</th><td>IMU + LiDAR + ultrasonic via Extended Kalman Filter</td></tr>
+            <tr><th>Autonomy</th><td>HSV detection, LiDAR gap-finding state machine</td></tr>
+            <tr><th>Stack</th><td>ROS 2, Gazebo Harmonic, robot_localization</td></tr>
+          </table>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="media has-img contain"><img src="media/drone-schematic.png" alt="KiCad schematic of the drone electronics: dual 6S batteries, power module, ESC, Pixhawk 6X, Jetson Orin Nano and four LiDARs" loading="lazy"></div>
+        <div>
+          <div class="tag-row"><span class="status">In progress · Electronics Lead</span></div>
+          <h3>Competition drone, EPFL Xplore</h3>
+          <p>Leading the electronics of the team's drone for the European Rover Challenge, including an electrical hot-swap system for the power supply.</p>
+          <table class="specs">
+            <tr><th>Role</th><td>Electronics Lead</td></tr>
+            <tr><th>Power</th><td>Two 6S batteries, hot-swap, 12 V and 5 V rails</td></tr>
+            <tr><th>Avionics</th><td>Pixhawk 6X, Jetson Orin Nano, 4 LiDARs</td></tr>
+          </table>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="media has-img portrait"><img class="fill" src="media/humanoid.jpg" alt="" aria-hidden="true" loading="lazy"><img class="fit" src="media/humanoid.jpg" alt="Simulation render of the humanoid robot" loading="lazy"></div>
+        <div>
+          <div class="tag-row"><span class="status">In progress</span></div>
+          <h3>Humanoid robot</h3>
+          <p>Building a humanoid robot and its software stack, with on-board perception as the next milestone.</p>
+          <table class="specs">
+            <tr><th>Role</th><td>Software</td></tr>
+            <tr><th>Next</th><td>On-board perception pipeline</td></tr>
+          </table>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="media has-img portrait"><img class="fill" src="media/so101-arm.jpg" alt="" aria-hidden="true" loading="lazy"><img class="fit" src="media/so101-arm.jpg" alt="SO-101 arm in front of a board of leaves, some with orange diseased spots" loading="lazy"></div>
+        <div>
+          <div class="tag-row"><span class="status">RoboHack 2026</span></div>
+          <h3>Imitation learning on a low-cost arm</h3>
+          <p>Taught an SO-101 arm to pick leaves for greenhouse plant monitoring from teleoperated demonstrations.</p>
+          <table class="specs">
+            <tr><th>Robot</th><td>SO-101, Hugging Face LeRobot</td></tr>
+            <tr><th>Policy</th><td>ACT (Action Chunking Transformer), PyTorch</td></tr>
+            <tr><th>Data</th><td>Teleoperation dataset, public on Hugging Face</td></tr>
+          </table>
+          <div class="plinks"><a href="https://github.com/YazidBenmchich/RoboHack2026">GitHub →</a> <a href="https://huggingface.co/datasets/Iyaddo/leaf-picking">Dataset →</a></div>
+        </div>
+      </article>
+      <article class="project">
+        <div class="media has-img"><img src="media/helioscan.jpg" alt="HelioScan simulation: a drone inspecting solar panels zone by zone, with live camera feed and panel status dashboard" loading="lazy"></div>
+        <div>
+          <div class="tag-row"><span class="award">3rd · HackTurin 2026</span></div>
+          <h3>Thermal inspection payload for drones</h3>
+          <p>A drone-mounted RGB and thermal camera that spots defective solar panels during flight, now being rebuilt as a standalone edge payload.</p>
+          <table class="specs">
+            <tr><th>Compute</th><td>Arduino UNO Q (Linux MPU + MCU)</td></tr>
+            <tr><th>Sensors</th><td>MLX90621 16×4 IR array, RGB camera</td></tr>
+            <tr><th>Output</th><td>Live heat maps fused with camera frames</td></tr>
+          </table>
+          <div class="plinks"><a href="https://github.com/YazidBenmchich/HackTORINO">GitHub →</a></div>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="media has-chart"><svg viewBox="0 0 400 250" role="img" aria-label="Relative score: DeepSeek baseline 100, our algorithm 114.2, a 14.2 percent improvement">
+  <text x="24" y="30" class="c-title">Relative score, DeepSeek baseline = 100</text>
+  <g class="c-grid"><line x1="24.0" y1="48" x2="24.0" y2="196"/><line x1="141.3" y1="48" x2="141.3" y2="196"/><line x1="258.7" y1="48" x2="258.7" y2="196"/><line x1="376.0" y1="48" x2="376.0" y2="196"/></g>
+  <text x="24.0" y="214" class="c-tick" text-anchor="middle">0</text><text x="141.3" y="214" class="c-tick" text-anchor="middle">40</text><text x="258.7" y="214" class="c-tick" text-anchor="middle">80</text><text x="376.0" y="214" class="c-tick" text-anchor="middle">120</text>
+  <text x="24" y="70" class="c-label">DeepSeek baseline</text>
+  <rect x="24" y="78" width="293.3" height="30" rx="3" class="c-base"/>
+  <text x="325.3" y="98" class="c-val">100</text>
+  <text x="24" y="138" class="c-label c-strong">Our expert placement</text>
+  <rect x="24" y="146" width="335.0" height="30" rx="3" class="c-ours"/>
+  <text x="351.0" y="166" class="c-val c-inv" text-anchor="end">114.2</text>
+  <line x1="317.3" y1="72" x2="317.3" y2="182" class="c-ref"/>
+  <text x="323.3" y="140" class="c-delta">+14.2%</text>
+  <text x="24" y="238" class="c-note">LauzHack × Huawei, May 2026 · 2nd place</text>
+</svg></div>
+        <div>
+          <div class="tag-row"><span class="award">2nd · LauzHack × Huawei</span></div>
+          <h3>Mixture-of-Experts expert placement</h3>
+          <p>An algorithm that decides where each expert of an MoE model runs, beating DeepSeek's baseline.</p>
+          <table class="specs">
+            <tr><th>Result</th><td>+14.2% over DeepSeek baseline</td></tr>
+            <tr><th>Topic</th><td>MoE inference, load balancing</td></tr>
+          </table>
+          <div class="plinks"><a href="https://github.com/Iyad-coder/Huawei_Optimisation">GitHub →</a></div>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="media has-img contain"><img src="media/stitchmeter-iso.jpg" alt="CAD model of the Stitchmeter with its flexure guides" loading="lazy"></div>
+        <div>
+          <div class="tag-row"><span class="status">Mechanical design</span></div>
+          <h3>Stitchmeter</h3>
+          <p>A fully mechanical suturing-assist device that uses flexure guides to help surgeons place consistent stitches.</p>
+          <table class="specs">
+            <tr><th>Principle</th><td>Compliant mechanisms (flexures)</td></tr>
+            <tr><th>Use</th><td>Surgical suturing assistance</td></tr>
+          </table>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>About</h2>
+    <div class="about">
+      <div>
+        <p>I'm a third-year microengineering student at EPFL in Lausanne. I like the part of robotics where software meets the board: getting sensors to agree, getting models to run on small chips, and getting a robot to do the right thing without a laptop attached.</p>
+        <p>Next year I start a master's focused on navigation and perception.</p>
+      </div>
+      <div class="facts">
+        <div><span>Teams</span><span>EPFL Xplore (drone), EPFL AI Team</span></div>
+        <div><span>Consulting</span><span>Junior Entreprise EPFL</span></div>
+        <div><span>Languages</span><span>French, Arabic, English, Spanish</span></div>
+        <div><span>Contact</span>
+          <span class="contact-row">
+            <span class="email" id="email">abid15iyad@gmail.com</span>
+            <button class="copy" id="copy-email" type="button">Copy</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2026 Iyad Abid · Lausanne, Switzerland</footer>
+</div>
+
+<script>
+(function () {
+  // Thermal hero: 16×4 grid with a warm blob drifting across, like a hand passing the sensor.
+  var grid = document.getElementById('thermal');
+  var tmax = document.getElementById('tmax');
+  var W = 16, H = 4, cells = [];
+  for (var i = 0; i < W * H; i++) { var s = document.createElement('span'); grid.appendChild(s); cells.push(s); }
+  var stops = [[27,42,140],[43,79,216],[25,167,161],[242,194,48],[226,83,29],[192,22,27]];
+  function color(t) {
+    t = Math.max(0, Math.min(1, t)) * (stops.length - 1);
+    var k = Math.floor(t), f = t - k, a = stops[k], b = stops[Math.min(k + 1, stops.length - 1)];
+    return 'rgb(' + [0,1,2].map(function (j) { return Math.round(a[j] + (b[j] - a[j]) * f); }).join(',') + ')';
+  }
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var phase = 0.8;
+  function frame() {
+    var cx = 7.5 + Math.sin(phase) * 6, cy = 1.5 + Math.cos(phase * 1.7) * 0.8, hi = 0;
+    for (var y = 0; y < H; y++) for (var x = 0; x < W; x++) {
+      var d2 = (x - cx) * (x - cx) + (y - cy) * (y - cy) * 2.2;
+      var temp = 21 + 17 * Math.exp(-d2 / 9) + 1.2 * Math.sin(x * 1.3 + y + phase * 3);
+      if (temp > hi) hi = temp;
+      cells[y * W + x].style.backgroundColor = color((temp - 18) / 24);
+    }
+    tmax.textContent = 'max ' + hi.toFixed(1) + ' °C';
+    phase += 0.35;
+  }
+  frame();
+  if (!reduce) setInterval(frame, 700);
+
+  var btn = document.getElementById('copy-email');
+  btn.addEventListener('click', function () {
+    var text = document.getElementById('email').textContent;
+    function selectIt() { var r = document.createRange(); r.selectNodeContents(document.getElementById('email')); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); }
+    try {
+      navigator.clipboard.writeText(text).then(function () { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1600); }, selectIt);
+    } catch (e) { selectIt(); }
+  });
+})();
+</script>
