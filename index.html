@@ -455,28 +455,44 @@ body.locked { overflow: hidden; }
       </article>
 
       <article class="project" data-id="stitchmeter">
-        <div class="media has-img contain"><img src="media/stitchmeter-iso.jpg" alt="CAD model of the Stitchmeter with its flexure guides" loading="lazy"></div>
+        <div class="media has-img contain"><img src="media/stitchmeter-iso.jpg" alt="CAD model of the StitchMeter: housing, actuation lever, wound pads and measuring needles" loading="lazy"></div>
         <div>
-          <div class="tag-row"><span class="status">Mechanical design</span></div>
-          <h3>Stitchmeter</h3>
-          <p>A fully mechanical suturing-assist device that uses flexure guides to help surgeons place consistent stitches.</p>
+          <div class="tag-row"><span class="status">EPFL · Mechanism Design</span></div>
+          <h3>StitchMeter</h3>
+          <p>A fully mechanical device, built only with flexure guides, that measures how tight a surgeon ties a stitch and then pulls the thread to failure.</p>
           <table class="specs">
-            <tr><th>Principle</th><td>Compliant mechanisms (flexures)</td></tr>
-            <tr><th>Use</th><td>Surgical suturing assistance</td></tr>
+            <tr><th>Principle</th><td>Flexure guides: blade stages, RCC pivots, flexure links</td></tr>
+            <tr><th>Range</th><td>Knot tension up to 8 N, thread strength up to 100 N</td></tr>
+            <tr><th>My part</th><td>Flexure sizing, preload screw design</td></tr>
           </table>
+          <div class="plinks"><a href="media/stitchmeter-report.pdf">Report (PDF) →</a></div>
           <button class="more" type="button">Read the full story</button>
         </div>
-        <template class="detail-tpl">
-<div class="tag-row"><span class="status">Mechanical design</span></div>
-<h2>Stitchmeter</h2>
-<p class="summary">A fully mechanical device that helps surgeons place regular, consistent stitches. It has no electronics: all the guiding comes from compliant mechanisms.</p>
+      <template class="detail-tpl">
+<div class="tag-row"><span class="status">EPFL · Mechanism Design · Group of 4</span><span class="status">May 2026</span></div>
+<h2>StitchMeter</h2>
+<p class="summary">Getting the knot tension right is essential for a wound to heal, and surgeons need to practise it. The StitchMeter lets them train anywhere, including in disaster areas: it measures how tight a stitch is tied, then tests the thread up to failure. It has no electronics and no sliding joints. Every guide is a flexure, so there is no wear, no play and almost no maintenance.</p>
+<figure class="shot"><img src="media/stitchmeter-top.jpg" alt="Top view of the StitchMeter CAD: lever on the left, blade stages, wound pads and the measuring needles with their scale" loading="lazy"><figcaption>Top view: the actuation lever on the left, the wound pads at the bottom, the blade stages in the middle and the measuring needles on the right.</figcaption></figure>
 <h4>How it works</h4>
-<p>Flexure guides (parts that move by bending instead of sliding on joints) position the needle precisely. Flexures have no friction, no play and no wear, which suits a precise, sterilisable medical tool.</p>
-<h4>Tech</h4>
-<table class="specs">
-  <tr><th>Principle</th><td>Compliant mechanisms (flexures)</td></tr>
-  <tr><th>Tools</th><td>CAD design</td></tr>
-</table>
+<ul>
+  <li><b>Phase I, knot tension.</b> One wound edge sits on a block guided by a parallel-blade stage. As the knot closes the wound, the block moves up to 2&nbsp;mm against a known stiffness, and a link turns that motion into a needle rotation amplified 8 times. The scale reads up to one tenth of the thread's nominal strength, with a resolution of 1/200 of it.</li>
+  <li><b>Phase II, thread strength.</b> A lever with a 12:1 ratio pushes a second block through three blade stages that engage one after the other. This gives a non-linear spring: fine resolution for small forces, up to 100&nbsp;N at full stroke, for less than 10&nbsp;N on the lever. A drag needle stays at the maximum force when the thread breaks.</li>
+  <li><b>Three thread sizes.</b> A helical spring preloads the first blade stage and lowers its stiffness. Turning a screw changes the preload, so the same 2&nbsp;mm stroke covers the EP3, EP6 or EP9 thread. Notches on the rails show where to stop, so nobody has to count turns.</li>
+</ul>
+<figure class="shot"><img src="media/stitchmeter-preload.jpg" alt="Close-up of the preload spring, its adjustment screw and the blade stages" loading="lazy"><figcaption>The preload spring and its adjustment screw, under the blade stages that set the measuring stiffness.</figcaption></figure>
+<h4>My part</h4>
+<ul>
+  <li>Sized the flexure guides with two teammates: stiffness of each pivot, link and blade stage, and maximum stresses, all kept below the fatigue limit for 10 million cycles.</li>
+  <li>Designed the preload screw: an M4 stainless screw that is self-locking (helix angle 3.6° against a friction angle of 8.5°), with a safety factor of about 22 and less than 4&nbsp;N needed on the knob.</li>
+</ul>
+<h4>Key numbers</h4>
+<div class="stats">
+  <div><b>×8</b><span>needle amplification in phase I</span></div>
+  <div><b>100 N</b><span>maximum force in phase II</span></div>
+  <div><b>12:1</b><span>lever ratio</span></div>
+  <div><b>10⁷</b><span>cycles of fatigue life</span></div>
+</div>
+<div class="plinks"><a href="media/stitchmeter-report.pdf">Full report (PDF) →</a></div>
 </template>
       </article>
 
