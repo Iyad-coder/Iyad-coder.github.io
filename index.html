@@ -454,6 +454,50 @@ body.locked { overflow: hidden; }
 </template>
       </article>
 
+      <article class="project" data-id="launcher">
+        <div class="media has-img contain"><img src="media/launcher-iso.jpg" alt="CAD model of the manual squash ball launcher: frame with transparent panels, gear housing, crank and carrying handle" loading="lazy"></div>
+        <div>
+          <div class="tag-row"><span class="status">EPFL · Machine design</span></div>
+          <h3>Manual squash ball launcher</h3>
+          <p>A hand-cranked machine that fires squash balls at 80 to 130 km/h: an 85:1 gear train spins two launch wheels, and a worm-driven magazine feeds a ball every 2.2 seconds.</p>
+          <table class="specs">
+            <tr><th>Drive</th><td>Two gear stages (85:1) and a worm-driven magazine</td></tr>
+            <tr><th>Output</th><td>80–130 km/h with 27–44 N on the crank</td></tr>
+            <tr><th>Build</th><td>~12 kg, every part 3-axis machinable, 35 drawings</td></tr>
+          </table>
+          <div class="plinks"><a href="media/launcher-report.pdf">Report (PDF) →</a></div>
+          <button class="more" type="button">Read the full story</button>
+        </div>
+      <template class="detail-tpl">
+<div class="tag-row"><span class="status">EPFL · ME-102/107 · Group of 4</span><span class="status">June 2025</span></div>
+<h2>Manual squash ball launcher</h2>
+<p class="summary">The brief: a purely manual machine, under 15 kg, that launches squash balls at 80 to 130 km/h, with every part machinable on a 3-axis CNC. We designed it end to end, from the gear train to the frame, and documented it with full detail and assembly drawings.</p>
+<h4>How it works</h4>
+<div class="flow"><span>Crank, 1 turn/s</span><i>→</i><span>180/17 gear pair</span><i>→</i><span>200/25 gear pair</span><i>→</i><span>Launch wheels, ~530 rad/s</span></div>
+<ul>
+  <li><b>Speed.</b> To throw a ball at 100 km/h, wheels of 52.5 mm radius must spin at about 529 rad/s, 84 times faster than the crank. Two gear pairs give 85:1, with a 45-tooth idler to get the right direction of rotation.</li>
+  <li><b>Feeding.</b> A worm turns a half-disc magazine with five pockets at 1/22 of the crank speed. The balls are placed so the wheels reach full speed (about 11 s) before the first ball drops into the chute, then a ball arrives every 2.2 s.</li>
+  <li><b>Launch.</b> An energy balance between the spinning wheels and the ball gives an exit speed of 0.978 times the wheel's surface speed.</li>
+</ul>
+<figure class="shot"><img src="media/launcher-kinematics.jpg" alt="Kinematic chain diagram of the launcher, from the crank through the gears to the launch wheels and the magazine" loading="lazy"><figcaption>Kinematic chain: crank (28), the two gear pairs, the worm (27) driving the magazine (17), and the launch wheels (13).</figcaption></figure>
+<h4>Sizing</h4>
+<ul>
+  <li>Gear modules from the tooth-strength criterion (0.75, 0.5 and 1.5 mm), shafts sized in torsion, and keys, pin, screws and bearings all checked with safety margins.</li>
+  <li>Overall efficiency of about 0.70 (worm, gears, ball and plain bearings), which sets the crank force: 27 N for 80 km/h and 44 N for 130 km/h.</li>
+  <li>Aluminium frame with polycarbonate windows, POM-H wheels and magazine, about 12 kg in total.</li>
+</ul>
+<figure class="shot"><img src="media/launcher-rear.jpg" alt="Rear view of the launcher with the crank, the gear housing and the ball magazine" loading="lazy"><figcaption>Rear view: crank and gear housing on the left, the ball magazine on the right.</figcaption></figure>
+<h4>Key numbers</h4>
+<div class="stats">
+  <div><b>85:1</b><span>speed-up ratio</span></div>
+  <div><b>80–130</b><span>km/h exit speed</span></div>
+  <div><b>2.2 s</b><span>between shots</span></div>
+  <div><b>~12 kg</b><span>total mass (limit 15 kg)</span></div>
+</div>
+<div class="plinks"><a href="media/launcher-report.pdf">Full report with drawings (PDF) →</a></div>
+</template>
+      </article>
+
       <article class="project" data-id="stitchmeter">
         <div class="media has-img contain"><img src="media/stitchmeter-iso.jpg" alt="CAD model of the StitchMeter: housing, actuation lever, wound pads and measuring needles" loading="lazy"></div>
         <div>
