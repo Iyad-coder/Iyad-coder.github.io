@@ -162,6 +162,10 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
 .shot { margin: 16px 0 8px; }
 .shot img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--line); }
 .shot figcaption { font: 12px/1.5 var(--font-mono); color: var(--muted); margin-top: 8px; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 6px 0 8px; }
+.stats div { border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; background: var(--bg); }
+.stats b { display: block; font: 700 26px/1.1 var(--font-display); color: var(--accent-ink); }
+.stats span { font-size: 13px; color: var(--muted); }
 body.locked { overflow: hidden; }
 @media (max-width: 760px) { .overlay { padding: 0; } .panel { border-radius: 0; min-height: 100%; border: 0; } }
 
@@ -346,39 +350,52 @@ body.locked { overflow: hidden; }
 </template>
       </article>
       <article class="project" data-id="helioscan">
-        <div class="media has-img"><img src="media/helioscan.jpg" alt="HelioScan simulation: a drone inspecting solar panels zone by zone, with live camera feed and panel status dashboard" loading="lazy"></div>
+        <div class="media has-img"><img src="media/helioscan-sim.jpg" alt="HelioScan simulation: the drone scanning a solar panel at close range, with the thermal view showing a hot spot" loading="lazy"></div>
         <div>
-          <div class="tag-row"><span class="award">3rd · HackTurin 2026</span></div>
-          <h3>Thermal inspection payload for drones</h3>
-          <p>A drone-mounted RGB and thermal camera that spots defective solar panels during flight, now being rebuilt as a standalone edge payload.</p>
+          <div class="tag-row"><span class="award">3rd · HackTurin 2026</span><span class="status">Beyond Solar track</span></div>
+          <h3>HelioScan: drone inspection for solar plants</h3>
+          <p>A drone that flies only when a panel's current drops, scans it at close range in RGB and thermal, and turns the fault into a work order. Detection runs on the edge, on an Arduino UNO Q.</p>
           <table class="specs">
-            <tr><th>Compute</th><td>Arduino UNO Q (Linux MPU + MCU)</td></tr>
-            <tr><th>Sensors</th><td>MLX90621 16×4 IR array, RGB camera</td></tr>
-            <tr><th>Output</th><td>Live heat maps fused with camera frames</td></tr>
+            <tr><th>Edge AI</th><td>YOLO11n on ONNX Runtime, Arduino UNO Q</td></tr>
+            <tr><th>Platform</th><td>3D simulation, Node.js server, operator console</td></tr>
+            <tr><th>Result</th><td>14/14 test flights, recall 1.000, precision 0.994</td></tr>
           </table>
-          <div class="plinks"><a href="https://github.com/YazidBenmchich/HackTORINO">GitHub →</a></div>
+          <div class="plinks"><a href="media/helioscan-slides.pdf">Slides →</a> <a href="https://github.com/YazidBenmchich/HackTORINO">GitHub →</a></div>
           <button class="more" type="button">Read the full story</button>
         </div>
-        <template class="detail-tpl">
-<div class="tag-row"><span class="award">3rd · HackTurin 2026</span></div>
-<h2>Thermal inspection payload for drones</h2>
-<p class="summary">Solar plants usually fly drones over the whole site on a fixed schedule. Our idea: only fly when the electrical monitoring sees a drop, and only to the suspect zone. A thermal and RGB payload then confirms the faulty panel.</p>
-<h4>How it works</h4>
-<div class="flow"><span>Current drop on a string</span><i>→</i><span>Drone sent to the zone</span><i>→</i><span>Thermal + RGB scan</span><i>→</i><span>Hot-spot map &amp; report</span></div>
-<p>A table maps each electrical string to its panels and GPS coordinates, so the alert becomes a precise flight target. The same drone can also be flown remotely during construction to check safety and progress.</p>
-<h4>What I did</h4>
+      <template class="detail-tpl">
+<div class="tag-row"><span class="award">3rd · HackTurin 2026</span><span class="status">Beyond Solar track · Torino</span></div>
+<h2>HelioScan: drone inspection for solar plants</h2>
+<p class="summary">Close-range drone inspection for solar plants, and the console that turns a fault into a work order. We built the payload and the software, not the drone.</p>
+<h4>The problem</h4>
+<p>Hot spots, cracked cells and soiling cost energy and can start fires, but they are hard to see from the ground. Today they are found by technicians walking with a handheld thermal camera, by fixed camera towers that watch the site rather than each cell, or by high-altitude drone passes where one faulty cell is only a few pixels.</p>
+<h4>One loop: detect, dispatch, inspect, act</h4>
+<div class="flow"><span>Current drop</span><i>→</i><span>Alert</span><i>→</i><span>Drone takes off</span><i>→</i><span>Close-range scan</span><i>→</i><span>Work order</span></div>
+<p>Each module's current is compared with the current expected for its zone's irradiance, so a passing cloud triggers nothing. A drop of 6&nbsp;% opens a watch alert, 15&nbsp;% escalates it to critical, and the drone is dispatched on its own. It descends to 0.65&nbsp;m from the glass, with the gimbal at −60° so the camera faces the 30° panel, flies a U-shaped pass and holds 5&nbsp;s in front of each defect for a clean close-up.</p>
+<figure class="shot"><img src="media/helioscan-workorder.jpg" alt="Operator console: current drop on module B07, thermal close-up of a hot spot and work order OT-0001" loading="lazy"><figcaption>From a current drop on B07 to work order OT-0001 in 16 seconds, with no operator input: module replacement, high priority, 105 W lost.</figcaption></figure>
+<h4>The platform</h4>
 <ul>
-  <li>Built the payload on an Arduino UNO Q (Linux processor + microcontroller) with an MLX90621 thermal array and an RGB camera.</li>
-  <li>Brought up the thermal sensor over I2C and produced live heat maps fused with camera frames.</li>
-  <li>Worked out the flight constraints: with a 16×4 sensor and a 60° field of view, the drone must fly at about 2 m to see individual cells.</li>
+  <li>A 3D simulation of the plant, the drone, its mission logic and its onboard camera.</li>
+  <li>A Node.js server in the middle that handles electrical supervision, alerts, dispatch and work orders, linked over WebSocket.</li>
+  <li>An operator console for supervision, flight control and work orders. Every action is also a REST call, and the console would supervise a real drone unchanged.</li>
+  <li>Twelve incident scenarios (module faults, structure tilt, wind gusts, rain, vegetation), each detected only through what a real sensor would report.</li>
 </ul>
-<h4>Tech</h4>
-<table class="specs">
-  <tr><th>Compute</th><td>Arduino UNO Q, Arduino App Lab</td></tr>
-  <tr><th>Sensors</th><td>MLX90621 16×4 IR array (I2C), RGB camera</td></tr>
-  <tr><th>Output</th><td>Live heat maps, panel status dashboard</td></tr>
-</table>
-<div class="plinks"><a href="https://github.com/YazidBenmchich/HackTORINO">GitHub →</a></div>
+<figure class="shot"><img src="media/helioscan-zone.jpg" alt="Zone B of the simulated plant fully inspected, with four defective panels highlighted" loading="lazy"><figcaption>Zone B inspected panel by panel: 20/20 panels, 4 defects located (crack, hot spot, two soiling), in 5 minutes of simulated time.</figcaption></figure>
+<h4>Edge AI payload prototype</h4>
+<p>The defect detector runs entirely on an Arduino UNO Q, with no cloud: YOLO11n on ONNX Runtime on its Linux side, multi-object tracking so one defect gives one report, and the board's STM32 microcontroller raising LED alerts. A phone camera stands in for the payload camera, flying over a printed test panel.</p>
+<ul>
+  <li><b>Labels for free:</b> subtracting the healthy print from the defect print gives exact defect boxes, so nothing was labelled by hand.</li>
+  <li><b>300 randomised views</b> (distance, tilt, print, lighting, blur, noise), fine-tuned from COCO in 16 minutes on a laptop CPU.</li>
+</ul>
+<figure class="shot"><img src="media/helioscan-yolo.jpg" alt="Grid of validation images with detected cracks and bird droppings" loading="lazy"><figcaption>Detector output on validation images never used in training.</figcaption></figure>
+<h4>Results</h4>
+<div class="stats">
+  <div><b>14/14</b><span>inspection flights passed, 0 false alarms</span></div>
+  <div><b>1.000</b><span>recall</span></div>
+  <div><b>0.994</b><span>precision</span></div>
+  <div><b>0.995</b><span>mAP50</span></div>
+</div>
+<div class="plinks"><a href="media/helioscan-slides.pdf">Full slides (PDF) →</a> <a href="https://github.com/YazidBenmchich/HackTORINO">GitHub →</a></div>
 </template>
       </article>
 
