@@ -235,6 +235,7 @@ body.locked { overflow: hidden; }
   <li>Integrated the IMU, LiDAR and ultrasonic sensors and fused them with an Extended Kalman Filter.</li>
   <li>Wrote the autonomy stack: simulation, computer vision and the navigation state machine.</li>
 </ul>
+<figure class="shot"><img src="media/rover-pcb.jpg" alt="3D render of the rover's custom PCB with four motor driver modules, the ESP32 headers and the sensor connectors" loading="lazy"><figcaption>The rover's motor and sensor board I designed in KiCad: four motor drivers, ESP32, six ultrasonic sensors with level shifting.</figcaption></figure>
 <h4>How it works</h4>
 <p>An ESP32 controls the motors and servos, and ROS 2 fuses the IMU, LiDAR and ultrasonic sensors to know where the rover is. A camera detects the target, and the rover plans its way there while avoiding obstacles. Everything was developed in Gazebo simulation first, then moved to the real robot.</p>
 <figure class="shot"><img src="media/rover-ctrl.jpg" alt="Rover control interface with the camera feed, a 180° LiDAR scan and the accumulated map" loading="lazy"><figcaption>Control interface: live camera, 180° LiDAR scan and the map built as the rover drives (Gazebo simulation).</figcaption></figure>
