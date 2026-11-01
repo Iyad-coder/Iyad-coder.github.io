@@ -5,7 +5,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: a single column of project "datasheets" — media left, spec table right — under a hero built from a live 16×4 thermal array. */
+/* Layout: a single column of project "datasheets" — media left, spec table right */
 :root {
   --bg: #f5f6f8;
   --surface: #ffffff;
@@ -61,12 +61,13 @@ h1 { font: 700 clamp(40px, 6vw, 64px)/1.02 var(--font-display); letter-spacing: 
 .btn.primary { background: var(--fg); color: var(--bg); border-color: var(--fg); }
 .btn:hover { border-color: var(--accent); }
 
-.sensor { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; }
-.sensor-head { display: flex; justify-content: space-between; font: 12px var(--font-mono); color: var(--muted); margin-bottom: 12px; gap: 8px; flex-wrap: wrap; }
-#thermal { display: grid; grid-template-columns: repeat(16, 1fr); gap: 3px; }
-#thermal span { aspect-ratio: 1; border-radius: 2px; background: var(--line); transition: background-color .5s linear; }
-.scale { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 12px; font: 11px var(--font-mono); color: var(--muted); }
-.scale .bar { flex: 1; height: 6px; border-radius: 3px; background: linear-gradient(90deg, #1b2a8c, #2b4fd8, #19a7a1, #f2c230, #e2531d, #c0161b); }
+.highlights { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px 20px; }
+.hl-head { font: 500 12px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 14px 0 10px; }
+.hl { display: grid; grid-template-columns: 64px 1fr; gap: 14px; align-items: center; padding: 14px 0; border-top: 1px solid var(--line); text-decoration: none; }
+.hl b { font: 700 26px/1 var(--font-display); color: var(--accent-ink); }
+.hl span { font-weight: 600; font-size: 15px; line-height: 1.3; }
+.hl small { display: block; font-weight: 400; font-size: 13px; color: var(--muted); margin-top: 3px; }
+.hl:hover span { color: var(--accent-ink); }
 
 /* Sections */
 section { padding-block: 56px; border-top: 1px solid var(--line); }
@@ -166,7 +167,7 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
 .stats div { border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; background: var(--bg); }
 .stats b { display: block; font: 700 26px/1.1 var(--font-display); color: var(--accent-ink); }
 .stats span { font-size: 13px; color: var(--muted); }
-.groups { display: grid; gap: 48px; }
+.groups { display: grid; gap: 48px; margin-top: 28px; }
 .group-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
 .group-head h3 { font: 700 20px/1.2 var(--font-display); margin: 0; }
 .group-head p { margin: 0; color: var(--muted); font-size: 14px; }
@@ -177,7 +178,6 @@ body.locked { overflow: hidden; }
   .hero, .project, .about { grid-template-columns: 1fr; }
   .hero { gap: 32px; padding-block: 16px 48px; }
 }
-@media (prefers-reduced-motion: reduce) { #thermal span { transition: none; } }
 </style>
 
 <div class="wrap">
@@ -203,20 +203,21 @@ body.locked { overflow: hidden; }
         <a class="btn" href="cv.pdf">Download CV</a>
       </div>
     </div>
-    <div class="sensor" aria-label="Animated readout of a 16 by 4 thermal sensor">
-      <div class="sensor-head"><span>Live from my thermal camera · 16×4 px</span><span id="tmax">max — °C</span></div>
-      <div id="thermal"></div>
-      <div class="scale"><span>18 °C</span><span class="bar"></span><span>42 °C</span></div>
-    </div>
+    <aside class="highlights" aria-label="Highlights">
+      <div class="hl-head">Highlights</div>
+      <a class="hl" href="#moe"><b>2nd</b><span>LauzHack × Huawei<small>MoE expert placement, +14.2% over DeepSeek</small></span></a>
+      <a class="hl" href="#rover"><b>3rd</b><span>Xplore Rover Challenge<small>Autonomous rover, custom PCB and ROS 2 stack</small></span></a>
+      <a class="hl" href="#helioscan"><b>3rd</b><span>HackTurin 2026<small>HelioScan, drone inspection for solar plants</small></span></a>
+      <a class="hl" href="#drone"><b>Lead</b><span>Electronics, EPFL Xplore drone<small>Best student drone team in Europe, 2025</small></span></a>
+    </aside>
   </header>
 
   <section id="projects">
     <h2>Projects</h2>
-    <p class="section-sub">Things I designed, built and debugged, from the PCB up to the code.</p>
 
     <div class="groups">
       <div class="group">
-        <div class="group-head"><h3>Completed projects</h3><p>Finished and fully documented, with reports, results and drawings.</p></div>
+        <div class="group-head"><h3>Completed projects</h3></div>
         <div class="projects">
       <article class="project" data-id="rover">
         <div class="media has-img"><img src="media/rover-team.jpg" alt="The Xplore team at EPFL sitting behind the rover" loading="lazy"></div>
@@ -488,7 +489,7 @@ body.locked { overflow: hidden; }
       </div>
 
       <div class="group">
-        <div class="group-head"><h3>In progress</h3><p>Ongoing work, documented as it moves forward.</p></div>
+        <div class="group-head"><h3>In progress</h3></div>
         <div class="projects">
       <article class="project" data-id="drone">
         <div class="media has-img contain"><img src="media/drone-schematic.png" alt="KiCad schematic of the drone electronics: dual 6S batteries, power module, ESC, Pixhawk 6X, Jetson Orin Nano and four LiDARs" loading="lazy"></div>
@@ -587,33 +588,6 @@ body.locked { overflow: hidden; }
 
 <script>
 (function () {
-  // Thermal hero: 16×4 grid with a warm blob drifting across, like a hand passing the sensor.
-  var grid = document.getElementById('thermal');
-  var tmax = document.getElementById('tmax');
-  var W = 16, H = 4, cells = [];
-  for (var i = 0; i < W * H; i++) { var s = document.createElement('span'); grid.appendChild(s); cells.push(s); }
-  var stops = [[27,42,140],[43,79,216],[25,167,161],[242,194,48],[226,83,29],[192,22,27]];
-  function color(t) {
-    t = Math.max(0, Math.min(1, t)) * (stops.length - 1);
-    var k = Math.floor(t), f = t - k, a = stops[k], b = stops[Math.min(k + 1, stops.length - 1)];
-    return 'rgb(' + [0,1,2].map(function (j) { return Math.round(a[j] + (b[j] - a[j]) * f); }).join(',') + ')';
-  }
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var phase = 0.8;
-  function frame() {
-    var cx = 7.5 + Math.sin(phase) * 6, cy = 1.5 + Math.cos(phase * 1.7) * 0.8, hi = 0;
-    for (var y = 0; y < H; y++) for (var x = 0; x < W; x++) {
-      var d2 = (x - cx) * (x - cx) + (y - cy) * (y - cy) * 2.2;
-      var temp = 21 + 17 * Math.exp(-d2 / 9) + 1.2 * Math.sin(x * 1.3 + y + phase * 3);
-      if (temp > hi) hi = temp;
-      cells[y * W + x].style.backgroundColor = color((temp - 18) / 24);
-    }
-    tmax.textContent = 'max ' + hi.toFixed(1) + ' °C';
-    phase += 0.35;
-  }
-  frame();
-  if (!reduce) setInterval(frame, 700);
-
   // Project detail view: click a card (or open #project-id) to see the full story.
   var overlay = document.getElementById('overlay'), panelMedia = document.getElementById('panel-media'),
       panelBody = document.getElementById('panel-body'), lastFocus = null;
@@ -653,6 +627,7 @@ body.locked { overflow: hidden; }
     else closeProject(false);
   }
   window.addEventListener('popstate', fromHash);
+  window.addEventListener('hashchange', fromHash);
   fromHash();
 
   var btn = document.getElementById('copy-email');
