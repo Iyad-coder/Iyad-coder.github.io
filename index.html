@@ -422,27 +422,35 @@ body.locked { overflow: hidden; }
             <tr><th>Result</th><td>+14.2% over DeepSeek baseline</td></tr>
             <tr><th>Topic</th><td>MoE inference, load balancing</td></tr>
           </table>
-          <div class="plinks"><a href="https://github.com/Iyad-coder/Huawei_Optimisation">GitHub →</a></div>
+          <div class="plinks"><a href="media/moe-slides.pdf">Slides →</a> <a href="https://github.com/Iyad-coder/Huawei_Optimisation">GitHub →</a></div>
           <button class="more" type="button">Read the full story</button>
         </div>
         <template class="detail-tpl">
-<div class="tag-row"><span class="award">2nd · LauzHack × Huawei</span></div>
+<div class="tag-row"><span class="award">2nd · LauzHack × Huawei</span><span class="status">May 2026</span></div>
 <h2>Mixture-of-Experts expert placement</h2>
-<p class="summary">Large Mixture-of-Experts models spread their experts across many GPUs. If some GPUs get much more work than others, everyone waits for the slowest one. We wrote an algorithm that decides where each expert runs, and beat DeepSeek's baseline by 14.2%.</p>
+<p class="summary">DeepSeek-style Mixture-of-Experts models have 256 experts, and each token is sent to 8 of them. Some experts get 3 to 5 times more tokens than average, so the GPUs hosting them become the bottleneck. We wrote the algorithm that decides which experts to copy and where to place them, and beat DeepSeek's EPLB baseline by 14.2%.</p>
 <h4>The challenge</h4>
-<p>Implement a <code>rebalance()</code> function, in numpy only, that reduces the load imbalance between GPUs (the peak-to-average ratio) while limiting how many experts are moved, since every move costs a data transfer. The score compared total time against DeepSeek's EPLB baseline (score 100).</p>
-<h4>What I learned</h4>
+<p>Implement a <code>rebalance()</code> function, in numpy only, that lowers the peak-to-average load ratio between GPUs (PAR = max load / mean load, 1 is perfect) without moving experts for nothing, since every move costs a data transfer. The score combines both: compute time grows with the mean PAR, and transfer time with the number of experts moved.</p>
+<h4>Four ideas on top of the baseline</h4>
 <ul>
-  <li>The imbalance term dominated the score; transfer cost was only about 1% of the total, so we focused almost entirely on balancing load.</li>
-  <li>The largest case (256 GPUs, 256 experts) timed out at first, so the algorithm had to be optimised specifically for speed at that scale.</li>
+  <li><b>Smoothed load estimates.</b> Instead of reacting to each window's raw load, we track the mean and the variability of every expert with exponential moving averages, which filters out noise.</li>
+  <li><b>A separate hedge for replication.</b> The PAR floor is set by experts that spike between rebalances, so volatile experts get extra copies, without changing where the others are placed.</li>
+  <li><b>Local-search refinement.</b> Greedy bin-packing can leave the hottest GPU up to a third above optimal. A few swaps between the hottest GPU and cooler ones close most of that gap.</li>
+  <li><b>Cost-gated redeployment.</b> A layer is only reshuffled when the PAR gain is worth the transfer cost, and the new placement is aligned with the old one to move as few experts as possible.</li>
+</ul>
+<figure class="shot"><img src="media/moe-makespan.jpg" alt="Bar chart of PAR per layer after greedy packing and after local-search refinement, refinement lower on every layer" loading="lazy"><figcaption>Local-search refinement lowers the peak-to-average ratio on every layer after the initial packing.</figcaption></figure>
+<h4>What made it work</h4>
+<ul>
+  <li>The imbalance term dominated the score, while transfers were only about 1% of the total, so balancing load was the main lever.</li>
+  <li>The largest case (256 GPUs, 256 experts) timed out at first, so the algorithm had to be made fast enough at that scale.</li>
 </ul>
 <h4>Result</h4>
-<table class="specs">
-  <tr><th>Score</th><td>114.2 vs 100 for the DeepSeek baseline (+14.2%)</td></tr>
-  <tr><th>Ranking</th><td>2nd place</td></tr>
-  <tr><th>Stack</th><td>Python, numpy, Codabench</td></tr>
-</table>
-<div class="plinks"><a href="https://github.com/Iyad-coder/Huawei_Optimisation">GitHub →</a></div>
+<div class="stats">
+  <div><b>114.2</b><span>score vs 100 for DeepSeek's baseline</span></div>
+  <div><b>+14.2%</b><span>improvement</span></div>
+  <div><b>2nd</b><span>place</span></div>
+</div>
+<div class="plinks"><a href="media/moe-slides.pdf">Slides (PDF) →</a> <a href="https://github.com/Iyad-coder/Huawei_Optimisation">GitHub →</a></div>
 </template>
       </article>
 
