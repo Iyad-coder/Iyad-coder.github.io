@@ -126,6 +126,42 @@ button.copy { font: 600 14px var(--font-body); padding: 9px 14px; border-radius:
 button.copy:hover { border-color: var(--accent); }
 footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px var(--font-mono); color: var(--muted); }
 
+
+/* Clickable cards + detail view */
+.project { cursor: pointer; transition: border-color .15s, transform .15s; }
+.project:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); }
+.more { display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; font: 600 14px var(--font-body); color: var(--fg); background: none; border: 0; padding: 0; cursor: pointer; }
+.more::after { content: "→"; color: var(--accent); transition: transform .15s; }
+.project:hover .more::after { transform: translateX(3px); }
+.detail-tpl { display: none; }
+
+.overlay { position: fixed; inset: 0; z-index: 50; display: none; background: color-mix(in srgb, #05070b 62%, transparent); backdrop-filter: blur(4px); overflow-y: auto; padding: 32px max(16px, env(safe-area-inset-right, 0px)) 48px max(16px, env(safe-area-inset-left, 0px)); }
+.overlay.open { display: block; }
+.panel { position: relative; max-width: 820px; margin: 0 auto; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.panel .media { aspect-ratio: 16 / 8; border-radius: 0; border: 0; border-bottom: 1px solid var(--line); }
+.panel .media img { border-radius: 0; }
+.panel-body { padding: 28px clamp(18px, 4vw, 40px) 36px; }
+.panel h2 { font-size: clamp(26px, 4vw, 34px); margin: 6px 0 10px; text-wrap: balance; }
+.panel .summary { font-size: 17px; color: var(--muted); margin: 0 0 24px; max-width: 40em; }
+.panel h4 { font: 500 11px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); margin: 28px 0 10px; }
+.panel p { margin: 0 0 12px; }
+.panel ul { margin: 0 0 12px; padding-left: 20px; }
+.panel li { margin-bottom: 6px; }
+.panel li::marker { color: var(--accent); }
+.panel code { font: 13px var(--font-mono); background: var(--bg); border: 1px solid var(--line); padding: 1px 5px; border-radius: 4px; }
+.flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font: 12px var(--font-mono); margin: 4px 0 12px; }
+.flow span { padding: 5px 9px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); }
+.flow i { font-style: normal; color: var(--accent); }
+.problem { border-left: 2px solid var(--accent); padding: 2px 0 2px 14px; margin-bottom: 14px; }
+.problem b { display: block; font-weight: 600; }
+.problem span { color: var(--muted); }
+.panel .specs { margin-top: 4px; }
+.panel .plinks { margin-top: 24px; }
+.close { position: absolute; top: 12px; right: 12px; z-index: 2; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--fg); font-size: 20px; line-height: 1; cursor: pointer; }
+.close:hover { border-color: var(--accent); }
+body.locked { overflow: hidden; }
+@media (max-width: 760px) { .overlay { padding: 0; } .panel { border-radius: 0; min-height: 100%; border: 0; } }
+
 @media (max-width: 760px) {
   .hero, .project, .about { grid-template-columns: 1fr; }
   .hero { gap: 32px; padding-block: 16px 48px; }
@@ -172,7 +208,7 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
       <!-- PROJECT: copy this <article> block to add a new one. Replace the .media div content with
            <video src="media/xxx.mp4" autoplay muted loop playsinline></video> or <img src="media/xxx.jpg" alt="..."> -->
 
-      <article class="project">
+      <article class="project" data-id="rover">
         <div class="media has-img"><img src="media/rover-team.jpg" alt="The Xplore team at EPFL sitting behind the rover" loading="lazy"></div>
         <div>
           <div class="tag-row"><span class="status">Xplore · ERC</span></div>
@@ -184,10 +220,38 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
             <tr><th>Autonomy</th><td>HSV detection, LiDAR gap-finding state machine</td></tr>
             <tr><th>Stack</th><td>ROS 2, Gazebo Harmonic, robot_localization</td></tr>
           </table>
+          <button class="more" type="button">Read the full story</button>
         </div>
+        <template class="detail-tpl">
+<div class="tag-row"><span class="status">EPFL Xplore · European Rover Challenge</span></div>
+<h2>Autonomous rover with sensor fusion</h2>
+<p class="summary">A differential-drive rover that finds a target panel on its own, drives to it and avoids obstacles on the way. I did the full electronics, from the custom PCB to sensor integration, and wrote the autonomy software.</p>
+<h4>My role</h4>
+<ul>
+  <li>Designed the custom PCB and all of the rover's electronics.</li>
+  <li>Integrated the IMU, LiDAR and ultrasonic sensors and fused them with an Extended Kalman Filter.</li>
+  <li>Wrote the autonomy stack: simulation, computer vision and the navigation state machine.</li>
+</ul>
+<h4>How it works</h4>
+<p>An ESP32 drives four DC motors through L298N drivers and five servos, with an Arduino Nano as an I2C slave for extra I/O. On the software side, ROS 2 fuses wheel odometry, the MPU6050 IMU, the LiDAR and ultrasonic sensors with <code>robot_localization</code>. The target is detected by HSV colour segmentation, and a LiDAR gap-finding state machine handles navigation:</p>
+<div class="flow"><span>SEARCH</span><i>→</i><span>ALIGN</span><i>→</i><span>APPROACH</span><i>→</i><span>AVOID</span><i>→</i><span>ARRIVED</span></div>
+<p>Everything was developed first in Gazebo Harmonic (ROS 2 on an Ubuntu 24.04 ARM64 VM), then moved to the real robot.</p>
+<h4>Problems I solved</h4>
+<div class="problem"><b>Servos and motors fighting over timers</b><span>LEDC PWM channels conflicted with the servo library on the ESP32; I reassigned channels and timers so both could run.</span></div>
+<div class="problem"><b>Motors moving on their own</b><span>Floating GPIOs on the L298N inputs; fixed with proper pin choices and defined default states.</span></div>
+<div class="problem"><b>I2C not talking across voltage levels</b><span>Debugged the level shifter between 3.3 V and 5 V devices until the bus was reliable.</span></div>
+<div class="problem"><b>The Kalman filter ignored the odometry</b><span>The EKF rejected odometry messages published with zero covariance; giving them realistic covariances made the fusion work.</span></div>
+<h4>Tech</h4>
+<table class="specs">
+  <tr><th>Hardware</th><td>ESP32, Arduino Nano, L298N, 4 DC motors, 5 servos, custom PCB</td></tr>
+  <tr><th>Sensors</th><td>MPU6050 IMU (calibrated), LiDAR, ultrasonic</td></tr>
+  <tr><th>Software</th><td>ROS 2, Gazebo Harmonic, robot_localization (EKF), OpenCV</td></tr>
+</table>
+<div class="plinks"><a href="https://github.com/Iyad-coder/Navigation_xrc">GitHub →</a></div>
+</template>
       </article>
 
-      <article class="project">
+      <article class="project" data-id="drone">
         <div class="media has-img contain"><img src="media/drone-schematic.png" alt="KiCad schematic of the drone electronics: dual 6S batteries, power module, ESC, Pixhawk 6X, Jetson Orin Nano and four LiDARs" loading="lazy"></div>
         <div>
           <div class="tag-row"><span class="status">In progress · Electronics Lead</span></div>
@@ -198,10 +262,31 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
             <tr><th>Power</th><td>Two 6S batteries, hot-swap, 12 V and 5 V rails</td></tr>
             <tr><th>Avionics</th><td>Pixhawk 6X, Jetson Orin Nano, 4 LiDARs</td></tr>
           </table>
+          <button class="more" type="button">Read the full story</button>
         </div>
+        <template class="detail-tpl">
+<div class="tag-row"><span class="status">In progress · Electronics Lead</span></div>
+<h2>Competition drone, EPFL Xplore</h2>
+<p class="summary">The Xplore drone team builds its drone from scratch, and was named the best student drone team in Europe in 2025. I lead the electronics.</p>
+<h4>My role</h4>
+<ul>
+  <li>Electronics Lead: power architecture, wiring and integration of the avionics.</li>
+  <li>Designing an electrical hot-swap system so the batteries can be changed without powering the drone down.</li>
+  <li>Next, I plan to work on navigation and embedded software.</li>
+</ul>
+<h4>Architecture</h4>
+<div class="flow"><span>2 × 6S batteries</span><i>→</i><span>Hot-swap + power module</span><i>→</i><span>12 V / 5 V rails</span><i>→</i><span>Pixhawk 6X · Jetson Orin Nano · ESCs · 4 LiDARs</span></div>
+<p>The Pixhawk 6X handles flight control, while the Jetson Orin Nano runs on-board perception and autonomy using four LiDARs.</p>
+<h4>Tech</h4>
+<table class="specs">
+  <tr><th>Power</th><td>Two 6S batteries, hot-swap, 12 V and 5 V rails</td></tr>
+  <tr><th>Avionics</th><td>Pixhawk 6X, Jetson Orin Nano, 4 LiDARs</td></tr>
+  <tr><th>Tools</th><td>KiCad</td></tr>
+</table>
+</template>
       </article>
 
-      <article class="project">
+      <article class="project" data-id="humanoid">
         <div class="media has-img portrait"><img class="fill" src="media/humanoid.jpg" alt="" aria-hidden="true" loading="lazy"><img class="fit" src="media/humanoid.jpg" alt="Simulation render of the humanoid robot" loading="lazy"></div>
         <div>
           <div class="tag-row"><span class="status">In progress</span></div>
@@ -211,10 +296,21 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
             <tr><th>Role</th><td>Software</td></tr>
             <tr><th>Next</th><td>On-board perception pipeline</td></tr>
           </table>
+          <button class="more" type="button">Read the full story</button>
         </div>
+        <template class="detail-tpl">
+<div class="tag-row"><span class="status">In progress</span></div>
+<h2>Humanoid robot</h2>
+<p class="summary">A humanoid robot project where I work on the software stack.</p>
+<h4>My role</h4>
+<ul>
+  <li>Software development for the robot, starting in simulation.</li>
+  <li>Next milestone: an on-board perception pipeline, planned over the coming year.</li>
+</ul>
+</template>
       </article>
 
-      <article class="project">
+      <article class="project" data-id="so101">
         <div class="media has-img portrait"><img class="fill" src="media/so101-arm.jpg" alt="" aria-hidden="true" loading="lazy"><img class="fit" src="media/so101-arm.jpg" alt="SO-101 arm in front of a board of leaves, some with orange diseased spots" loading="lazy"></div>
         <div>
           <div class="tag-row"><span class="status">RoboHack 2026</span></div>
@@ -226,9 +322,32 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
             <tr><th>Data</th><td>Teleoperation dataset, public on Hugging Face</td></tr>
           </table>
           <div class="plinks"><a href="https://github.com/YazidBenmchich/RoboHack2026">GitHub →</a> <a href="https://huggingface.co/datasets/Iyaddo/leaf-picking">Dataset →</a></div>
+          <button class="more" type="button">Read the full story</button>
         </div>
+        <template class="detail-tpl">
+<div class="tag-row"><span class="status">RoboHack 2026</span></div>
+<h2>Imitation learning on a low-cost arm</h2>
+<p class="summary">We taught a low-cost SO-101 arm to pick leaves from a plant board, as a first step toward automated plant-health monitoring in greenhouses. The robot learns the task from human demonstrations instead of hand-written code.</p>
+<h4>What I did</h4>
+<ul>
+  <li>Assembled the arm, set up and calibrated the motors with LeRobot.</li>
+  <li>Recorded a teleoperation dataset of leaf-picking demonstrations and published it on Hugging Face.</li>
+  <li>Trained an ACT (Action Chunking Transformer) policy in PyTorch and ran it on the real arm.</li>
+</ul>
+<h4>Pipeline</h4>
+<div class="flow"><span>Teleoperation</span><i>→</i><span>Dataset</span><i>→</i><span>ACT training</span><i>→</i><span>Autonomous picking</span></div>
+<h4>Problems I solved</h4>
+<div class="problem"><b>Motor overload errors</b><span>Diagnosed overload faults during teleoperation and recalibrated the motors so recordings stayed clean.</span></div>
+<h4>Tech</h4>
+<table class="specs">
+  <tr><th>Robot</th><td>SO-101, Hugging Face LeRobot</td></tr>
+  <tr><th>Policy</th><td>ACT (Action Chunking Transformer), PyTorch</td></tr>
+  <tr><th>Data</th><td>Public teleoperation dataset on Hugging Face</td></tr>
+</table>
+<div class="plinks"><a href="https://github.com/YazidBenmchich/RoboHack2026">GitHub →</a> <a href="https://huggingface.co/datasets/Iyaddo/leaf-picking">Dataset →</a></div>
+</template>
       </article>
-      <article class="project">
+      <article class="project" data-id="helioscan">
         <div class="media has-img"><img src="media/helioscan.jpg" alt="HelioScan simulation: a drone inspecting solar panels zone by zone, with live camera feed and panel status dashboard" loading="lazy"></div>
         <div>
           <div class="tag-row"><span class="award">3rd · HackTurin 2026</span></div>
@@ -240,10 +359,35 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
             <tr><th>Output</th><td>Live heat maps fused with camera frames</td></tr>
           </table>
           <div class="plinks"><a href="https://github.com/YazidBenmchich/HackTORINO">GitHub →</a></div>
+          <button class="more" type="button">Read the full story</button>
         </div>
+        <template class="detail-tpl">
+<div class="tag-row"><span class="award">3rd · HackTurin 2026</span></div>
+<h2>Thermal inspection payload for drones</h2>
+<p class="summary">Solar plants usually fly drones over the whole site on a fixed schedule. Our idea: only fly when the electrical monitoring sees a drop, and only to the suspect zone. A thermal and RGB payload then confirms the faulty panel.</p>
+<h4>How it works</h4>
+<div class="flow"><span>Current drop on a string</span><i>→</i><span>Drone sent to the zone</span><i>→</i><span>Thermal + RGB scan</span><i>→</i><span>Hot-spot map &amp; report</span></div>
+<p>A table maps each electrical string to its panels and GPS coordinates, so the alert becomes a precise flight target. The same drone can also be flown remotely during construction to check safety and progress.</p>
+<h4>What I did</h4>
+<ul>
+  <li>Built the payload on an Arduino UNO Q (Linux processor + microcontroller) with an MLX90621 thermal array and an RGB camera.</li>
+  <li>Brought up the thermal sensor over I2C and produced live heat maps fused with camera frames.</li>
+  <li>Worked out the flight constraints: with a 16×4 sensor and a 60° field of view, the drone must fly at about 2 m to see individual cells.</li>
+</ul>
+<h4>Problems I solved</h4>
+<div class="problem"><b>No motors, change of plan</b><span>We started with a ground rover, but couldn't find DC motors on a Saturday in Turin, so we pivoted to a drone payload.</span></div>
+<div class="problem"><b>Sensor bring-up on a brand-new board</b><span>The default A4/A5 pins didn't work for I2C on the UNO Q; switching to the dedicated SDA/SCL pins and routing logs through the board's bridge made the sensor readable.</span></div>
+<h4>Tech</h4>
+<table class="specs">
+  <tr><th>Compute</th><td>Arduino UNO Q, Arduino App Lab</td></tr>
+  <tr><th>Sensors</th><td>MLX90621 16×4 IR array (I2C), RGB camera</td></tr>
+  <tr><th>Output</th><td>Live heat maps, panel status dashboard</td></tr>
+</table>
+<div class="plinks"><a href="https://github.com/YazidBenmchich/HackTORINO">GitHub →</a></div>
+</template>
       </article>
 
-      <article class="project">
+      <article class="project" data-id="moe">
         <div class="media has-chart"><svg viewBox="0 0 400 250" role="img" aria-label="Relative score: DeepSeek baseline 100, our algorithm 114.2, a 14.2 percent improvement">
   <text x="24" y="30" class="c-title">Relative score, DeepSeek baseline = 100</text>
   <g class="c-grid"><line x1="24.0" y1="48" x2="24.0" y2="196"/><line x1="141.3" y1="48" x2="141.3" y2="196"/><line x1="258.7" y1="48" x2="258.7" y2="196"/><line x1="376.0" y1="48" x2="376.0" y2="196"/></g>
@@ -267,10 +411,30 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
             <tr><th>Topic</th><td>MoE inference, load balancing</td></tr>
           </table>
           <div class="plinks"><a href="https://github.com/Iyad-coder/Huawei_Optimisation">GitHub →</a></div>
+          <button class="more" type="button">Read the full story</button>
         </div>
+        <template class="detail-tpl">
+<div class="tag-row"><span class="award">2nd · LauzHack × Huawei</span></div>
+<h2>Mixture-of-Experts expert placement</h2>
+<p class="summary">Large Mixture-of-Experts models spread their experts across many GPUs. If some GPUs get much more work than others, everyone waits for the slowest one. We wrote an algorithm that decides where each expert runs, and beat DeepSeek's baseline by 14.2%.</p>
+<h4>The challenge</h4>
+<p>Implement a <code>rebalance()</code> function, in numpy only, that reduces the load imbalance between GPUs (the peak-to-average ratio) while limiting how many experts are moved, since every move costs a data transfer. The score compared total time against DeepSeek's EPLB baseline (score 100).</p>
+<h4>What I learned</h4>
+<ul>
+  <li>The imbalance term dominated the score; transfer cost was only about 1% of the total, so we focused almost entirely on balancing load.</li>
+  <li>The largest case (256 GPUs, 256 experts) timed out at first, so the algorithm had to be optimised specifically for speed at that scale.</li>
+</ul>
+<h4>Result</h4>
+<table class="specs">
+  <tr><th>Score</th><td>114.2 vs 100 for the DeepSeek baseline (+14.2%)</td></tr>
+  <tr><th>Ranking</th><td>2nd place</td></tr>
+  <tr><th>Stack</th><td>Python, numpy, Codabench</td></tr>
+</table>
+<div class="plinks"><a href="https://github.com/Iyad-coder/Huawei_Optimisation">GitHub →</a></div>
+</template>
       </article>
 
-      <article class="project">
+      <article class="project" data-id="stitchmeter">
         <div class="media has-img contain"><img src="media/stitchmeter-iso.jpg" alt="CAD model of the Stitchmeter with its flexure guides" loading="lazy"></div>
         <div>
           <div class="tag-row"><span class="status">Mechanical design</span></div>
@@ -280,7 +444,20 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
             <tr><th>Principle</th><td>Compliant mechanisms (flexures)</td></tr>
             <tr><th>Use</th><td>Surgical suturing assistance</td></tr>
           </table>
+          <button class="more" type="button">Read the full story</button>
         </div>
+        <template class="detail-tpl">
+<div class="tag-row"><span class="status">Mechanical design</span></div>
+<h2>Stitchmeter</h2>
+<p class="summary">A fully mechanical device that helps surgeons place regular, consistent stitches. It has no electronics: all the guiding comes from compliant mechanisms.</p>
+<h4>How it works</h4>
+<p>Flexure guides (parts that move by bending instead of sliding on joints) position the needle precisely. Flexures have no friction, no play and no wear, which suits a precise, sterilisable medical tool.</p>
+<h4>Tech</h4>
+<table class="specs">
+  <tr><th>Principle</th><td>Compliant mechanisms (flexures)</td></tr>
+  <tr><th>Tools</th><td>CAD design</td></tr>
+</table>
+</template>
       </article>
 
     </div>
@@ -308,6 +485,14 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
   </section>
 
   <footer>© 2026 Iyad Abid · Lausanne, Switzerland</footer>
+</div>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="panel-title">
+  <div class="panel" id="panel">
+    <button class="close" id="close" type="button" aria-label="Close">×</button>
+    <div id="panel-media"></div>
+    <div class="panel-body" id="panel-body"></div>
+  </div>
 </div>
 
 <script>
@@ -338,6 +523,47 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
   }
   frame();
   if (!reduce) setInterval(frame, 700);
+
+  // Project detail view: click a card (or open #project-id) to see the full story.
+  var overlay = document.getElementById('overlay'), panelMedia = document.getElementById('panel-media'),
+      panelBody = document.getElementById('panel-body'), lastFocus = null;
+  function openProject(id, push) {
+    var card = document.querySelector('.project[data-id="' + id + '"]');
+    if (!card) return;
+    lastFocus = document.activeElement;
+    panelMedia.innerHTML = '';
+    var media = card.querySelector('.media');
+    if (media) panelMedia.appendChild(media.cloneNode(true));
+    panelBody.innerHTML = card.querySelector('.detail-tpl').innerHTML;
+    var h = panelBody.querySelector('h2'); if (h) h.id = 'panel-title';
+    overlay.classList.add('open'); overlay.scrollTop = 0;
+    document.body.classList.add('locked');
+    document.getElementById('close').focus();
+    if (push && location.hash !== '#' + id) history.pushState(null, '', '#' + id);
+  }
+  function closeProject(push) {
+    if (!overlay.classList.contains('open')) return;
+    overlay.classList.remove('open');
+    document.body.classList.remove('locked');
+    if (push && location.hash) history.pushState(null, '', location.pathname + location.search);
+    if (lastFocus) lastFocus.focus();
+  }
+  document.querySelectorAll('.project').forEach(function (card) {
+    card.addEventListener('click', function (e) {
+      if (e.target.closest('a')) return;
+      openProject(card.dataset.id, true);
+    });
+  });
+  document.getElementById('close').addEventListener('click', function () { closeProject(true); });
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) closeProject(true); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeProject(true); });
+  function fromHash() {
+    var id = location.hash.slice(1);
+    if (id && document.querySelector('.project[data-id="' + id + '"]')) openProject(id, false);
+    else closeProject(false);
+  }
+  window.addEventListener('popstate', fromHash);
+  fromHash();
 
   var btn = document.getElementById('copy-email');
   btn.addEventListener('click', function () {
