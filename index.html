@@ -203,9 +203,9 @@ body.locked { overflow: hidden; }
       </div>
     </div>
     <div class="mosaic" aria-label="Project gallery">
-      <a class="tile" href="#rover"><img src="media/rover-team.jpg" alt="The Xplore team with the autonomous rover"><span>Autonomous rover</span></a>
+      <a class="tile" href="#so101"><img src="media/so101-arm.jpg" alt="SO-101 robot arm in front of a board of leaves"><span>Robot arm</span></a>
       <a class="tile" href="#helioscan"><img src="media/helioscan-sim.jpg" alt="HelioScan drone inspecting solar panels in simulation"><span>HelioScan</span></a>
-      <a class="tile light" href="#rover"><img src="media/rover-pcb.jpg" alt="3D render of the rover's custom PCB"><span>Custom rover PCB</span></a>
+      <a class="tile light" href="#rover"><img src="media/rover-pcb.jpg" alt="3D render of the rover's custom PCB"><span>Autonomous rover</span></a>
       <a class="tile light" href="#launcher"><img src="media/launcher-iso.jpg" alt="CAD model of the squash ball launcher"><span>Squash ball launcher</span></a>
     </div>
   </header>
@@ -218,7 +218,7 @@ body.locked { overflow: hidden; }
         <div class="group-head"><h3>Completed projects</h3></div>
         <div class="projects">
       <article class="project" data-id="rover">
-        <div class="media has-img"><img src="media/rover-team.jpg" alt="The Xplore team at EPFL sitting behind the rover" loading="lazy"></div>
+        <div class="media has-img contain"><img src="media/rover-pcb.jpg" alt="3D render of the rover's custom PCB with four motor driver modules, the ESP32 headers and the sensor connectors" loading="lazy"></div>
         <div>
           <div class="tag-row"><span class="award">3rd · Xplore Rover Challenge</span><span class="status">EPFL Xplore</span></div>
           <h3>Autonomous rover with sensor fusion</h3>
@@ -241,7 +241,7 @@ body.locked { overflow: hidden; }
   <li>Integrated the IMU, LiDAR and ultrasonic sensors and fused them with an Extended Kalman Filter.</li>
   <li>Wrote the autonomy stack: simulation, computer vision and the navigation state machine.</li>
 </ul>
-<figure class="shot"><img src="media/rover-pcb.jpg" alt="3D render of the rover's custom PCB with four motor driver modules, the ESP32 headers and the sensor connectors" loading="lazy"><figcaption>The rover's motor and sensor board I designed in KiCad: four motor drivers, ESP32, six ultrasonic sensors with level shifting.</figcaption></figure>
+<figure class="shot"><img src="media/rover-team.jpg" alt="The EPFL Xplore team sitting behind the rover" loading="lazy"><figcaption>The team with the rover. I designed its motor and sensor board in KiCad: four motor drivers, the ESP32 and six ultrasonic sensors with level shifting.</figcaption></figure>
 <h4>How it works</h4>
 <p>An ESP32 controls the motors and servos, and ROS 2 fuses the IMU, LiDAR and ultrasonic sensors to know where the rover is. A camera detects the target, and the rover plans its way there while avoiding obstacles. Everything was developed in Gazebo simulation first, then moved to the real robot.</p>
 <figure class="shot"><img src="media/rover-ctrl.jpg" alt="Rover control interface with the camera feed, a 180° LiDAR scan and the accumulated map" loading="lazy"><figcaption>Control interface: live camera, 180° LiDAR scan and the map built as the rover drives (Gazebo simulation).</figcaption></figure>
