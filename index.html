@@ -166,10 +166,12 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
 .stats div { border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; background: var(--bg); }
 .stats b { display: block; font: 700 26px/1.1 var(--font-display); color: var(--accent-ink); }
 .stats span { font-size: 13px; color: var(--muted); }
-.groups { display: grid; gap: 48px; margin-top: 28px; }
-.group-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
-.group-head h3 { font: 700 20px/1.2 var(--font-display); margin: 0; }
-.group-head p { margin: 0; color: var(--muted); font-size: 14px; }
+.groups { margin-top: 20px; }
+.tabs { display: inline-flex; gap: 4px; padding: 4px; margin-top: 18px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); flex-wrap: wrap; }
+.tab { font: 600 15px var(--font-body); color: var(--muted); background: none; border: 0; border-radius: 7px; padding: 9px 16px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+.tab:hover { color: var(--fg); }
+.tab[aria-selected="true"] { background: var(--fg); color: var(--bg); }
+.tab .count { font: 500 12px/1 var(--font-mono); padding: 3px 6px; border-radius: 4px; background: color-mix(in srgb, currentColor 16%, transparent); }
 body.locked { overflow: hidden; }
 @media (max-width: 760px) { .overlay { padding: 0; } .panel { border-radius: 0; min-height: 100%; border: 0; } }
 
@@ -213,9 +215,12 @@ body.locked { overflow: hidden; }
   <section id="projects">
     <h2>Projects</h2>
 
+    <div class="tabs" role="tablist" aria-label="Projects">
+      <button class="tab" role="tab" id="tab-done" aria-controls="grp-done" aria-selected="true" type="button">Completed projects <span class="count">6</span></button>
+      <button class="tab" role="tab" id="tab-wip" aria-controls="grp-wip" aria-selected="false" type="button">In progress <span class="count">2</span></button>
+    </div>
     <div class="groups">
-      <div class="group">
-        <div class="group-head"><h3>Completed projects</h3></div>
+      <div class="group" id="grp-done" role="tabpanel" aria-labelledby="tab-done">
         <div class="projects">
       <article class="project" data-id="rover">
         <div class="media has-img contain"><img src="media/rover-pcb.jpg" alt="3D render of the rover's custom PCB with four motor driver modules, the ESP32 headers and the sensor connectors" loading="lazy"></div>
@@ -486,8 +491,7 @@ body.locked { overflow: hidden; }
         </div>
       </div>
 
-      <div class="group">
-        <div class="group-head"><h3>In progress</h3></div>
+      <div class="group" id="grp-wip" role="tabpanel" aria-labelledby="tab-wip" hidden>
         <div class="projects">
       <article class="project" data-id="drone">
         <div class="media has-img contain"><img src="media/drone-schematic.png" alt="KiCad schematic of the drone electronics: dual 6S batteries, power module, ESC, Pixhawk 6X, Jetson Orin Nano and four LiDARs" loading="lazy"></div>
@@ -586,12 +590,33 @@ body.locked { overflow: hidden; }
 
 <script>
 (function () {
+  // Project tabs: completed / in progress
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  function showTab(id) {
+    tabs.forEach(function (t) {
+      var on = t.id === id;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { showTab(t.id); });
+    t.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        var n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+        showTab(n.id); n.focus(); e.preventDefault();
+      }
+    });
+  });
+
   // Project detail view: click a card (or open #project-id) to see the full story.
   var overlay = document.getElementById('overlay'), panelMedia = document.getElementById('panel-media'),
       panelBody = document.getElementById('panel-body'), lastFocus = null;
   function openProject(id, push) {
     var card = document.querySelector('.project[data-id="' + id + '"]');
     if (!card) return;
+    var grp = card.closest('.group'); if (grp && grp.hidden) showTab(grp.getAttribute('aria-labelledby'));
     lastFocus = document.activeElement;
     panelMedia.innerHTML = '';
     var media = card.querySelector('.media');
