@@ -159,6 +159,9 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
 .panel .plinks { margin-top: 24px; }
 .close { position: absolute; top: 12px; right: 12px; z-index: 2; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--fg); font-size: 20px; line-height: 1; cursor: pointer; }
 .close:hover { border-color: var(--accent); }
+.shot { margin: 16px 0 8px; }
+.shot img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--line); }
+.shot figcaption { font: 12px/1.5 var(--font-mono); color: var(--muted); margin-top: 8px; }
 body.locked { overflow: hidden; }
 @media (max-width: 760px) { .overlay { padding: 0; } .panel { border-radius: 0; min-height: 100%; border: 0; } }
 
@@ -211,7 +214,7 @@ body.locked { overflow: hidden; }
       <article class="project" data-id="rover">
         <div class="media has-img"><img src="media/rover-team.jpg" alt="The Xplore team at EPFL sitting behind the rover" loading="lazy"></div>
         <div>
-          <div class="tag-row"><span class="award">3rd place</span><span class="status">EPFL Xplore</span></div>
+          <div class="tag-row"><span class="award">3rd · Xplore Rover Challenge</span><span class="status">EPFL Xplore</span></div>
           <h3>Autonomous rover with sensor fusion</h3>
           <p>Custom PCB, full electronics and autonomy stack for a differential-drive rover that finds and approaches a target on its own.</p>
           <table class="specs">
@@ -223,7 +226,7 @@ body.locked { overflow: hidden; }
           <button class="more" type="button">Read the full story</button>
         </div>
         <template class="detail-tpl">
-<div class="tag-row"><span class="award">3rd place</span><span class="status">EPFL Xplore</span></div>
+<div class="tag-row"><span class="award">3rd · Xplore Rover Challenge</span><span class="status">EPFL Xplore</span></div>
 <h2>Autonomous rover with sensor fusion</h2>
 <p class="summary">A differential-drive rover that finds a target panel on its own, drives to it and avoids obstacles on the way. I did the full electronics, from the custom PCB to sensor integration, and wrote the autonomy software.</p>
 <h4>My role</h4>
@@ -234,8 +237,9 @@ body.locked { overflow: hidden; }
 </ul>
 <h4>How it works</h4>
 <p>An ESP32 controls the motors and servos, and ROS 2 fuses the IMU, LiDAR and ultrasonic sensors to know where the rover is. A camera detects the target, and the rover plans its way there while avoiding obstacles. Everything was developed in Gazebo simulation first, then moved to the real robot.</p>
+<figure class="shot"><img src="media/rover-ctrl.jpg" alt="Rover control interface with the camera feed, a 180° LiDAR scan and the accumulated map" loading="lazy"><figcaption>Control interface: live camera, 180° LiDAR scan and the map built as the rover drives (Gazebo simulation).</figcaption></figure>
 <h4>Result</h4>
-<p>Our team finished <b>3rd</b> in the competition.</p>
+<p>Our team finished <b>3rd</b> at the Xplore Rover Challenge.</p>
 <h4>Tech</h4>
 <table class="specs">
   <tr><th>Hardware</th><td>ESP32, Arduino Nano, L298N, 4 DC motors, 5 servos, custom PCB</td></tr>
