@@ -211,7 +211,7 @@ body.locked { overflow: hidden; }
       <article class="project" data-id="rover">
         <div class="media has-img"><img src="media/rover-team.jpg" alt="The Xplore team at EPFL sitting behind the rover" loading="lazy"></div>
         <div>
-          <div class="tag-row"><span class="status">Xplore · ERC</span></div>
+          <div class="tag-row"><span class="award">3rd place</span><span class="status">EPFL Xplore</span></div>
           <h3>Autonomous rover with sensor fusion</h3>
           <p>Custom PCB, full electronics and autonomy stack for a differential-drive rover that finds and approaches a target on its own.</p>
           <table class="specs">
@@ -223,7 +223,7 @@ body.locked { overflow: hidden; }
           <button class="more" type="button">Read the full story</button>
         </div>
         <template class="detail-tpl">
-<div class="tag-row"><span class="status">EPFL Xplore · European Rover Challenge</span></div>
+<div class="tag-row"><span class="award">3rd place</span><span class="status">EPFL Xplore</span></div>
 <h2>Autonomous rover with sensor fusion</h2>
 <p class="summary">A differential-drive rover that finds a target panel on its own, drives to it and avoids obstacles on the way. I did the full electronics, from the custom PCB to sensor integration, and wrote the autonomy software.</p>
 <h4>My role</h4>
@@ -233,14 +233,9 @@ body.locked { overflow: hidden; }
   <li>Wrote the autonomy stack: simulation, computer vision and the navigation state machine.</li>
 </ul>
 <h4>How it works</h4>
-<p>An ESP32 drives four DC motors through L298N drivers and five servos, with an Arduino Nano as an I2C slave for extra I/O. On the software side, ROS 2 fuses wheel odometry, the MPU6050 IMU, the LiDAR and ultrasonic sensors with <code>robot_localization</code>. The target is detected by HSV colour segmentation, and a LiDAR gap-finding state machine handles navigation:</p>
-<div class="flow"><span>SEARCH</span><i>→</i><span>ALIGN</span><i>→</i><span>APPROACH</span><i>→</i><span>AVOID</span><i>→</i><span>ARRIVED</span></div>
-<p>Everything was developed first in Gazebo Harmonic (ROS 2 on an Ubuntu 24.04 ARM64 VM), then moved to the real robot.</p>
-<h4>Problems I solved</h4>
-<div class="problem"><b>Servos and motors fighting over timers</b><span>LEDC PWM channels conflicted with the servo library on the ESP32; I reassigned channels and timers so both could run.</span></div>
-<div class="problem"><b>Motors moving on their own</b><span>Floating GPIOs on the L298N inputs; fixed with proper pin choices and defined default states.</span></div>
-<div class="problem"><b>I2C not talking across voltage levels</b><span>Debugged the level shifter between 3.3 V and 5 V devices until the bus was reliable.</span></div>
-<div class="problem"><b>The Kalman filter ignored the odometry</b><span>The EKF rejected odometry messages published with zero covariance; giving them realistic covariances made the fusion work.</span></div>
+<p>An ESP32 controls the motors and servos, and ROS 2 fuses the IMU, LiDAR and ultrasonic sensors to know where the rover is. A camera detects the target, and the rover plans its way there while avoiding obstacles. Everything was developed in Gazebo simulation first, then moved to the real robot.</p>
+<h4>Result</h4>
+<p>Our team finished <b>3rd</b> in the competition.</p>
 <h4>Tech</h4>
 <table class="specs">
   <tr><th>Hardware</th><td>ESP32, Arduino Nano, L298N, 4 DC motors, 5 servos, custom PCB</td></tr>
@@ -336,8 +331,6 @@ body.locked { overflow: hidden; }
 </ul>
 <h4>Pipeline</h4>
 <div class="flow"><span>Teleoperation</span><i>→</i><span>Dataset</span><i>→</i><span>ACT training</span><i>→</i><span>Autonomous picking</span></div>
-<h4>Problems I solved</h4>
-<div class="problem"><b>Motor overload errors</b><span>Diagnosed overload faults during teleoperation and recalibrated the motors so recordings stayed clean.</span></div>
 <h4>Tech</h4>
 <table class="specs">
   <tr><th>Robot</th><td>SO-101, Hugging Face LeRobot</td></tr>
@@ -374,9 +367,6 @@ body.locked { overflow: hidden; }
   <li>Brought up the thermal sensor over I2C and produced live heat maps fused with camera frames.</li>
   <li>Worked out the flight constraints: with a 16×4 sensor and a 60° field of view, the drone must fly at about 2 m to see individual cells.</li>
 </ul>
-<h4>Problems I solved</h4>
-<div class="problem"><b>No motors, change of plan</b><span>We started with a ground rover, but couldn't find DC motors on a Saturday in Turin, so we pivoted to a drone payload.</span></div>
-<div class="problem"><b>Sensor bring-up on a brand-new board</b><span>The default A4/A5 pins didn't work for I2C on the UNO Q; switching to the dedicated SDA/SCL pins and routing logs through the board's bridge made the sensor readable.</span></div>
 <h4>Tech</h4>
 <table class="specs">
   <tr><th>Compute</th><td>Arduino UNO Q, Arduino App Lab</td></tr>
