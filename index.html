@@ -166,6 +166,10 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
 .stats div { border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; background: var(--bg); }
 .stats b { display: block; font: 700 26px/1.1 var(--font-display); color: var(--accent-ink); }
 .stats span { font-size: 13px; color: var(--muted); }
+.groups { display: grid; gap: 48px; }
+.group-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.group-head h3 { font: 700 20px/1.2 var(--font-display); margin: 0; }
+.group-head p { margin: 0; color: var(--muted); font-size: 14px; }
 body.locked { overflow: hidden; }
 @media (max-width: 760px) { .overlay { padding: 0; } .panel { border-radius: 0; min-height: 100%; border: 0; } }
 
@@ -210,11 +214,10 @@ body.locked { overflow: hidden; }
     <h2>Projects</h2>
     <p class="section-sub">Things I designed, built and debugged, from the PCB up to the code.</p>
 
-    <div class="projects">
-
-      <!-- PROJECT: copy this <article> block to add a new one. Replace the .media div content with
-           <video src="media/xxx.mp4" autoplay muted loop playsinline></video> or <img src="media/xxx.jpg" alt="..."> -->
-
+    <div class="groups">
+      <div class="group">
+        <div class="group-head"><h3>Completed projects</h3><p>Finished and fully documented, with reports, results and drawings.</p></div>
+        <div class="projects">
       <article class="project" data-id="rover">
         <div class="media has-img"><img src="media/rover-team.jpg" alt="The Xplore team at EPFL sitting behind the rover" loading="lazy"></div>
         <div>
@@ -255,100 +258,6 @@ body.locked { overflow: hidden; }
 </template>
       </article>
 
-      <article class="project" data-id="drone">
-        <div class="media has-img contain"><img src="media/drone-schematic.png" alt="KiCad schematic of the drone electronics: dual 6S batteries, power module, ESC, Pixhawk 6X, Jetson Orin Nano and four LiDARs" loading="lazy"></div>
-        <div>
-          <div class="tag-row"><span class="status">In progress · Electronics Lead</span></div>
-          <h3>Competition drone, EPFL Xplore</h3>
-          <p>Leading the electronics of the team's drone for the European Rover Challenge, including an electrical hot-swap system for the power supply.</p>
-          <table class="specs">
-            <tr><th>Role</th><td>Electronics Lead</td></tr>
-            <tr><th>Power</th><td>Two 6S batteries, hot-swap, 12 V and 5 V rails</td></tr>
-            <tr><th>Avionics</th><td>Pixhawk 6X, Jetson Orin Nano, 4 LiDARs</td></tr>
-          </table>
-          <button class="more" type="button">Read the full story</button>
-        </div>
-        <template class="detail-tpl">
-<div class="tag-row"><span class="status">In progress · Electronics Lead</span></div>
-<h2>Competition drone, EPFL Xplore</h2>
-<p class="summary">The Xplore drone team builds its drone from scratch, and was named the best student drone team in Europe in 2025. I lead the electronics.</p>
-<h4>My role</h4>
-<ul>
-  <li>Electronics Lead: power architecture, wiring and integration of the avionics.</li>
-  <li>Designing an electrical hot-swap system so the batteries can be changed without powering the drone down.</li>
-  <li>Next, I plan to work on navigation and embedded software.</li>
-</ul>
-<h4>Architecture</h4>
-<div class="flow"><span>2 × 6S batteries</span><i>→</i><span>Hot-swap + power module</span><i>→</i><span>12 V / 5 V rails</span><i>→</i><span>Pixhawk 6X · Jetson Orin Nano · ESCs · 4 LiDARs</span></div>
-<p>The Pixhawk 6X handles flight control, while the Jetson Orin Nano runs on-board perception and autonomy using four LiDARs.</p>
-<h4>Tech</h4>
-<table class="specs">
-  <tr><th>Power</th><td>Two 6S batteries, hot-swap, 12 V and 5 V rails</td></tr>
-  <tr><th>Avionics</th><td>Pixhawk 6X, Jetson Orin Nano, 4 LiDARs</td></tr>
-  <tr><th>Tools</th><td>KiCad</td></tr>
-</table>
-</template>
-      </article>
-
-      <article class="project" data-id="humanoid">
-        <div class="media has-img portrait"><img class="fill" src="media/humanoid.jpg" alt="" aria-hidden="true" loading="lazy"><img class="fit" src="media/humanoid.jpg" alt="Simulation render of the humanoid robot" loading="lazy"></div>
-        <div>
-          <div class="tag-row"><span class="status">In progress</span></div>
-          <h3>Humanoid robot</h3>
-          <p>Building a humanoid robot and its software stack, with on-board perception as the next milestone.</p>
-          <table class="specs">
-            <tr><th>Role</th><td>Software</td></tr>
-            <tr><th>Next</th><td>On-board perception pipeline</td></tr>
-          </table>
-          <button class="more" type="button">Read the full story</button>
-        </div>
-        <template class="detail-tpl">
-<div class="tag-row"><span class="status">In progress</span></div>
-<h2>Humanoid robot</h2>
-<p class="summary">A humanoid robot project where I work on the software stack.</p>
-<h4>My role</h4>
-<ul>
-  <li>Software development for the robot, starting in simulation.</li>
-  <li>Next milestone: an on-board perception pipeline, planned over the coming year.</li>
-</ul>
-</template>
-      </article>
-
-      <article class="project" data-id="so101">
-        <div class="media has-img portrait"><img class="fill" src="media/so101-arm.jpg" alt="" aria-hidden="true" loading="lazy"><img class="fit" src="media/so101-arm.jpg" alt="SO-101 arm in front of a board of leaves, some with orange diseased spots" loading="lazy"></div>
-        <div>
-          <div class="tag-row"><span class="status">RoboHack 2026</span></div>
-          <h3>Imitation learning on a low-cost arm</h3>
-          <p>Taught an SO-101 arm to pick leaves for greenhouse plant monitoring from teleoperated demonstrations.</p>
-          <table class="specs">
-            <tr><th>Robot</th><td>SO-101, Hugging Face LeRobot</td></tr>
-            <tr><th>Policy</th><td>ACT (Action Chunking Transformer), PyTorch</td></tr>
-            <tr><th>Data</th><td>Teleoperation dataset, public on Hugging Face</td></tr>
-          </table>
-          <div class="plinks"><a href="https://github.com/YazidBenmchich/RoboHack2026">GitHub →</a> <a href="https://huggingface.co/datasets/Iyaddo/leaf-picking">Dataset →</a></div>
-          <button class="more" type="button">Read the full story</button>
-        </div>
-        <template class="detail-tpl">
-<div class="tag-row"><span class="status">RoboHack 2026</span></div>
-<h2>Imitation learning on a low-cost arm</h2>
-<p class="summary">We taught a low-cost SO-101 arm to pick leaves from a plant board, as a first step toward automated plant-health monitoring in greenhouses. The robot learns the task from human demonstrations instead of hand-written code.</p>
-<h4>What I did</h4>
-<ul>
-  <li>Assembled the arm, set up and calibrated the motors with LeRobot.</li>
-  <li>Recorded a teleoperation dataset of leaf-picking demonstrations and published it on Hugging Face.</li>
-  <li>Trained an ACT (Action Chunking Transformer) policy in PyTorch and ran it on the real arm.</li>
-</ul>
-<h4>Pipeline</h4>
-<div class="flow"><span>Teleoperation</span><i>→</i><span>Dataset</span><i>→</i><span>ACT training</span><i>→</i><span>Autonomous picking</span></div>
-<h4>Tech</h4>
-<table class="specs">
-  <tr><th>Robot</th><td>SO-101, Hugging Face LeRobot</td></tr>
-  <tr><th>Policy</th><td>ACT (Action Chunking Transformer), PyTorch</td></tr>
-  <tr><th>Data</th><td>Public teleoperation dataset on Hugging Face</td></tr>
-</table>
-<div class="plinks"><a href="https://github.com/YazidBenmchich/RoboHack2026">GitHub →</a> <a href="https://huggingface.co/datasets/Iyaddo/leaf-picking">Dataset →</a></div>
-</template>
-      </article>
       <article class="project" data-id="helioscan">
         <div class="media has-img"><img src="media/helioscan-sim.jpg" alt="HelioScan simulation: the drone scanning a solar panel at close range, with the thermal view showing a hot spot" loading="lazy"></div>
         <div>
@@ -396,6 +305,42 @@ body.locked { overflow: hidden; }
   <div><b>0.995</b><span>mAP50</span></div>
 </div>
 <div class="plinks"><a href="media/helioscan-slides.pdf">Full slides (PDF) →</a> <a href="https://github.com/YazidBenmchich/HackTORINO">GitHub →</a></div>
+</template>
+      </article>
+
+      <article class="project" data-id="so101">
+        <div class="media has-img portrait"><img class="fill" src="media/so101-arm.jpg" alt="" aria-hidden="true" loading="lazy"><img class="fit" src="media/so101-arm.jpg" alt="SO-101 arm in front of a board of leaves, some with orange diseased spots" loading="lazy"></div>
+        <div>
+          <div class="tag-row"><span class="status">RoboHack 2026</span></div>
+          <h3>Imitation learning on a low-cost arm</h3>
+          <p>Taught an SO-101 arm to pick leaves for greenhouse plant monitoring from teleoperated demonstrations.</p>
+          <table class="specs">
+            <tr><th>Robot</th><td>SO-101, Hugging Face LeRobot</td></tr>
+            <tr><th>Policy</th><td>ACT (Action Chunking Transformer), PyTorch</td></tr>
+            <tr><th>Data</th><td>Teleoperation dataset, public on Hugging Face</td></tr>
+          </table>
+          <div class="plinks"><a href="https://github.com/YazidBenmchich/RoboHack2026">GitHub →</a> <a href="https://huggingface.co/datasets/Iyaddo/leaf-picking">Dataset →</a></div>
+          <button class="more" type="button">Read the full story</button>
+        </div>
+        <template class="detail-tpl">
+<div class="tag-row"><span class="status">RoboHack 2026</span></div>
+<h2>Imitation learning on a low-cost arm</h2>
+<p class="summary">We taught a low-cost SO-101 arm to pick leaves from a plant board, as a first step toward automated plant-health monitoring in greenhouses. The robot learns the task from human demonstrations instead of hand-written code.</p>
+<h4>What I did</h4>
+<ul>
+  <li>Assembled the arm, set up and calibrated the motors with LeRobot.</li>
+  <li>Recorded a teleoperation dataset of leaf-picking demonstrations and published it on Hugging Face.</li>
+  <li>Trained an ACT (Action Chunking Transformer) policy in PyTorch and ran it on the real arm.</li>
+</ul>
+<h4>Pipeline</h4>
+<div class="flow"><span>Teleoperation</span><i>→</i><span>Dataset</span><i>→</i><span>ACT training</span><i>→</i><span>Autonomous picking</span></div>
+<h4>Tech</h4>
+<table class="specs">
+  <tr><th>Robot</th><td>SO-101, Hugging Face LeRobot</td></tr>
+  <tr><th>Policy</th><td>ACT (Action Chunking Transformer), PyTorch</td></tr>
+  <tr><th>Data</th><td>Public teleoperation dataset on Hugging Face</td></tr>
+</table>
+<div class="plinks"><a href="https://github.com/YazidBenmchich/RoboHack2026">GitHub →</a> <a href="https://huggingface.co/datasets/Iyaddo/leaf-picking">Dataset →</a></div>
 </template>
       </article>
 
@@ -539,7 +484,72 @@ body.locked { overflow: hidden; }
 <div class="plinks"><a href="media/stitchmeter-report.pdf">Full report (PDF) →</a></div>
 </template>
       </article>
+        </div>
+      </div>
 
+      <div class="group">
+        <div class="group-head"><h3>In progress</h3><p>Ongoing work, documented as it moves forward.</p></div>
+        <div class="projects">
+      <article class="project" data-id="drone">
+        <div class="media has-img contain"><img src="media/drone-schematic.png" alt="KiCad schematic of the drone electronics: dual 6S batteries, power module, ESC, Pixhawk 6X, Jetson Orin Nano and four LiDARs" loading="lazy"></div>
+        <div>
+          <div class="tag-row"><span class="status">In progress · Electronics Lead</span></div>
+          <h3>Competition drone, EPFL Xplore</h3>
+          <p>Leading the electronics of the team's drone for the European Rover Challenge, including an electrical hot-swap system for the power supply.</p>
+          <table class="specs">
+            <tr><th>Role</th><td>Electronics Lead</td></tr>
+            <tr><th>Power</th><td>Two 6S batteries, hot-swap, 12 V and 5 V rails</td></tr>
+            <tr><th>Avionics</th><td>Pixhawk 6X, Jetson Orin Nano, 4 LiDARs</td></tr>
+          </table>
+          <button class="more" type="button">Read the full story</button>
+        </div>
+        <template class="detail-tpl">
+<div class="tag-row"><span class="status">In progress · Electronics Lead</span></div>
+<h2>Competition drone, EPFL Xplore</h2>
+<p class="summary">The Xplore drone team builds its drone from scratch, and was named the best student drone team in Europe in 2025. I lead the electronics.</p>
+<h4>My role</h4>
+<ul>
+  <li>Electronics Lead: power architecture, wiring and integration of the avionics.</li>
+  <li>Designing an electrical hot-swap system so the batteries can be changed without powering the drone down.</li>
+  <li>Next, I plan to work on navigation and embedded software.</li>
+</ul>
+<h4>Architecture</h4>
+<div class="flow"><span>2 × 6S batteries</span><i>→</i><span>Hot-swap + power module</span><i>→</i><span>12 V / 5 V rails</span><i>→</i><span>Pixhawk 6X · Jetson Orin Nano · ESCs · 4 LiDARs</span></div>
+<p>The Pixhawk 6X handles flight control, while the Jetson Orin Nano runs on-board perception and autonomy using four LiDARs.</p>
+<h4>Tech</h4>
+<table class="specs">
+  <tr><th>Power</th><td>Two 6S batteries, hot-swap, 12 V and 5 V rails</td></tr>
+  <tr><th>Avionics</th><td>Pixhawk 6X, Jetson Orin Nano, 4 LiDARs</td></tr>
+  <tr><th>Tools</th><td>KiCad</td></tr>
+</table>
+</template>
+      </article>
+
+      <article class="project" data-id="humanoid">
+        <div class="media has-img portrait"><img class="fill" src="media/humanoid.jpg" alt="" aria-hidden="true" loading="lazy"><img class="fit" src="media/humanoid.jpg" alt="Simulation render of the humanoid robot" loading="lazy"></div>
+        <div>
+          <div class="tag-row"><span class="status">In progress</span></div>
+          <h3>Humanoid robot</h3>
+          <p>Building a humanoid robot and its software stack, with on-board perception as the next milestone.</p>
+          <table class="specs">
+            <tr><th>Role</th><td>Software</td></tr>
+            <tr><th>Next</th><td>On-board perception pipeline</td></tr>
+          </table>
+          <button class="more" type="button">Read the full story</button>
+        </div>
+        <template class="detail-tpl">
+<div class="tag-row"><span class="status">In progress</span></div>
+<h2>Humanoid robot</h2>
+<p class="summary">A humanoid robot project where I work on the software stack.</p>
+<h4>My role</h4>
+<ul>
+  <li>Software development for the robot, starting in simulation.</li>
+  <li>Next milestone: an on-board perception pipeline, planned over the coming year.</li>
+</ul>
+</template>
+      </article>
+        </div>
+      </div>
     </div>
   </section>
 
