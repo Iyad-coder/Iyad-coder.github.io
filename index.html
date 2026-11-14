@@ -85,6 +85,7 @@ h2 { font: 700 30px/1.15 var(--font-display); letter-spacing: -0.01em; margin: 0
 .media.contain img { object-fit: contain; background: #fff; }
 .media.portrait img.fill { object-fit: cover; filter: blur(18px) brightness(.9); transform: scale(1.15); }
 .media.portrait img.fit { object-fit: contain; }
+.media.has-img video { position: absolute; inset: 0; object-fit: contain; }
 .tag-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
 .award { font: 500 11px/1 var(--font-mono); letter-spacing: .04em; padding: 5px 8px; border-radius: 4px; background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent-ink); }
 .status { font: 500 11px/1 var(--font-mono); padding: 5px 8px; border-radius: 4px; border: 1px solid var(--line); color: var(--muted); }
@@ -207,7 +208,7 @@ body.locked { overflow: hidden; }
     <div class="mosaic" aria-label="Project gallery">
       <a class="tile" href="#so101"><img src="media/so101-arm.jpg" alt="SO-101 robot arm in front of a board of leaves"><span>Robot arm</span></a>
       <a class="tile" href="#helioscan"><img src="media/helioscan-sim.jpg" alt="HelioScan drone inspecting solar panels in simulation"><span>HelioScan</span></a>
-      <a class="tile light" href="#rover"><img src="media/rover-pcb.jpg" alt="3D render of the rover's custom PCB"><span>Autonomous rover</span></a>
+      <a class="tile" href="#rover"><img src="media/rover-photo.jpg" alt="The autonomous rover with its gripper arm"><span>Autonomous rover</span></a>
       <a class="tile light" href="#launcher"><img src="media/launcher-iso.jpg" alt="CAD model of the squash ball launcher"><span>Squash ball launcher</span></a>
     </div>
   </header>
@@ -223,7 +224,7 @@ body.locked { overflow: hidden; }
       <div class="group" id="grp-done" role="tabpanel" aria-labelledby="tab-done">
         <div class="projects">
       <article class="project" data-id="rover">
-        <div class="media has-img"><img src="media/rover-ctrl.jpg" alt="Rover control interface with the camera feed, a 180° LiDAR scan and the accumulated map" loading="lazy" style="object-position:left center"></div>
+        <div class="media has-img portrait"><img class="fill" src="media/rover-photo.jpg" alt="" aria-hidden="true" loading="lazy"><img class="fit" src="media/rover-photo.jpg" alt="The rover outdoors: aluminium chassis with a clear top, four suspended wheel modules, ultrasonic sensors, a camera and a front gripper arm" loading="lazy"></div>
         <div>
           <div class="tag-row"><span class="award">3rd · Xplore Rover Challenge</span><span class="status">EPFL Xplore</span></div>
           <h3>Autonomous rover with sensor fusion</h3>
@@ -530,7 +531,7 @@ body.locked { overflow: hidden; }
       </article>
 
       <article class="project" data-id="selfbalancing">
-        <div class="media has-img"><img src="media/selfbalancing-proto.jpg" alt="Self-balancing robot prototype on a workbench: two motors with omni wheels, a breadboard of wiring and a 21700 battery on top" loading="lazy"></div>
+        <div class="media has-img portrait"><img class="fill" src="media/selfbalancing-poster.jpg" alt="" aria-hidden="true" loading="lazy"><video src="media/selfbalancing-video.mp4" poster="media/selfbalancing-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="The self-balancing robot prototype standing upright on two wheels on a workbench"></video></div>
         <div>
           <div class="tag-row"><span class="status">In progress · Prototype</span></div>
           <h3>Self-balancing robot</h3>
@@ -546,11 +547,13 @@ body.locked { overflow: hidden; }
 <h2>Self-balancing robot</h2>
 <p class="summary">A two-wheeled robot that keeps itself upright. The first prototype is hand-wired; we are now integrating the custom PCBs.</p>
 <h4>Prototype</h4>
-<p>The first version is built on a stack of plates: two geared DC motors at the bottom, the electronics wired on perfboard in the middle and the battery on top. It was built to test the motors, the sensors and the balance loop before committing to a PCB.</p>
+<p>The first version is built on a stack of plates: two geared DC motors at the bottom, the electronics wired on perfboard in the middle and three 21700 cells on top. It was built to test the motors, the sensors and the balance loop before committing to a PCB. The video above shows it holding itself upright.</p>
+<figure class="shot"><img src="media/selfbalancing-proto.jpg" alt="The prototype's frame on the workbench, with the hand-wired electronics between the plates" loading="lazy"><figcaption>The prototype on the bench: hand-wired electronics on perfboard between the motor plate and the battery plate.</figcaption></figure>
 <h4>Now: integrating the PCBs</h4>
 <p>We are replacing the loose wiring with custom boards. The robot will be powered by <b>OmniBattery</b>, our 3S 21700 power board, which gives it a fused, switched battery rail plus regulated 5&nbsp;V and 3.3&nbsp;V from a single connector.</p>
 <figure class="shot"><img src="media/omnibattery-pcb-3d-top.jpg" alt="3D preview of the OmniBattery PCB, cell side" loading="lazy"><figcaption>OmniBattery v1, the power board being integrated into the robot (3D preview, cell side).</figcaption></figure>
-<figure class="shot"><img src="media/omnibattery-pcb-bottom.jpg" alt="OmniBattery PCB layout, bottom layer with the buck modules, BMS, fuse and switch" loading="lazy"><figcaption>Bottom layer: buck converters, BMS, fuse, switch and output terminal.</figcaption></figure>
+<figure class="shot"><img src="media/omnibattery-pcb-3d-bottom.jpg" alt="3D preview of the OmniBattery PCB, power side" loading="lazy"><figcaption>Power side (3D preview): footprints for the buck converters, BMS, fuse, switch and output terminal.</figcaption></figure>
+<figure class="shot"><img src="media/omnibattery-pcb-bottom.jpg" alt="OmniBattery PCB layout, bottom layer with the buck modules, BMS, fuse and switch" loading="lazy"><figcaption>Bottom layer layout: buck converters, BMS, fuse, switch and output terminal.</figcaption></figure>
 <div class="plinks"><a href="https://github.com/YazidBenmchich/OmniBattery">OmniBattery on GitHub →</a></div>
 </template>
       </article>
