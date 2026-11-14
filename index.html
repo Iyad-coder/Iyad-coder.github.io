@@ -161,6 +161,7 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
 .close { position: absolute; top: 12px; right: 12px; z-index: 2; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--fg); font-size: 20px; line-height: 1; cursor: pointer; }
 .close:hover { border-color: var(--accent); }
 .shot { margin: 16px 0 8px; }
+.shot video { width: 100%; max-width: 420px; display: block; margin-inline: auto; border-radius: 8px; border: 1px solid var(--line); }
 .shot img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--line); }
 .shot figcaption { font: 12px/1.5 var(--font-mono); color: var(--muted); margin-top: 8px; }
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 6px 0 8px; }
@@ -217,8 +218,8 @@ body.locked { overflow: hidden; }
     <h2>Projects</h2>
 
     <div class="tabs" role="tablist" aria-label="Projects">
-      <button class="tab" role="tab" id="tab-done" aria-controls="grp-done" aria-selected="true" type="button">Completed projects <span class="count">6</span></button>
-      <button class="tab" role="tab" id="tab-wip" aria-controls="grp-wip" aria-selected="false" type="button">In progress <span class="count">4</span></button>
+      <button class="tab" role="tab" id="tab-done" aria-controls="grp-done" aria-selected="true" type="button">Completed projects <span class="count">7</span></button>
+      <button class="tab" role="tab" id="tab-wip" aria-controls="grp-wip" aria-selected="false" type="button">In progress <span class="count">3</span></button>
     </div>
     <div class="groups">
       <div class="group" id="grp-done" role="tabpanel" aria-labelledby="tab-done">
@@ -490,6 +491,37 @@ body.locked { overflow: hidden; }
 <div class="plinks"><a href="media/stitchmeter-report.pdf">Full report (PDF) →</a></div>
 </template>
       </article>
+      <article class="project" data-id="selfbalancing">
+        <div class="media has-img portrait"><img class="fill" src="media/selfbalancing-poster.jpg" alt="" aria-hidden="true" loading="lazy"><video src="media/selfbalancing-video.mp4" poster="media/selfbalancing-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="The self-balancing robot standing upright on two wheels on a workbench"></video></div>
+        <div>
+          <div class="tag-row"><span class="status">Completed</span></div>
+          <h3>Self-balancing robot</h3>
+          <p>A two-wheeled robot that keeps itself upright on its own, built from a first prototype to a working robot.</p>
+          <table class="specs">
+            <tr><th>Type</th><td>Two-wheeled inverted pendulum</td></tr>
+            <tr><th>Power</th><td>3S 21700 Li-ion pack</td></tr>
+            <tr><th>Next</th><td>Custom PCBs (OmniBattery)</td></tr>
+          </table>
+          <button class="more" type="button">Read the full story</button>
+        </div>
+        <template class="detail-tpl">
+<div class="tag-row"><span class="status">Completed</span></div>
+<h2>Self-balancing robot</h2>
+<p class="summary">A two-wheeled robot that keeps itself upright. It balances on its own, as in the video above.</p>
+<h4>The robot</h4>
+<p>The robot is built on a stack of plates: two geared DC motors at the bottom, the electronics in the middle and three 21700 cells on top. The control loop reads the tilt and drives the wheels to keep the robot balanced.</p>
+<h4>Prototype</h4>
+<p>Before the final robot, a first prototype was built to test the motors, the sensors and the balance loop.</p>
+<figure class="shot"><video src="media/selfbalancing-proto-video.mp4" poster="media/selfbalancing-proto-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="The first prototype balancing on a table"></video><figcaption>Video of the prototype balancing on its own.</figcaption></figure>
+<figure class="shot"><img src="media/selfbalancing-proto.jpg" alt="The robot frame on the workbench, with the hand-wired electronics between the plates" loading="lazy"><figcaption>On the bench: hand-wired electronics on perfboard between the motor plate and the battery plate.</figcaption></figure>
+<h4>Next: integrating the PCBs</h4>
+<p>We are now replacing the loose wiring with custom boards. The robot will be powered by <b>OmniBattery</b>, our 3S 21700 power board, which gives it a fused, switched battery rail plus regulated 5&nbsp;V and 3.3&nbsp;V from a single connector.</p>
+<figure class="shot"><img src="media/omnibattery-pcb-3d-top.jpg" alt="3D preview of the OmniBattery PCB, cell side" loading="lazy"><figcaption>OmniBattery v1, the power board being integrated into the robot (3D preview, cell side).</figcaption></figure>
+<figure class="shot"><img src="media/omnibattery-pcb-3d-bottom.jpg" alt="3D preview of the OmniBattery PCB, power side" loading="lazy"><figcaption>Power side (3D preview): footprints for the buck converters, BMS, fuse, switch and output terminal.</figcaption></figure>
+<figure class="shot"><img src="media/omnibattery-pcb-bottom.jpg" alt="OmniBattery PCB layout, bottom layer with the buck modules, BMS, fuse and switch" loading="lazy"><figcaption>Bottom layer layout: buck converters, BMS, fuse, switch and output terminal.</figcaption></figure>
+<div class="plinks"><a href="https://github.com/YazidBenmchich/OmniBattery">OmniBattery on GitHub →</a></div>
+</template>
+      </article>
         </div>
       </div>
 
@@ -527,34 +559,6 @@ body.locked { overflow: hidden; }
   <tr><th>Avionics</th><td>Pixhawk 6X, Jetson Orin Nano, 4 LiDARs</td></tr>
   <tr><th>Tools</th><td>KiCad</td></tr>
 </table>
-</template>
-      </article>
-
-      <article class="project" data-id="selfbalancing">
-        <div class="media has-img portrait"><img class="fill" src="media/selfbalancing-poster.jpg" alt="" aria-hidden="true" loading="lazy"><video src="media/selfbalancing-video.mp4" poster="media/selfbalancing-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="The self-balancing robot prototype standing upright on two wheels on a workbench"></video></div>
-        <div>
-          <div class="tag-row"><span class="status">In progress · Prototype</span></div>
-          <h3>Self-balancing robot</h3>
-          <p>A two-wheeled robot that stays upright on its own. The wired prototype runs; the custom PCBs are now being integrated.</p>
-          <table class="specs">
-            <tr><th>Stage</th><td>Working prototype, PCB integration</td></tr>
-            <tr><th>Power</th><td>OmniBattery 3S 21700 board</td></tr>
-          </table>
-          <button class="more" type="button">Read the full story</button>
-        </div>
-        <template class="detail-tpl">
-<div class="tag-row"><span class="status">In progress · Prototype</span></div>
-<h2>Self-balancing robot</h2>
-<p class="summary">A two-wheeled robot that keeps itself upright. The first prototype is hand-wired; we are now integrating the custom PCBs.</p>
-<h4>Prototype</h4>
-<p>The first version is built on a stack of plates: two geared DC motors at the bottom, the electronics wired on perfboard in the middle and three 21700 cells on top. It was built to test the motors, the sensors and the balance loop before committing to a PCB. The video above shows it holding itself upright.</p>
-<figure class="shot"><img src="media/selfbalancing-proto.jpg" alt="The prototype's frame on the workbench, with the hand-wired electronics between the plates" loading="lazy"><figcaption>The prototype on the bench: hand-wired electronics on perfboard between the motor plate and the battery plate.</figcaption></figure>
-<h4>Now: integrating the PCBs</h4>
-<p>We are replacing the loose wiring with custom boards. The robot will be powered by <b>OmniBattery</b>, our 3S 21700 power board, which gives it a fused, switched battery rail plus regulated 5&nbsp;V and 3.3&nbsp;V from a single connector.</p>
-<figure class="shot"><img src="media/omnibattery-pcb-3d-top.jpg" alt="3D preview of the OmniBattery PCB, cell side" loading="lazy"><figcaption>OmniBattery v1, the power board being integrated into the robot (3D preview, cell side).</figcaption></figure>
-<figure class="shot"><img src="media/omnibattery-pcb-3d-bottom.jpg" alt="3D preview of the OmniBattery PCB, power side" loading="lazy"><figcaption>Power side (3D preview): footprints for the buck converters, BMS, fuse, switch and output terminal.</figcaption></figure>
-<figure class="shot"><img src="media/omnibattery-pcb-bottom.jpg" alt="OmniBattery PCB layout, bottom layer with the buck modules, BMS, fuse and switch" loading="lazy"><figcaption>Bottom layer layout: buck converters, BMS, fuse, switch and output terminal.</figcaption></figure>
-<div class="plinks"><a href="https://github.com/YazidBenmchich/OmniBattery">OmniBattery on GitHub →</a></div>
 </template>
       </article>
 
@@ -693,6 +697,7 @@ body.locked { overflow: hidden; }
     panelBody.innerHTML = card.querySelector('.detail-tpl').innerHTML;
     var h = panelBody.querySelector('h2'); if (h) h.id = 'panel-title';
     overlay.classList.add('open'); overlay.scrollTop = 0;
+    overlay.querySelectorAll('video').forEach(function (v) { var r = v.play(); if (r && r.catch) r.catch(function () {}); });
     document.body.classList.add('locked');
     document.getElementById('close').focus();
     if (push && location.hash !== '#' + id) history.pushState(null, '', '#' + id);
