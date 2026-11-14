@@ -543,7 +543,7 @@ body.locked { overflow: hidden; }
       <div class="group" id="grp-wip" role="tabpanel" aria-labelledby="tab-wip" hidden>
         <div class="projects">
       <article class="project" data-id="drone">
-        <div class="media has-img contain"><img src="media/drone-schematic.png" alt="KiCad schematic of the drone electronics: dual 6S batteries, power module, ESC, Pixhawk 6X, Jetson Orin Nano and four LiDARs" loading="lazy"></div>
+        <div class="media has-img"><img src="media/hotswap-3d.jpg" alt="3D render of the hot-swap PCB: two XT60 battery inputs at the front, four MOSFETs, a bulk capacitor and the XT60 output at the back" loading="lazy" style="background:#000;object-fit:contain"></div>
         <div>
           <div class="tag-row"><span class="status">In progress · Electronics Lead</span></div>
           <h3>Competition drone, EPFL Xplore</h3>
@@ -568,11 +568,24 @@ body.locked { overflow: hidden; }
 <h4>Architecture</h4>
 <div class="flow"><span>2 × 6S batteries</span><i>→</i><span>Hot-swap + power module</span><i>→</i><span>12 V / 5 V rails</span><i>→</i><span>Pixhawk 6X · Jetson Orin Nano · ESCs · 4 LiDARs</span></div>
 <p>The Pixhawk 6X handles flight control, while the Jetson Orin Nano runs on-board perception and autonomy using four LiDARs.</p>
+<figure class="shot"><img src="media/drone-schematic.png" alt="KiCad schematic of the drone electronics: dual 6S batteries, power module, ESC, Pixhawk 6X, Jetson Orin Nano and four LiDARs" loading="lazy" style="background:#fff"><figcaption>System schematic of the drone electronics (KiCad).</figcaption></figure>
+<h4>Hot-swap power board</h4>
+<p>I designed a PCB in EasyEDA that lets the team swap a battery without powering the drone down. Each of the two 6S packs plugs into its own XT60 input and feeds a shared bus through an ideal diode: an LM74700 controller drives two MOSFETs in parallel. The bus is always fed by the healthier pack, and current can never flow back from one battery into the other, so one pack can be unplugged while the other keeps the drone running.</p>
+<div class="flow"><span>Battery A (XT60)</span><i>→</i><span>LM74700 + 2 MOSFETs</span><i>→</i><span>Bus</span><i>←</i><span>LM74700 + 2 MOSFETs</span><i>←</i><span>Battery B (XT60)</span></div>
+<ul>
+  <li>Bus output on an XT60, with a 100&nbsp;µF bulk capacitor and four 4.7&nbsp;µF / 100&nbsp;V ceramics to ride through the switchover.</li>
+  <li>SMCJ26A TVS diode on the bus against voltage spikes when a pack is plugged in.</li>
+  <li>Large copper pours for the battery and bus current, with each battery's area kept separate.</li>
+</ul>
+<figure class="shot"><img src="media/hotswap-schematic.png" alt="Hot-swap schematic: two XT60 inputs, each with an LM74700 ideal-diode controller driving two parallel MOSFETs onto a common bus, plus bus capacitors, a TVS diode and the XT60 output" loading="lazy" style="background:#fff"><figcaption>Schematic: one LM74700 ideal-diode stage per battery, both feeding the common bus.</figcaption></figure>
+<figure class="shot"><img src="media/hotswap-layout.jpg" alt="Hot-swap PCB layout, top copper layer" loading="lazy"><figcaption>Top layer layout: battery inputs at the bottom, MOSFETs in the middle, bus capacitors, TVS and output at the top.</figcaption></figure>
+<figure class="shot"><img src="media/hotswap-render.jpg" alt="Hot-swap PCB rendered from above without the connectors" loading="lazy"><figcaption>The bare board seen from above (EasyEDA).</figcaption></figure>
 <h4>Tech</h4>
 <table class="specs">
   <tr><th>Power</th><td>Two 6S batteries, hot-swap, 12 V and 5 V rails</td></tr>
   <tr><th>Avionics</th><td>Pixhawk 6X, Jetson Orin Nano, 4 LiDARs</td></tr>
-  <tr><th>Tools</th><td>KiCad</td></tr>
+  <tr><th>Hot-swap</th><td>2 × LM74700 ideal diodes, 4 MOSFETs, XT60 in/out</td></tr>
+  <tr><th>Tools</th><td>KiCad, EasyEDA</td></tr>
 </table>
 </template>
       </article>
