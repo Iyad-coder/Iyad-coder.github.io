@@ -219,7 +219,7 @@ body.locked { overflow: hidden; }
 
     <div class="tabs" role="tablist" aria-label="Projects">
       <button class="tab" role="tab" id="tab-done" aria-controls="grp-done" aria-selected="true" type="button">Completed projects <span class="count">7</span></button>
-      <button class="tab" role="tab" id="tab-wip" aria-controls="grp-wip" aria-selected="false" type="button">In progress <span class="count">3</span></button>
+      <button class="tab" role="tab" id="tab-wip" aria-controls="grp-wip" aria-selected="false" type="button">In progress <span class="count">2</span></button>
     </div>
     <div class="groups">
       <div class="group" id="grp-done" role="tabpanel" aria-labelledby="tab-done">
@@ -500,7 +500,7 @@ body.locked { overflow: hidden; }
           <table class="specs">
             <tr><th>Type</th><td>Two-wheeled inverted pendulum</td></tr>
             <tr><th>Power</th><td>3S 21700 Li-ion pack</td></tr>
-            <tr><th>Next</th><td>Custom PCBs (OmniBattery)</td></tr>
+            <tr><th>PCB</th><td>OmniBattery 3S power board (EasyEDA)</td></tr>
           </table>
           <button class="more" type="button">Read the full story</button>
         </div>
@@ -514,11 +514,26 @@ body.locked { overflow: hidden; }
 <p>Before the final robot, a first prototype was built to test the motors, the sensors and the balance loop.</p>
 <figure class="shot"><video src="media/selfbalancing-proto-video.mp4" poster="media/selfbalancing-proto-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="The first prototype balancing on a table"></video><figcaption>Video of the prototype balancing on its own.</figcaption></figure>
 <figure class="shot"><img src="media/selfbalancing-proto.jpg" alt="The robot frame on the workbench, with the hand-wired electronics between the plates" loading="lazy"><figcaption>On the bench: hand-wired electronics on perfboard between the motor plate and the battery plate.</figcaption></figure>
-<h4>Next: integrating the PCBs</h4>
-<p>We are now replacing the loose wiring with custom boards. The robot will be powered by <b>OmniBattery</b>, our 3S 21700 power board, which gives it a fused, switched battery rail plus regulated 5&nbsp;V and 3.3&nbsp;V from a single connector.</p>
-<figure class="shot"><img src="media/omnibattery-pcb-3d-top.jpg" alt="3D preview of the OmniBattery PCB, cell side" loading="lazy"><figcaption>OmniBattery v1, the power board being integrated into the robot (3D preview, cell side).</figcaption></figure>
-<figure class="shot"><img src="media/omnibattery-pcb-3d-bottom.jpg" alt="3D preview of the OmniBattery PCB, power side" loading="lazy"><figcaption>Power side (3D preview): footprints for the buck converters, BMS, fuse, switch and output terminal.</figcaption></figure>
-<figure class="shot"><img src="media/omnibattery-pcb-bottom.jpg" alt="OmniBattery PCB layout, bottom layer with the buck modules, BMS, fuse and switch" loading="lazy"><figcaption>Bottom layer layout: buck converters, BMS, fuse, switch and output terminal.</figcaption></figure>
+<h4>Power board: OmniBattery</h4>
+<p>The robot is powered by <b>OmniBattery</b>, a custom power board that holds three 21700 cells in series and gives the robot everything it needs from one connector. We are now integrating it into the robot, in place of the loose wiring.</p>
+<div class="flow"><span>3 × 21700 (3S)</span><i>→</i><span>5 A fuse</span><i>→</i><span>Switch</span><i>→</i><span>2 × LM2596 buck</span><i>→</i><span>VBAT · 5 V · 3V3 · GND</span></div>
+<ul>
+  <li>The BMS sits on the low side (B− → P−), while the fuse and switch are on the high side. The BMS senses the pack directly, upstream of the fuse.</li>
+  <li>Two ground nets: everything refers to the protected ground P−, and BAT− is a dedicated trace kept out of the pour so current cannot bypass the BMS.</li>
+  <li>Cells on top, power parts on the bottom, which keeps the board at 100 × 100 mm, the cheapest fab tier.</li>
+  <li>Rev B added the 5 A fuse, a 3S BMS and ground pours on both layers stitched with 17 vias.</li>
+</ul>
+<figure class="shot"><img src="media/omnibattery-pcb-3d-top.jpg" alt="3D preview of the OmniBattery PCB, cell side" loading="lazy"><figcaption>3D preview, cell side: the three 21700 holders.</figcaption></figure>
+<figure class="shot"><img src="media/omnibattery-pcb-3d-bottom.jpg" alt="3D preview of the OmniBattery PCB, power side" loading="lazy"><figcaption>3D preview, power side: footprints for the buck modules, BMS, fuse, switch and output terminal.</figcaption></figure>
+<figure class="shot"><img src="media/omnibattery-pcb-top.jpg" alt="OmniBattery PCB layout, top layer" loading="lazy"><figcaption>Top layer layout: the three cell holders and the pack-current paths.</figcaption></figure>
+<figure class="shot"><img src="media/omnibattery-pcb-bottom.jpg" alt="OmniBattery PCB layout, bottom layer" loading="lazy"><figcaption>Bottom layer layout: buck converters, BMS, fuse, switch and output terminal.</figcaption></figure>
+<table class="specs">
+  <tr><th>Board</th><td>100 × 100 mm, 2 layers, 4 × M3</td></tr>
+  <tr><th>Protection</th><td>5 A fuse, 3S BMS (over-charge, over-discharge, short circuit)</td></tr>
+  <tr><th>Tools</th><td>EasyEDA Pro</td></tr>
+</table>
+<h4>Next: OmniBattery v2</h4>
+<p>A single board with no modules: integrated buck converters, an integrated BMS and on-board charging.</p>
 <div class="plinks"><a href="https://github.com/YazidBenmchich/OmniBattery">OmniBattery on GitHub →</a></div>
 </template>
       </article>
@@ -559,45 +574,6 @@ body.locked { overflow: hidden; }
   <tr><th>Avionics</th><td>Pixhawk 6X, Jetson Orin Nano, 4 LiDARs</td></tr>
   <tr><th>Tools</th><td>KiCad</td></tr>
 </table>
-</template>
-      </article>
-
-      <article class="project" data-id="omnibattery">
-        <div class="media has-img contain"><img src="media/omnibattery-pcb-3d-top.jpg" alt="3D preview of the OmniBattery PCB: three 21700 cell footprints, mounting holes and the output pads" loading="lazy"></div>
-        <div>
-          <div class="tag-row"><span class="status">In progress · Rev B</span></div>
-          <h3>OmniBattery: 3S power board for mobile robots</h3>
-          <p>A 2-layer PCB that holds three 21700 cells and gives a robot fused battery voltage, 5&nbsp;V and 3.3&nbsp;V from one connector.</p>
-          <table class="specs">
-            <tr><th>Pack</th><td>3S 21700 Li-ion, 9.0–12.6 V</td></tr>
-            <tr><th>Outputs</th><td>VBAT (fused, switched), 5 V, 3.3 V</td></tr>
-            <tr><th>Tools</th><td>EasyEDA Pro</td></tr>
-          </table>
-          <div class="plinks"><a href="https://github.com/YazidBenmchich/OmniBattery">GitHub →</a></div>
-          <button class="more" type="button">Read the full story</button>
-        </div>
-        <template class="detail-tpl">
-<div class="tag-row"><span class="status">In progress · Rev B</span></div>
-<h2>OmniBattery: 3S power board for mobile robots</h2>
-<p class="summary">A custom power board that holds three 21700 cells in series and gives a robot everything it needs from one connector. It powers our omni-wheel robot and the self-balancing robot.</p>
-<div class="flow"><span>3 × 21700 (3S)</span><i>→</i><span>5 A fuse</span><i>→</i><span>Switch</span><i>→</i><span>2 × LM2596 buck</span><i>→</i><span>VBAT · 5 V · 3V3 · GND</span></div>
-<h4>Design</h4>
-<ul>
-  <li>The BMS sits on the low side (B− → P−), while the fuse and switch are on the high side. The BMS senses the pack directly, upstream of the fuse.</li>
-  <li>Two ground nets: everything refers to the protected ground P−, and BAT− is a dedicated trace kept out of the pour so current cannot bypass the BMS.</li>
-  <li>Cells on top, power parts on the bottom, which keeps the board at 100 × 100 mm, the cheapest fab tier.</li>
-  <li>Rev B added the 5 A fuse, a 3S BMS and ground pours on both layers stitched with 17 vias.</li>
-</ul>
-<figure class="shot"><img src="media/omnibattery-pcb-3d-bottom.jpg" alt="3D preview of the OmniBattery PCB, bottom side" loading="lazy"><figcaption>Bottom side (3D preview): footprints for the buck modules, BMS, fuse, switch and output terminal.</figcaption></figure>
-<figure class="shot"><img src="media/omnibattery-pcb-top.jpg" alt="OmniBattery PCB layout, top layer" loading="lazy"><figcaption>Top layer layout: the three cell holders and the pack-current paths.</figcaption></figure>
-<h4>Next: v2</h4>
-<p>A single board with no modules: integrated buck converters, an integrated BMS and on-board charging.</p>
-<table class="specs">
-  <tr><th>Board</th><td>100 × 100 mm, 2 layers, 4 × M3</td></tr>
-  <tr><th>Protection</th><td>5 A fuse, 3S BMS (over-charge, over-discharge, short circuit)</td></tr>
-  <tr><th>Tools</th><td>EasyEDA Pro</td></tr>
-</table>
-<div class="plinks"><a href="https://github.com/YazidBenmchich/OmniBattery">GitHub →</a></div>
 </template>
       </article>
 
