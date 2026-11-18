@@ -218,12 +218,57 @@ body.locked { overflow: hidden; }
     <h2>Projects</h2>
 
     <div class="tabs" role="tablist" aria-label="Projects">
-      <button class="tab" role="tab" id="tab-done" aria-controls="grp-done" aria-selected="true" type="button">Completed projects <span class="count">7</span></button>
+      <button class="tab" role="tab" id="tab-done" aria-controls="grp-done" aria-selected="true" type="button">Completed projects <span class="count">8</span></button>
       <button class="tab" role="tab" id="tab-wip" aria-controls="grp-wip" aria-selected="false" type="button">In progress <span class="count">2</span></button>
     </div>
     <div class="groups">
       <div class="group" id="grp-done" role="tabpanel" aria-labelledby="tab-done">
         <div class="projects">
+      <article class="project" data-id="makai">
+        <div class="media has-img"><img src="media/makai-poster.jpg" alt="" aria-hidden="true" loading="lazy"><video src="media/makai-demo.mp4" poster="media/makai-poster.jpg" autoplay muted loop playsinline controls preload="metadata" aria-label="MAKAI demo: the robot finds cans and laundry thrown on the floor, picks them up and sorts them into boxes"></video></div>
+        <div>
+          <div class="tag-row"><span class="award">Leukerbad Robotics Carnival Hack 2026</span><span class="status">Autonomous Urban Services track</span></div>
+          <h3>MAKAI: the robot that tidies up</h3>
+          <p>A mobile robot with an arm that finds what is lying on the floor, picks it up and sorts laundry and trash into the right box, using only two cameras.</p>
+          <table class="specs">
+            <tr><th>Robot</th><td>LeKiwi omni base + SO-101 arm, Raspberry Pi 5</td></tr>
+            <tr><th>Sensing</th><td>2 cameras (front + wrist), no LiDAR, no depth sensor</td></tr>
+            <tr><th>Grasping</th><td>ACT imitation-learning policies (LeRobot)</td></tr>
+            <tr><th>Result</th><td>7/10 successful autonomous trials</td></tr>
+          </table>
+          <div class="plinks"><a href="https://github.com/AliGhemires/MAKAI">GitHub →</a></div>
+          <button class="more" type="button">Read the full story</button>
+        </div>
+        <template class="detail-tpl">
+<div class="tag-row"><span class="award">Leukerbad Robotics Carnival Hack 2026</span><span class="status">Autonomous Urban Services track · Leukerbad</span></div>
+<h2>MAKAI: the robot that tidies up</h2>
+<p class="summary">Objects are thrown anywhere on the floor. MAKAI scans the room, drives to each one, picks it up and drops it in the right box: cans in the trash, laundry in the basket. Built over one hackathon weekend, with cameras as its only sensors.</p>
+<h4>One mission, six steps</h4>
+<div class="flow"><span>Scan</span><i>→</i><span>Approach</span><i>→</i><span>Pick</span><i>→</i><span>Carry</span><i>→</i><span>Drop</span><i>→</i><span>Home</span></div>
+<p>The front camera detects objects and the drop stations (marked with printed markers) and converts them into positions on the floor in metres. Navigation always brings the object to the same spot in front of the robot, so the learned grasping policy only has one gesture to master. Dropping uses scripted arm poses, and the whole mission runs as a state machine that was tested in a 2D simulator before going on the robot.</p>
+<h4>Results</h4>
+<div class="stats">
+  <div><b>7/10</b><span>successful autonomous trials</span></div>
+  <div><b>2</b><span>cameras, no LiDAR or depth sensor</span></div>
+  <div><b>10 ms</b><span>object detection per frame</span></div>
+  <div><b>1–2 cm</b><span>floor localization from the camera alone</span></div>
+</div>
+<h4>My role</h4>
+<ul>
+  <li>Designed the data-collection protocol across several backgrounds, so the grasping policies learn to ignore the room around them.</li>
+  <li>Built the fine-tuning pipeline that restarts training from an earlier model, to adapt the policies to new scenes quickly.</li>
+</ul>
+<h4>Tech</h4>
+<table class="specs">
+  <tr><th>Hardware</th><td>LeKiwi (3 omni wheels, Raspberry Pi 5), SO-101 arm, Logitech C270 front camera, wrist camera</td></tr>
+  <tr><th>Perception</th><td>Learned object detector, floor homography, fiducial markers</td></tr>
+  <tr><th>Learning</th><td>LeRobot, ACT policies trained on ~200 teleoperated demonstrations on a GPU cluster</td></tr>
+  <tr><th>Software</th><td>Python, mission state machine, 2D simulator, web console</td></tr>
+</table>
+<div class="plinks"><a href="https://github.com/AliGhemires/MAKAI">GitHub →</a></div>
+</template>
+      </article>
+
       <article class="project" data-id="rover">
         <div class="media has-img portrait"><img class="fill" src="media/rover-photo.jpg" alt="" aria-hidden="true" loading="lazy"><img class="fit" src="media/rover-photo.jpg" alt="The rover outdoors: aluminium chassis with a clear top, four suspended wheel modules, ultrasonic sensors, a camera and a front gripper arm" loading="lazy"></div>
         <div>
