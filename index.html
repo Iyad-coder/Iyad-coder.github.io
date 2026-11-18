@@ -243,6 +243,7 @@ body.locked { overflow: hidden; }
 <div class="tag-row"><span class="award">Leukerbad Robotics Carnival Hack 2026</span><span class="status">Autonomous Urban Services track · Leukerbad</span></div>
 <h2>MAKAI: the robot that tidies up</h2>
 <p class="summary">Objects are thrown anywhere on the floor. MAKAI scans the room, drives to each one, picks it up and drops it in the right box: cans in the trash, laundry in the basket. Built over one hackathon weekend, with cameras as its only sensors.</p>
+<figure class="shot"><img src="media/makai-robot.jpg" alt="MAKAI: SO-101 arm mounted on the round LeKiwi base with three omni wheels and a Raspberry Pi 5, on a carpet floor" loading="lazy"><figcaption>MAKAI: an SO-101 arm on a LeKiwi omnidirectional base, driven by a Raspberry Pi 5.</figcaption></figure>
 <h4>One mission, six steps</h4>
 <div class="flow"><span>Scan</span><i>→</i><span>Approach</span><i>→</i><span>Pick</span><i>→</i><span>Carry</span><i>→</i><span>Drop</span><i>→</i><span>Home</span></div>
 <p>The front camera detects objects and the drop stations (marked with printed markers) and converts them into positions on the floor in metres. Navigation always brings the object to the same spot in front of the robot, so the learned grasping policy only has one gesture to master. Dropping uses scripted arm poses, and the whole mission runs as a state machine that was tested in a 2D simulator before going on the robot.</p>
@@ -253,11 +254,6 @@ body.locked { overflow: hidden; }
   <div><b>10 ms</b><span>object detection per frame</span></div>
   <div><b>1–2 cm</b><span>floor localization from the camera alone</span></div>
 </div>
-<h4>My role</h4>
-<ul>
-  <li>Designed the data-collection protocol across several backgrounds, so the grasping policies learn to ignore the room around them.</li>
-  <li>Built the fine-tuning pipeline that restarts training from an earlier model, to adapt the policies to new scenes quickly.</li>
-</ul>
 <h4>Tech</h4>
 <table class="specs">
   <tr><th>Hardware</th><td>LeKiwi (3 omni wheels, Raspberry Pi 5), SO-101 arm, Logitech C270 front camera, wrist camera</td></tr>
