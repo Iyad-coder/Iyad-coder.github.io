@@ -193,6 +193,15 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
 .skills b { flex: 0 0 100%; font: 500 11px/1.6 var(--font-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
 .skills span { font: 12px var(--font-mono); padding: 5px 9px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
 
+/* Beyond robotics */
+.beyond { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.beyond article { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+.beyond .k { font: 500 11px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); }
+.beyond h3 { font: 700 18px/1.25 var(--font-display); margin: 10px 0 6px; text-wrap: balance; }
+.beyond p { margin: 0; font-size: 14px; color: var(--muted); }
+@media (max-width: 900px) { .beyond { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .beyond { grid-template-columns: minmax(0, 1fr); } }
+
 /* Contact */
 .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
 .contact > * { min-width: 0; }
@@ -248,6 +257,7 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
 .close:hover { border-color: var(--accent); }
 .shot { margin: 16px 0 8px; }
 .shot video { width: 100%; max-width: 420px; display: block; margin-inline: auto; border-radius: 8px; border: 1px solid var(--line); }
+.shot.wide video { max-width: 100%; }
 .shot img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--line); }
 .shot figcaption { font: 12px/1.5 var(--font-mono); color: var(--muted); margin-top: 8px; }
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 6px 0 8px; }
@@ -273,6 +283,7 @@ body.locked { overflow: hidden; }
       <a href="#projects">Projects</a>
       <a href="#journey">Journey</a>
       <a href="#about">About</a>
+      <a href="#beyond">Beyond</a>
       <a href="#contact">Contact</a>
       <!-- Put your PDF next to index.html as cv.pdf -->
       <a href="cv.pdf">CV</a>
@@ -391,6 +402,7 @@ body.locked { overflow: hidden; }
 <p>The navigation is a state machine: the camera finds the target by colour (HSV), the rover turns to face it, then drives towards it while a LiDAR gap-finder steers around obstacles.</p>
 <h4>What was hard</h4>
 <div class="problem"><b>The filter rejected the wheel odometry.</b><span>The Extended Kalman Filter only started to trust the wheels after I calibrated the IMU and tuned the odometry covariance.</span></div>
+<figure class="shot wide"><video src="media/rover-rviz.mp4" poster="media/rover-rviz-poster.jpg" data-autoplay muted loop playsinline controls preload="none" aria-label="RViz recording: the simulated rover drives through a maze while its LiDAR scan builds up the walls and the camera view shows the target panel"></video><figcaption>The simulation in RViz (ROS 2 Jazzy, Gazebo Harmonic): the LiDAR scan accumulates into the walls of the test maze, the odometry path is in green, and the on-board camera is on the right. The rover follows waypoints in this recording, shown at 2× speed.</figcaption></figure>
 <figure class="shot"><img src="media/rover-ctrl.jpg" alt="Rover control interface with the camera feed, a 180° LiDAR scan and the accumulated map" loading="lazy"><figcaption>Control interface: live camera, 180° LiDAR scan and the map built as the rover drives (Gazebo simulation).</figcaption></figure>
 <h4>Result</h4>
 <p>Our team finished <b>3rd</b> at the Xplore Rover Challenge.</p>
@@ -771,6 +783,7 @@ body.locked { overflow: hidden; }
       <li class="win"><time>2025 – 2026</time><b>3rd, Xplore Rover Challenge</b><span>Electronics and autonomy of an <a href="#rover">autonomous rover</a> with sensor fusion.</span></li>
       <li><time>Jun 2025</time><b>First machine design</b><span>A hand-cranked <a href="#launcher">squash ball launcher</a>, 35 drawings.</span></li>
       <li><time>Sep 2024</time><b>Started at EPFL</b><span>B.Sc. in Microengineering, Lausanne.</span></li>
+      <li><time>2020 – 2024</time><b>French international school, Jeddah</b><span>Baccalauréat with the jury's highest honours. Founded a Model UN for 5 schools.</span></li>
     </ol>
   </section>
 
@@ -795,6 +808,17 @@ body.locked { overflow: hidden; }
         <div><span>Languages</span><span>French and Arabic (native), English (C1), Spanish (B2), German (A1)</span></div>
         <div><span>Based in</span><span>Lausanne, Switzerland</span></div>
       </div>
+    </div>
+  </section>
+
+  <section id="beyond">
+    <h2>Beyond robotics</h2>
+    <p class="section-sub">What I do when nothing is on the bench.</p>
+    <div class="beyond">
+      <article class="reveal"><span class="k">Music</span><h3>Percussion in the orchestra</h3><p>I play percussion in a symphony orchestra at EPFL. Counting 60 bars of rest and coming in on time is good training for real-time systems.</p></article>
+      <article class="reveal"><span class="k">Three countries</span><h3>Tunisia, Jeddah, Lausanne</h3><p>Tunisian roots, high school at the French international school of Jeddah, and now Switzerland. I move easily between languages and cultures.</p></article>
+      <article class="reveal"><span class="k">Leadership</span><h3>A Model UN from scratch</h3><p>In high school I founded a Middle East Model United Nations: 5 schools from 3 countries. I led the organisation and chaired a committee.</p></article>
+      <article class="reveal"><span class="k">Travel</span><h3>Always planning the next trip</h3><p>Seville and Barcelona most recently. I like cities I can cross on foot, and practising my Spanish on the way.</p></article>
     </div>
   </section>
 
@@ -901,7 +925,8 @@ body.locked { overflow: hidden; }
     panelBody.appendChild(nav);
     var h = panelBody.querySelector('h2'); if (h) h.id = 'panel-title';
     overlay.classList.add('open'); overlay.scrollTop = 0;
-    overlay.querySelectorAll('video').forEach(function (v) { var r = v.play(); if (r && r.catch) r.catch(function () {}); });
+    panelMedia.querySelectorAll('video').forEach(function (v) { var r = v.play(); if (r && r.catch) r.catch(function () {}); });
+    watchVideos(panelBody);
     document.body.classList.add('locked');
     document.getElementById('close').focus();
     if (push && location.hash !== '#' + id) history.pushState(null, '', '#' + id);
