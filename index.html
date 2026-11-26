@@ -197,7 +197,9 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
 .beyond { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 16px; }
 .beyond article { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; min-width: 0; }
 .beyond article:first-child { grid-row: span 2; }
-.beyond article:last-child { grid-column: span 2; }
+.beyond article:not(:first-child) { grid-column: span 2; }
+.beyond .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.beyond .pair img { aspect-ratio: 4 / 3; margin: 0; object-position: 50% 45%; }
 .beyond img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; border-radius: 8px; margin-bottom: 14px; }
 .beyond .k { font: 500 11px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); }
 .beyond h3 { font: 700 18px/1.25 var(--font-display); margin: 10px 0 6px; text-wrap: balance; }
@@ -206,11 +208,13 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
   .beyond { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .beyond article:first-child { grid-row: auto; grid-column: span 2; }
   .beyond img { aspect-ratio: 16 / 10; }
+  .beyond .pair img { aspect-ratio: 4 / 3; }
 }
 @media (max-width: 520px) {
   .beyond { grid-template-columns: minmax(0, 1fr); }
-  .beyond article:first-child, .beyond article:last-child { grid-column: auto; }
+  .beyond article:first-child, .beyond article:not(:first-child) { grid-column: auto; }
   .beyond img { aspect-ratio: 4 / 5; }
+  .beyond .pair img { aspect-ratio: 4 / 3; }
 }
 
 /* Contact */
@@ -537,7 +541,7 @@ body.locked { overflow: hidden; }
           <h3>Self-balancing robot</h3>
           <p>A two-wheeled robot that keeps itself upright on its own, built from a first prototype to a working robot.</p>
           <table class="specs">
-            <tr><th>Control</th><td>PID on IMU tilt, ESP32</td></tr>
+            <tr><th>Control</th><td>State feedback at 200 Hz, LQR gains + auto-tuning</td></tr>
             <tr><th>Power</th><td>3S 21700 Li-ion pack</td></tr>
             <tr><th>PCB</th><td>OmniBattery 3S power board (EasyEDA)</td></tr>
           </table>
@@ -548,8 +552,26 @@ body.locked { overflow: hidden; }
 <h2>Self-balancing robot</h2>
 <p class="summary">A two-wheeled robot that keeps itself upright. In the video above it is pushed by hand several times and recovers each time.</p>
 <h4>The robot</h4>
-<p>The robot is built on a stack of plates: two geared DC motors at the bottom, the electronics in the middle and three 21700 cells on top. An ESP32 reads the tilt angle from the IMU and a PID loop drives the wheels to bring the robot back upright.</p>
-<div class="flow"><span>IMU tilt</span><i>→</i><span>PID on ESP32</span><i>→</i><span>Motor drivers</span><i>→</i><span>Wheels</span></div>
+<p>The robot is built on a stack of plates: two geared DC motors at the bottom, the electronics in the middle and three 21700 cells on top. An ESP32 reads the tilt from the IMU and the wheel motion from the encoders, 200 times per second, and drives the wheels to bring the robot back upright.</p>
+<div class="flow"><span>IMU + encoders</span><i>→</i><span>State feedback on ESP32</span><i>→</i><span>TB6612 driver</span><i>→</i><span>Wheels</span></div>
+<h4>Control: four gains, not three</h4>
+<p>A controller on the angle alone is not enough: the robot stays upright for two to four seconds, then drifts away. The command therefore also uses the wheel speed and the distance travelled.</p>
+<div class="flow"><span>u = Kp·e + Kd·ω + Kv·v + Kx·x</span></div>
+<ul>
+  <li><b>e</b> and <b>ω</b>: tilt error and tilt rate, from a complementary filter on the MPU6050.</li>
+  <li><b>v</b> and <b>x</b>: wheel speed and position, from the quadrature encoders.</li>
+  <li>The motor dead zone is compensated with a continuous ramp. A plain jump acted like a relay and kept the robot oscillating.</li>
+</ul>
+<h4>Gains that tune themselves</h4>
+<p>Tuning four gains by hand takes hours. The robot does it in four steps, from a web page it serves over its own Wi-Fi.</p>
+<div class="flow"><span>Identify the motor</span><i>→</i><span>Compute gains (LQR)</span><i>→</i><span>Auto-tune on the robot</span><i>→</i><span>Validate</span></div>
+<ul>
+  <li><b>Identify.</b> Wheels in the air, three PWM steps. A line fitted to the encoder position gives the motor gain, its time constant and its dead zone.</li>
+  <li><b>Compute.</b> A 4-state model (position, wheel speed, angle, tilt rate) is built from those values, the wheel radius and the height of the centre of mass. An LQR gives the first set of gains, and a simulated 2° tilt checks that the motors would not saturate.</li>
+  <li><b>Auto-tune.</b> The robot tries each gain a little higher, then a little lower, and keeps what lowers a cost made of tilt, shaking, drift and motor saturation (Twiddle). Each trial is scored in two halves, so an oscillation that grows is caught. A fall costs a lot.</li>
+  <li><b>Validate.</b> A final long trial with the best gains. If the robot falls or starts to oscillate, the starting gains are restored.</li>
+</ul>
+<div class="plinks"><a href="https://github.com/Iyad-coder/Iyad-coder.github.io/tree/main/code/self-balancing">Firmware on GitHub →</a></div>
 <figure class="shot"><video src="media/selfbalancing-video.mp4" poster="media/selfbalancing-poster.jpg" data-autoplay muted loop playsinline preload="none" aria-label="The self-balancing robot standing upright on two wheels on a workbench"></video><figcaption>Balancing at rest, with no one touching it.</figcaption></figure>
 <h4>Prototype</h4>
 <p>Before the final robot, a first prototype was built to test the motors, the sensors and the balance loop.</p>
@@ -809,7 +831,7 @@ body.locked { overflow: hidden; }
         <p>Next year I start a master's focused on navigation and perception.</p>
         <div class="skills">
           <div><b>Robotics &amp; AI</b><span>ROS 2</span><span>Gazebo</span><span>OpenCV</span><span>PyTorch</span><span>LeRobot</span><span>Imitation learning</span></div>
-          <div><b>Control &amp; estimation</b><span>PID</span><span>Extended Kalman Filter</span><span>Sensor fusion</span></div>
+          <div><b>Control &amp; estimation</b><span>PID</span><span>LQR</span><span>Extended Kalman Filter</span><span>Sensor fusion</span></div>
           <div><b>Embedded &amp; electronics</b><span>ESP32</span><span>Pixhawk 6X</span><span>Jetson Orin Nano</span><span>PCB design</span><span>KiCad</span><span>EasyEDA</span></div>
           <div><b>Code</b><span>Python</span><span>C / C++</span><span>Linux</span><span>Git</span></div>
         </div>
@@ -830,9 +852,8 @@ body.locked { overflow: hidden; }
     <p class="section-sub">What I do when nothing is on the bench.</p>
     <div class="beyond">
       <article class="reveal"><img src="media/beyond-music.jpg" alt="Iyad in concert dress behind a snare drum and a cymbal, watching the conductor during an orchestra concert" loading="lazy"><span class="k">Music</span><h3>Percussion in the orchestra</h3><p>I play percussion in a symphony orchestra at EPFL. Before that I played with the Carthage Symphony Orchestra (CSO) and with the OLFM, the international Orchestre des Lycées Français du Monde. Counting 60 bars of rest and coming in on time is good training for real-time systems.</p></article>
-      <article class="reveal"><span class="k">Three countries</span><h3>Tunisia, Jeddah, Lausanne</h3><p>Tunisian roots, high school at the French international school of Jeddah, and now Switzerland. I move easily between languages and cultures.</p></article>
+      <article class="reveal"><div class="pair"><img src="media/beyond-travel-1.jpg" alt="Palm trees and clipped hedges in the gardens of the Alcázar of Seville, with the cathedral tower behind" loading="lazy"><img src="media/beyond-travel-2.jpg" alt="A tall cedar in a small town square, between a yellow house with a sundial and a pale blue palazzo" loading="lazy"></div><span class="k">Travel</span><h3>Always planning the next trip</h3><p>Seville and Barcelona most recently. I like cities I can cross on foot, and practising my Spanish on the way.</p></article>
       <article class="reveal"><span class="k">Leadership</span><h3>A Model UN from scratch</h3><p>In high school I founded a Middle East Model United Nations: 5 schools from 3 countries. I led the organisation and chaired a committee.</p></article>
-      <article class="reveal"><span class="k">Travel</span><h3>Always planning the next trip</h3><p>Seville and Barcelona most recently. I like cities I can cross on foot, and practising my Spanish on the way.</p></article>
     </div>
   </section>
 
