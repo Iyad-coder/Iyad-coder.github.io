@@ -1,6 +1,17 @@
-<title>Iyad Abid</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Iyad Abid — EPFL microengineering student building robots and edge-AI hardware.">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Iyad Abid · Robotics portfolio</title>
+<meta name="description" content="Iyad Abid, EPFL microengineering student. Autonomous rovers, drones, robot arms and the electronics behind them.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Iyad Abid · Robotics portfolio">
+<meta property="og:description" content="Autonomous rovers, drones, robot arms and the electronics behind them.">
+<meta property="og:url" content="https://iyad-coder.github.io/">
+<meta property="og:image" content="https://iyad-coder.github.io/media/makai-poster.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23e2531d'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-size='30' font-weight='700' text-anchor='middle' fill='%23fff'%3EIA%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -45,8 +56,14 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .mono { font-family: var(--font-mono); }
 
 /* Nav */
-nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding-block: 24px; font-family: var(--font-mono); font-size: 13px; }
-nav .links { display: flex; gap: 20px; flex-wrap: wrap; }
+html { scroll-behavior: smooth; }
+body { margin: 0; }
+nav { position: sticky; top: 0; z-index: 20; display: flex; justify-content: space-between; align-items: center; gap: 12px 16px; flex-wrap: wrap; padding-block: 16px; font-family: var(--font-mono); font-size: 13px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+nav .brand { color: var(--fg); font-weight: 500; }
+nav .links { display: flex; gap: 6px 20px; flex-wrap: wrap; align-items: center; }
+.theme { font: inherit; color: var(--muted); background: none; border: 1px solid var(--line); border-radius: 6px; padding: 5px 9px; cursor: pointer; }
+.theme:hover { color: var(--fg); border-color: var(--accent); }
+section, .project { scroll-margin-top: 72px; }
 nav a { text-decoration: none; color: var(--muted); }
 nav a:hover { color: var(--fg); }
 
@@ -67,6 +84,19 @@ h1 { font: 700 clamp(40px, 6vw, 64px)/1.02 var(--font-display); letter-spacing: 
 .tile.light img { object-fit: contain; background: #fff; padding: 8px 8px 36px; }
 .tile span { position: absolute; left: 8px; bottom: 8px; font: 500 12px/1 var(--font-mono); padding: 6px 8px; border-radius: 5px; background: rgba(15,18,24,.78); color: #fff; }
 .tile:hover img { transform: scale(1.04); }
+
+/* Numbers strip */
+.numbers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); margin-bottom: 56px; overflow: hidden; }
+.numbers div { padding: 18px 20px; border-left: 1px solid var(--line); }
+.numbers div:first-child { border-left: 0; }
+.numbers b { display: block; font: 700 30px/1.1 var(--font-display); font-variant-numeric: tabular-nums; }
+.numbers b i { font-style: normal; color: var(--accent); }
+.numbers span { font-size: 13px; color: var(--muted); }
+@media (max-width: 760px) {
+  .numbers { grid-template-columns: 1fr 1fr; }
+  .numbers div:nth-child(3) { border-left: 0; }
+  .numbers div:nth-child(n+3) { border-top: 1px solid var(--line); }
+}
 
 /* Sections */
 section { padding-block: 56px; border-top: 1px solid var(--line); }
@@ -128,6 +158,71 @@ button.copy:hover { border-color: var(--accent); }
 footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px var(--font-mono); color: var(--muted); }
 
 
+/* Filters, featured list and compact grid */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0 28px; }
+.chip { font: 500 13px/1 var(--font-mono); color: var(--muted); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 9px 14px; cursor: pointer; }
+.chip:hover { color: var(--fg); border-color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.sub { font: 500 12px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 16px; }
+.sub.more-title { margin-top: 48px; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.project.compact { grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 14px; align-content: start; }
+.project.compact .specs, .project.compact .plinks { display: none; }
+.project.compact h3 { font-size: 18px; }
+.project.compact p { font-size: 14px; margin-bottom: 10px; }
+.project.compact .more { font-size: 13px; }
+.project[hidden] { display: none; }
+.empty { color: var(--muted); font: 13px var(--font-mono); }
+@media (max-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Journey timeline */
+.timeline { display: flex; gap: 0; overflow-x: auto; scroll-snap-type: x proximity; padding: 6px 0 16px; margin: 0; list-style: none; scrollbar-width: thin; }
+.timeline li { flex: 0 0 230px; scroll-snap-align: start; position: relative; padding: 22px 20px 0 0; border-top: 2px solid var(--line); }
+.timeline li::before { content: ""; position: absolute; top: -6px; left: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }
+.timeline li.win::before { background: var(--accent); }
+.timeline time { display: block; font: 500 11px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 8px; }
+.timeline b { display: block; font: 700 16px/1.25 var(--font-display); margin-bottom: 4px; }
+.timeline span { display: block; font-size: 13.5px; line-height: 1.5; color: var(--muted); }
+.timeline a { color: var(--fg); text-underline-offset: 3px; }
+.scroll-cue { font: 12px var(--font-mono); color: var(--muted); margin: 0 0 14px; }
+
+/* Skills */
+.skills { display: grid; gap: 14px; margin-top: 22px; }
+.skills div { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.skills b { flex: 0 0 100%; font: 500 11px/1.6 var(--font-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.skills span { font: 12px var(--font-mono); padding: 5px 9px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+
+/* Beyond robotics */
+.beyond { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.beyond article { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+.beyond .k { font: 500 11px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); }
+.beyond h3 { font: 700 18px/1.25 var(--font-display); margin: 10px 0 6px; text-wrap: balance; }
+.beyond p { margin: 0; font-size: 14px; color: var(--muted); }
+@media (max-width: 900px) { .beyond { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .beyond { grid-template-columns: minmax(0, 1fr); } }
+
+/* Contact */
+.contact { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.contact > * { min-width: 0; }
+.contact p { color: var(--muted); margin: 0; max-width: 30em; }
+.contact .cta { margin-top: 14px; }
+@media (max-width: 760px) { .contact { grid-template-columns: 1fr; gap: 20px; } }
+
+/* Detail view: previous / next */
+.pnav { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--line); }
+.pnav button { font: 600 14px/1.3 var(--font-body); color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; cursor: pointer; text-align: left; min-width: 0; }
+.pnav button:last-child { text-align: right; }
+.pnav button:hover { border-color: var(--accent); }
+.pnav small { display: block; font: 500 11px/1.6 var(--font-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+
+/* Reveal on scroll (only when JS is running and motion is allowed) */
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
+  .js .reveal.in { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .tile img { transition: none; } }
+
 /* Clickable cards + detail view */
 .project { cursor: pointer; transition: border-color .15s, transform .15s; }
 .project:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); }
@@ -162,18 +257,13 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
 .close:hover { border-color: var(--accent); }
 .shot { margin: 16px 0 8px; }
 .shot video { width: 100%; max-width: 420px; display: block; margin-inline: auto; border-radius: 8px; border: 1px solid var(--line); }
+.shot.wide video, .shot.wide img { max-width: 100%; }
 .shot img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--line); }
 .shot figcaption { font: 12px/1.5 var(--font-mono); color: var(--muted); margin-top: 8px; }
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 6px 0 8px; }
 .stats div { border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; background: var(--bg); }
 .stats b { display: block; font: 700 26px/1.1 var(--font-display); color: var(--accent-ink); }
 .stats span { font-size: 13px; color: var(--muted); }
-.groups { margin-top: 20px; }
-.tabs { display: inline-flex; gap: 4px; padding: 4px; margin-top: 18px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); flex-wrap: wrap; }
-.tab { font: 600 15px var(--font-body); color: var(--muted); background: none; border: 0; border-radius: 7px; padding: 9px 16px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
-.tab:hover { color: var(--fg); }
-.tab[aria-selected="true"] { background: var(--fg); color: var(--bg); }
-.tab .count { font: 500 12px/1 var(--font-mono); padding: 3px 6px; border-radius: 4px; background: color-mix(in srgb, currentColor 16%, transparent); }
 body.locked { overflow: hidden; }
 @media (max-width: 760px) { .overlay { padding: 0; } .panel { border-radius: 0; min-height: 100%; border: 0; } }
 
@@ -182,21 +272,26 @@ body.locked { overflow: hidden; }
   .hero { gap: 32px; padding-block: 16px 48px; }
 }
 </style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 
 <div class="wrap">
   <nav>
-    <span>iyad abid</span>
+    <a class="brand" href="#top">iyad abid</a>
     <div class="links">
       <a href="#projects">Projects</a>
+      <a href="#journey">Journey</a>
       <a href="#about">About</a>
+      <a href="#beyond">Beyond</a>
+      <a href="#contact">Contact</a>
       <!-- Put your PDF next to index.html as cv.pdf -->
       <a href="cv.pdf">CV</a>
-      <a href="https://github.com/Iyad-coder">GitHub</a>
-      <a href="https://linkedin.com/in/iyad-abid-387715368">LinkedIn</a>
+      <button class="theme" id="theme" type="button" aria-label="Switch between light and dark theme">◐</button>
     </div>
   </nav>
 
-  <header class="hero">
+  <header class="hero" id="top">
     <div>
       <div class="eyebrow">Robotics · Microengineering at EPFL</div>
       <h1>Hi, I'm Iyad. I build robots.</h1>
@@ -214,18 +309,75 @@ body.locked { overflow: hidden; }
     </div>
   </header>
 
+  <div class="numbers" aria-label="In numbers">
+    <div><b>3<i>×</i></b><span>hackathon and competition podiums</span></div>
+    <div><b>10</b><span>projects, from PCBs to policies</span></div>
+    <div><b>2</b><span>EPFL robotics teams</span></div>
+    <div><b>5</b><span>languages spoken</span></div>
+  </div>
+
   <section id="projects">
     <h2>Projects</h2>
 
-    <div class="tabs" role="tablist" aria-label="Projects">
-      <button class="tab" role="tab" id="tab-done" aria-controls="grp-done" aria-selected="true" type="button">Completed projects <span class="count">8</span></button>
-      <button class="tab" role="tab" id="tab-wip" aria-controls="grp-wip" aria-selected="false" type="button">In progress <span class="count">2</span></button>
+    <p class="section-sub">Click any project for the full story: what it does, what I built, and the numbers.</p>
+    <div class="filters" role="group" aria-label="Filter projects">
+      <button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>
+      <button class="chip" type="button" data-filter="ai" aria-pressed="false">Autonomy &amp; AI</button>
+      <button class="chip" type="button" data-filter="elec" aria-pressed="false">Electronics &amp; control</button>
+      <button class="chip" type="button" data-filter="mech" aria-pressed="false">Mechanical design</button>
     </div>
-    <div class="groups">
-      <div class="group" id="grp-done" role="tabpanel" aria-labelledby="tab-done">
-        <div class="projects">
-      <article class="project" data-id="makai">
-        <div class="media has-img"><img src="media/makai-poster.jpg" alt="" aria-hidden="true" loading="lazy"><video src="media/makai-demo.mp4" poster="media/makai-poster.jpg" autoplay muted loop playsinline controls preload="metadata" aria-label="MAKAI demo: the robot finds cans and laundry thrown on the floor, picks them up and sorts them into boxes"></video></div>
+
+    <h3 class="sub" id="sub-featured">Featured</h3>
+    <div class="projects" id="featured">
+      <article class="project reveal" id="p-rover" data-id="rover" data-tags="ai elec">
+        <div class="media has-img portrait"><img class="fill" src="media/rover-drive-poster.jpg" alt="" aria-hidden="true" loading="lazy"><video class="fit" src="media/rover-drive-teaser.mp4" data-full="media/rover-drive.mp4" poster="media/rover-drive-poster.jpg" data-autoplay muted loop playsinline preload="none" aria-label="The rover driven by remote control along a gravel path outdoors: aluminium chassis with a clear top, four wheel modules and a front gripper arm"></video></div>
+        <div>
+          <div class="tag-row"><span class="award">3rd · Xplore Rover Challenge</span><span class="status">EPFL Xplore</span></div>
+          <h3>Autonomous rover with sensor fusion</h3>
+          <p>Custom PCB, full electronics and autonomy stack for a differential-drive rover that finds and approaches a target on its own.</p>
+          <table class="specs">
+            <tr><th>Hardware</th><td>ESP32, 4 DC motors, 5 servos, custom PCB</td></tr>
+            <tr><th>Fusion</th><td>IMU + LiDAR + ultrasonic via Extended Kalman Filter</td></tr>
+            <tr><th>Autonomy</th><td>HSV detection, LiDAR gap-finding state machine</td></tr>
+            <tr><th>Stack</th><td>ROS 2, Gazebo Harmonic, robot_localization</td></tr>
+          </table>
+          <button class="more" type="button">Read the full story</button>
+        </div>
+        <template class="detail-tpl">
+<div class="tag-row"><span class="award">3rd · Xplore Rover Challenge</span><span class="status">EPFL Xplore</span></div>
+<h2>Autonomous rover with sensor fusion</h2>
+<p class="summary">A differential-drive rover that finds a target panel on its own, drives to it and avoids obstacles on the way. I did the full electronics, from the custom PCB to sensor integration, and wrote the autonomy software.</p>
+<h4>My role</h4>
+<ul>
+  <li>Designed the custom PCB and all of the rover's electronics.</li>
+  <li>Integrated the IMU, LiDAR and ultrasonic sensors and fused them with an Extended Kalman Filter.</li>
+  <li>Wrote the autonomy stack: simulation, computer vision and the navigation state machine.</li>
+</ul>
+<figure class="shot"><img src="media/rover-pcb.jpg" alt="3D render of the rover's custom PCB with four motor driver modules, the ESP32 headers and the sensor connectors" loading="lazy" style="max-width:420px;margin-inline:auto;background:#fff"><figcaption>The rover's custom PCB (3D render).</figcaption></figure>
+<figure class="shot"><img src="media/rover-team.jpg" alt="The EPFL Xplore team sitting behind the rover" loading="lazy"><figcaption>The team with the rover. I designed its motor and sensor board in KiCad: four motor drivers, the ESP32 and six ultrasonic sensors with level shifting.</figcaption></figure>
+<h4>How it works</h4>
+<p>An ESP32 controls the motors and servos, and ROS 2 fuses the IMU, LiDAR and ultrasonic sensors to know where the rover is. A camera detects the target, and the rover plans its way there while avoiding obstacles. Everything was developed in Gazebo simulation first, then moved to the real robot.</p>
+<div class="flow"><span>Search</span><i>→</i><span>Align</span><i>→</i><span>Approach</span><i>→</i><span>Avoid</span><i>→</i><span>Arrive</span></div>
+<p>The navigation is a state machine: the camera finds the target by colour (HSV), the rover turns to face it, then drives towards it while a LiDAR gap-finder steers around obstacles.</p>
+<h4>What was hard</h4>
+<div class="problem"><b>The filter rejected the wheel odometry.</b><span>The Extended Kalman Filter only started to trust the wheels after I calibrated the IMU and tuned the odometry covariance.</span></div>
+<figure class="shot"><img src="media/rover-photo.jpg" alt="The rover outdoors: aluminium chassis with a clear top, four suspended wheel modules, ultrasonic sensors, a camera and a front gripper arm" loading="lazy"><figcaption>The rover: aluminium chassis, four wheel modules, ultrasonic sensors, camera and a front gripper arm. In the video at the top it is driven by remote control on an outdoor test.</figcaption></figure>
+<figure class="shot wide"><video src="media/rover-rviz.mp4" poster="media/rover-rviz-poster.jpg" data-autoplay muted loop playsinline controls preload="none" aria-label="RViz recording: the simulated rover finds the orange panel, drives towards it and steers around two walls before stopping in front of it"></video><figcaption>Autonomous run in simulation, seen in RViz (ROS 2 Jazzy, Gazebo Harmonic). The camera finds the orange panel with an HSV threshold, the state machine drives towards it, and the LiDAR gap-finder steers around the two walls in the way. The pose comes from the EKF (wheel odometry and IMU). Green: path driven. Yellow: estimated target. White arrow: gap chosen. The navigation was re-implemented for this recording, shown at 2× speed.</figcaption></figure>
+<figure class="shot"><img src="media/rover-ctrl.jpg" alt="Rover control interface with the camera feed, a 180° LiDAR scan and the accumulated map" loading="lazy"><figcaption>Control interface: live camera, 180° LiDAR scan and the map built as the rover drives (Gazebo simulation).</figcaption></figure>
+<h4>Result</h4>
+<p>Our team finished <b>3rd</b> at the Xplore Rover Challenge.</p>
+<h4>Tech</h4>
+<table class="specs">
+  <tr><th>Hardware</th><td>ESP32, Arduino Nano, L298N, 4 DC motors, 5 servos, custom PCB</td></tr>
+  <tr><th>Sensors</th><td>MPU6050 IMU (calibrated), LiDAR, ultrasonic</td></tr>
+  <tr><th>Software</th><td>ROS 2, Gazebo Harmonic, robot_localization (EKF), OpenCV</td></tr>
+</table>
+<div class="plinks"><a href="https://github.com/Iyad-coder/Navigation_xrc">GitHub →</a></div>
+</template>
+      </article>
+
+      <article class="project reveal" id="p-makai" data-id="makai" data-tags="ai">
+        <div class="media has-img"><img src="media/makai-poster.jpg" alt="" aria-hidden="true" loading="lazy"><video src="media/makai-teaser.mp4" data-full="media/makai-demo.mp4" poster="media/makai-poster.jpg" data-autoplay muted loop playsinline preload="none" aria-label="MAKAI demo: the robot finds cans and laundry thrown on the floor, picks them up and sorts them into boxes"></video></div>
         <div>
           <div class="tag-row"><span class="award">Leukerbad Robotics Carnival Hack 2026</span><span class="status">Autonomous Urban Services track</span></div>
           <h3>MAKAI: the robot that tidies up</h3>
@@ -265,48 +417,7 @@ body.locked { overflow: hidden; }
 </template>
       </article>
 
-      <article class="project" data-id="rover">
-        <div class="media has-img portrait"><img class="fill" src="media/rover-photo.jpg" alt="" aria-hidden="true" loading="lazy"><img class="fit" src="media/rover-photo.jpg" alt="The rover outdoors: aluminium chassis with a clear top, four suspended wheel modules, ultrasonic sensors, a camera and a front gripper arm" loading="lazy"></div>
-        <div>
-          <div class="tag-row"><span class="award">3rd · Xplore Rover Challenge</span><span class="status">EPFL Xplore</span></div>
-          <h3>Autonomous rover with sensor fusion</h3>
-          <p>Custom PCB, full electronics and autonomy stack for a differential-drive rover that finds and approaches a target on its own.</p>
-          <table class="specs">
-            <tr><th>Hardware</th><td>ESP32, 4 DC motors, 5 servos, custom PCB</td></tr>
-            <tr><th>Fusion</th><td>IMU + LiDAR + ultrasonic via Extended Kalman Filter</td></tr>
-            <tr><th>Autonomy</th><td>HSV detection, LiDAR gap-finding state machine</td></tr>
-            <tr><th>Stack</th><td>ROS 2, Gazebo Harmonic, robot_localization</td></tr>
-          </table>
-          <button class="more" type="button">Read the full story</button>
-        </div>
-        <template class="detail-tpl">
-<div class="tag-row"><span class="award">3rd · Xplore Rover Challenge</span><span class="status">EPFL Xplore</span></div>
-<h2>Autonomous rover with sensor fusion</h2>
-<p class="summary">A differential-drive rover that finds a target panel on its own, drives to it and avoids obstacles on the way. I did the full electronics, from the custom PCB to sensor integration, and wrote the autonomy software.</p>
-<h4>My role</h4>
-<ul>
-  <li>Designed the custom PCB and all of the rover's electronics.</li>
-  <li>Integrated the IMU, LiDAR and ultrasonic sensors and fused them with an Extended Kalman Filter.</li>
-  <li>Wrote the autonomy stack: simulation, computer vision and the navigation state machine.</li>
-</ul>
-<figure class="shot"><img src="media/rover-pcb.jpg" alt="3D render of the rover's custom PCB with four motor driver modules, the ESP32 headers and the sensor connectors" loading="lazy" style="max-width:420px;margin-inline:auto;background:#fff"><figcaption>The rover's custom PCB (3D render).</figcaption></figure>
-<figure class="shot"><img src="media/rover-team.jpg" alt="The EPFL Xplore team sitting behind the rover" loading="lazy"><figcaption>The team with the rover. I designed its motor and sensor board in KiCad: four motor drivers, the ESP32 and six ultrasonic sensors with level shifting.</figcaption></figure>
-<h4>How it works</h4>
-<p>An ESP32 controls the motors and servos, and ROS 2 fuses the IMU, LiDAR and ultrasonic sensors to know where the rover is. A camera detects the target, and the rover plans its way there while avoiding obstacles. Everything was developed in Gazebo simulation first, then moved to the real robot.</p>
-<figure class="shot"><img src="media/rover-ctrl.jpg" alt="Rover control interface with the camera feed, a 180° LiDAR scan and the accumulated map" loading="lazy"><figcaption>Control interface: live camera, 180° LiDAR scan and the map built as the rover drives (Gazebo simulation).</figcaption></figure>
-<h4>Result</h4>
-<p>Our team finished <b>3rd</b> at the Xplore Rover Challenge.</p>
-<h4>Tech</h4>
-<table class="specs">
-  <tr><th>Hardware</th><td>ESP32, Arduino Nano, L298N, 4 DC motors, 5 servos, custom PCB</td></tr>
-  <tr><th>Sensors</th><td>MPU6050 IMU (calibrated), LiDAR, ultrasonic</td></tr>
-  <tr><th>Software</th><td>ROS 2, Gazebo Harmonic, robot_localization (EKF), OpenCV</td></tr>
-</table>
-<div class="plinks"><a href="https://github.com/Iyad-coder/Navigation_xrc">GitHub →</a></div>
-</template>
-      </article>
-
-      <article class="project" data-id="helioscan">
+      <article class="project reveal" id="p-helioscan" data-id="helioscan" data-tags="ai">
         <div class="media has-img"><img src="media/helioscan-sim.jpg" alt="HelioScan simulation: the drone scanning a solar panel at close range, with the thermal view showing a hot spot" loading="lazy"></div>
         <div>
           <div class="tag-row"><span class="award">3rd · HackTurin 2026</span><span class="status">Beyond Solar track</span></div>
@@ -352,11 +463,112 @@ body.locked { overflow: hidden; }
   <div><b>0.994</b><span>precision</span></div>
   <div><b>0.995</b><span>mAP50</span></div>
 </div>
+<figure class="shot wide"><img src="media/helioscan-podium.jpg" alt="Four people on stage at the HackTurin award ceremony, one holding the certificate" loading="lazy"><figcaption>On stage at the HackTurin award ceremony, Beyond Solar track.</figcaption></figure>
 <div class="plinks"><a href="media/helioscan-slides.pdf">Full slides (PDF) →</a> <a href="https://github.com/YazidBenmchich/HackTORINO">GitHub →</a></div>
 </template>
       </article>
 
-      <article class="project" data-id="so101">
+      <article class="project reveal" id="p-drone" data-id="drone" data-tags="elec">
+        <div class="media has-img"><img src="media/hotswap-3d.jpg" alt="3D render of the hot-swap PCB: two XT60 battery inputs at the front, four MOSFETs, a bulk capacitor and the XT60 output at the back" loading="lazy" style="background:#000;object-fit:contain"></div>
+        <div>
+          <div class="tag-row"><span class="status">In progress · Electronics Lead</span></div>
+          <h3>Competition drone, EPFL Xplore</h3>
+          <p>Leading the electronics of the team's drone for the European Rover Challenge, including an electrical hot-swap system for the power supply.</p>
+          <table class="specs">
+            <tr><th>Role</th><td>Electronics Lead</td></tr>
+            <tr><th>Power</th><td>Two 6S batteries, hot-swap, 12 V and 5 V rails</td></tr>
+            <tr><th>Avionics</th><td>Pixhawk 6X, Jetson Orin Nano, 4 LiDARs</td></tr>
+          </table>
+          <button class="more" type="button">Read the full story</button>
+        </div>
+        <template class="detail-tpl">
+<div class="tag-row"><span class="status">In progress · Electronics Lead</span></div>
+<h2>Competition drone, EPFL Xplore</h2>
+<p class="summary">The Xplore drone team builds its drone from scratch, and was named the best student drone team in Europe in 2025. I lead the electronics.</p>
+<h4>My role</h4>
+<ul>
+  <li>Electronics Lead: power architecture, wiring and integration of the avionics.</li>
+  <li>Designing an electrical hot-swap system so the batteries can be changed without powering the drone down.</li>
+  <li>Next, I plan to work on navigation and embedded software.</li>
+</ul>
+<h4>Architecture</h4>
+<div class="flow"><span>2 × 6S batteries</span><i>→</i><span>Hot-swap + power module</span><i>→</i><span>12 V / 5 V rails</span><i>→</i><span>Pixhawk 6X · Jetson Orin Nano · ESCs · 4 LiDARs</span></div>
+<p>The Pixhawk 6X handles flight control, while the Jetson Orin Nano runs on-board perception and autonomy using four LiDARs.</p>
+<figure class="shot"><img src="media/drone-schematic.png" alt="KiCad schematic of the drone electronics: dual 6S batteries, power module, ESC, Pixhawk 6X, Jetson Orin Nano and four LiDARs" loading="lazy" style="background:#fff"><figcaption>System schematic of the drone electronics (KiCad).</figcaption></figure>
+<h4>Hot-swap power board</h4>
+<p>I designed a PCB in EasyEDA that lets the team swap a battery without powering the drone down. Each of the two 6S packs plugs into its own XT60 input and feeds a shared bus through an ideal diode: an LM74700 controller drives two MOSFETs in parallel. The bus is always fed by the healthier pack, and current can never flow back from one battery into the other, so one pack can be unplugged while the other keeps the drone running.</p>
+<div class="flow"><span>Battery A (XT60)</span><i>→</i><span>LM74700 + 2 MOSFETs</span><i>→</i><span>Bus</span><i>←</i><span>LM74700 + 2 MOSFETs</span><i>←</i><span>Battery B (XT60)</span></div>
+<ul>
+  <li>Bus output on an XT60, with a 100&nbsp;µF bulk capacitor and four 4.7&nbsp;µF / 100&nbsp;V ceramics to ride through the switchover.</li>
+  <li>SMCJ26A TVS diode on the bus against voltage spikes when a pack is plugged in.</li>
+  <li>Large copper pours for the battery and bus current, with each battery's area kept separate.</li>
+</ul>
+<figure class="shot"><img src="media/hotswap-schematic.png" alt="Hot-swap schematic: two XT60 inputs, each with an LM74700 ideal-diode controller driving two parallel MOSFETs onto a common bus, plus bus capacitors, a TVS diode and the XT60 output" loading="lazy" style="background:#fff"><figcaption>Schematic: one LM74700 ideal-diode stage per battery, both feeding the common bus.</figcaption></figure>
+<figure class="shot"><img src="media/hotswap-layout.jpg" alt="Hot-swap PCB layout, top copper layer" loading="lazy"><figcaption>Top layer layout: battery inputs at the bottom, MOSFETs in the middle, bus capacitors, TVS and output at the top.</figcaption></figure>
+<figure class="shot"><img src="media/hotswap-render.jpg" alt="Hot-swap PCB rendered from above without the connectors" loading="lazy"><figcaption>The bare board seen from above (EasyEDA).</figcaption></figure>
+<h4>Tech</h4>
+<table class="specs">
+  <tr><th>Power</th><td>Two 6S batteries, hot-swap, 12 V and 5 V rails</td></tr>
+  <tr><th>Avionics</th><td>Pixhawk 6X, Jetson Orin Nano, 4 LiDARs</td></tr>
+  <tr><th>Hot-swap</th><td>2 × LM74700 ideal diodes, 4 MOSFETs, XT60 in/out</td></tr>
+  <tr><th>Tools</th><td>KiCad, EasyEDA</td></tr>
+</table>
+</template>
+      </article>
+    </div>
+
+    <h3 class="sub more-title" id="sub-more">More projects</h3>
+    <div class="grid" id="more">
+      <article class="project compact reveal" id="p-selfbalancing" data-id="selfbalancing" data-tags="elec">
+        <div class="media has-img portrait"><img class="fill" src="media/selfbalancing-push-poster.jpg" alt="" aria-hidden="true" loading="lazy"><video src="media/selfbalancing-push-teaser.mp4" data-full="media/selfbalancing-push.mp4" poster="media/selfbalancing-push-poster.jpg" data-autoplay muted loop playsinline preload="none" aria-label="The self-balancing robot on a table, pushed by hand several times and recovering its balance each time"></video></div>
+        <div>
+          <div class="tag-row"><span class="status">Completed</span></div>
+          <h3>Self-balancing robot</h3>
+          <p>A two-wheeled robot that keeps itself upright on its own, built from a first prototype to a working robot.</p>
+          <table class="specs">
+            <tr><th>Control</th><td>PID on IMU tilt, ESP32</td></tr>
+            <tr><th>Power</th><td>3S 21700 Li-ion pack</td></tr>
+            <tr><th>PCB</th><td>OmniBattery 3S power board (EasyEDA)</td></tr>
+          </table>
+          <button class="more" type="button">Read the full story</button>
+        </div>
+        <template class="detail-tpl">
+<div class="tag-row"><span class="status">Completed</span></div>
+<h2>Self-balancing robot</h2>
+<p class="summary">A two-wheeled robot that keeps itself upright. In the video above it is pushed by hand several times and recovers each time.</p>
+<h4>The robot</h4>
+<p>The robot is built on a stack of plates: two geared DC motors at the bottom, the electronics in the middle and three 21700 cells on top. An ESP32 reads the tilt angle from the IMU and a PID loop drives the wheels to bring the robot back upright.</p>
+<div class="flow"><span>IMU tilt</span><i>→</i><span>PID on ESP32</span><i>→</i><span>Motor drivers</span><i>→</i><span>Wheels</span></div>
+<figure class="shot"><video src="media/selfbalancing-video.mp4" poster="media/selfbalancing-poster.jpg" data-autoplay muted loop playsinline preload="none" aria-label="The self-balancing robot standing upright on two wheels on a workbench"></video><figcaption>Balancing at rest, with no one touching it.</figcaption></figure>
+<h4>Prototype</h4>
+<p>Before the final robot, a first prototype was built to test the motors, the sensors and the balance loop.</p>
+<figure class="shot"><video src="media/selfbalancing-proto-video.mp4" poster="media/selfbalancing-proto-poster.jpg" data-autoplay muted loop playsinline preload="none" aria-label="The first prototype balancing on a table"></video><figcaption>Video of the prototype balancing on its own.</figcaption></figure>
+<figure class="shot"><img src="media/selfbalancing-proto.jpg" alt="The robot frame on the workbench, with the hand-wired electronics between the plates" loading="lazy"><figcaption>On the bench: hand-wired electronics on perfboard between the motor plate and the battery plate.</figcaption></figure>
+<h4>Power board: OmniBattery</h4>
+<p>The robot is powered by <b>OmniBattery</b>, a custom power board that holds three 21700 cells in series and gives the robot everything it needs from one connector. We are now integrating it into the robot, in place of the loose wiring.</p>
+<div class="flow"><span>3 × 21700 (3S)</span><i>→</i><span>5 A fuse</span><i>→</i><span>Switch</span><i>→</i><span>2 × LM2596 buck</span><i>→</i><span>VBAT · 5 V · 3V3 · GND</span></div>
+<ul>
+  <li>The BMS sits on the low side (B− → P−), while the fuse and switch are on the high side. The BMS senses the pack directly, upstream of the fuse.</li>
+  <li>Two ground nets: everything refers to the protected ground P−, and BAT− is a dedicated trace kept out of the pour so current cannot bypass the BMS.</li>
+  <li>Cells on top, power parts on the bottom, which keeps the board at 100 × 100 mm, the cheapest fab tier.</li>
+  <li>Rev B added the 5 A fuse, a 3S BMS and ground pours on both layers stitched with 17 vias.</li>
+</ul>
+<figure class="shot"><img src="media/omnibattery-pcb-3d-top.jpg" alt="3D preview of the OmniBattery PCB, cell side" loading="lazy"><figcaption>3D preview, cell side: the three 21700 holders.</figcaption></figure>
+<figure class="shot"><img src="media/omnibattery-pcb-3d-bottom.jpg" alt="3D preview of the OmniBattery PCB, power side" loading="lazy"><figcaption>3D preview, power side: footprints for the buck modules, BMS, fuse, switch and output terminal.</figcaption></figure>
+<figure class="shot"><img src="media/omnibattery-pcb-top.jpg" alt="OmniBattery PCB layout, top layer" loading="lazy"><figcaption>Top layer layout: the three cell holders and the pack-current paths.</figcaption></figure>
+<figure class="shot"><img src="media/omnibattery-pcb-bottom.jpg" alt="OmniBattery PCB layout, bottom layer" loading="lazy"><figcaption>Bottom layer layout: buck converters, BMS, fuse, switch and output terminal.</figcaption></figure>
+<table class="specs">
+  <tr><th>Board</th><td>100 × 100 mm, 2 layers, 4 × M3</td></tr>
+  <tr><th>Protection</th><td>5 A fuse, 3S BMS (over-charge, over-discharge, short circuit)</td></tr>
+  <tr><th>Tools</th><td>EasyEDA Pro</td></tr>
+</table>
+<h4>Next: OmniBattery v2</h4>
+<p>A single board with no modules: integrated buck converters, an integrated BMS and on-board charging.</p>
+<div class="plinks"><a href="https://github.com/YazidBenmchich/OmniBattery">OmniBattery on GitHub →</a></div>
+</template>
+      </article>
+
+      <article class="project compact reveal" id="p-so101" data-id="so101" data-tags="ai">
         <div class="media has-img portrait"><img class="fill" src="media/so101-arm.jpg" alt="" aria-hidden="true" loading="lazy"><img class="fit" src="media/so101-arm.jpg" alt="SO-101 arm in front of a board of leaves, some with orange diseased spots" loading="lazy"></div>
         <div>
           <div class="tag-row"><span class="status">RoboHack 2026</span></div>
@@ -392,7 +604,31 @@ body.locked { overflow: hidden; }
 </template>
       </article>
 
-      <article class="project" data-id="moe">
+      <article class="project compact reveal" id="p-humanoid" data-id="humanoid" data-tags="ai">
+        <div class="media has-img portrait"><img class="fill" src="media/humanoid.jpg" alt="" aria-hidden="true" loading="lazy"><img class="fit" src="media/humanoid.jpg" alt="Simulation render of the humanoid robot" loading="lazy"></div>
+        <div>
+          <div class="tag-row"><span class="status">In progress</span></div>
+          <h3>Humanoid robot</h3>
+          <p>Building a humanoid robot and its software stack, with on-board perception as the next milestone.</p>
+          <table class="specs">
+            <tr><th>Role</th><td>Software</td></tr>
+            <tr><th>Next</th><td>On-board perception pipeline</td></tr>
+          </table>
+          <button class="more" type="button">Read the full story</button>
+        </div>
+        <template class="detail-tpl">
+<div class="tag-row"><span class="status">In progress</span></div>
+<h2>Humanoid robot</h2>
+<p class="summary">A humanoid robot project where I work on the software stack.</p>
+<h4>My role</h4>
+<ul>
+  <li>Software development for the robot, starting in simulation.</li>
+  <li>Next milestone: an on-board perception pipeline, planned over the coming year.</li>
+</ul>
+</template>
+      </article>
+
+      <article class="project compact reveal" id="p-moe" data-id="moe" data-tags="ai">
         <div class="media has-chart"><svg viewBox="0 0 400 250" role="img" aria-label="Relative score: DeepSeek baseline 100, our algorithm 114.2, a 14.2 percent improvement">
   <text x="24" y="30" class="c-title">Relative score, DeepSeek baseline = 100</text>
   <g class="c-grid"><line x1="24.0" y1="48" x2="24.0" y2="196"/><line x1="141.3" y1="48" x2="141.3" y2="196"/><line x1="258.7" y1="48" x2="258.7" y2="196"/><line x1="376.0" y1="48" x2="376.0" y2="196"/></g>
@@ -447,7 +683,49 @@ body.locked { overflow: hidden; }
 </template>
       </article>
 
-      <article class="project" data-id="launcher">
+      <article class="project compact reveal" id="p-stitchmeter" data-id="stitchmeter" data-tags="mech">
+        <div class="media has-img contain"><img src="media/stitchmeter-iso.jpg" alt="CAD model of the StitchMeter: housing, actuation lever, wound pads and measuring needles" loading="lazy"></div>
+        <div>
+          <div class="tag-row"><span class="status">EPFL · Mechanism Design</span></div>
+          <h3>StitchMeter</h3>
+          <p>A fully mechanical device, built only with flexure guides, that measures how tight a surgeon ties a stitch and then pulls the thread to failure.</p>
+          <table class="specs">
+            <tr><th>Principle</th><td>Flexure guides: blade stages, RCC pivots, flexure links</td></tr>
+            <tr><th>Range</th><td>Knot tension up to 8 N, thread strength up to 100 N</td></tr>
+            <tr><th>My part</th><td>Flexure sizing, preload screw design</td></tr>
+          </table>
+          <div class="plinks"><a href="media/stitchmeter-report.pdf">Report (PDF) →</a></div>
+          <button class="more" type="button">Read the full story</button>
+        </div>
+      <template class="detail-tpl">
+<div class="tag-row"><span class="status">EPFL · Mechanism Design · Group of 4</span><span class="status">May 2026</span></div>
+<h2>StitchMeter</h2>
+<p class="summary">Getting the knot tension right is essential for a wound to heal, and surgeons need to practise it. The StitchMeter lets them train anywhere, including in disaster areas: it measures how tight a stitch is tied, then tests the thread up to failure. It has no electronics and no sliding joints. Every guide is a flexure, so there is no wear, no play and almost no maintenance.</p>
+<figure class="shot"><img src="media/stitchmeter-top.jpg" alt="Top view of the StitchMeter CAD: lever on the left, blade stages, wound pads and the measuring needles with their scale" loading="lazy"><figcaption>Top view: the actuation lever on the left, the wound pads at the bottom, the blade stages in the middle and the measuring needles on the right.</figcaption></figure>
+<h4>How it works</h4>
+<ul>
+  <li><b>Phase I, knot tension.</b> One wound edge sits on a block guided by a parallel-blade stage. As the knot closes the wound, the block moves up to 2&nbsp;mm against a known stiffness, and a link turns that motion into a needle rotation amplified 8 times. The scale reads up to one tenth of the thread's nominal strength, with a resolution of 1/200 of it.</li>
+  <li><b>Phase II, thread strength.</b> A lever with a 12:1 ratio pushes a second block through three blade stages that engage one after the other. This gives a non-linear spring: fine resolution for small forces, up to 100&nbsp;N at full stroke, for less than 10&nbsp;N on the lever. A drag needle stays at the maximum force when the thread breaks.</li>
+  <li><b>Three thread sizes.</b> A helical spring preloads the first blade stage and lowers its stiffness. Turning a screw changes the preload, so the same 2&nbsp;mm stroke covers the EP3, EP6 or EP9 thread. Notches on the rails show where to stop, so nobody has to count turns.</li>
+</ul>
+<figure class="shot"><img src="media/stitchmeter-preload.jpg" alt="Close-up of the preload spring, its adjustment screw and the blade stages" loading="lazy"><figcaption>The preload spring and its adjustment screw, under the blade stages that set the measuring stiffness.</figcaption></figure>
+<h4>My part</h4>
+<ul>
+  <li>Sized the flexure guides with two teammates: stiffness of each pivot, link and blade stage, and maximum stresses, all kept below the fatigue limit for 10 million cycles.</li>
+  <li>Designed the preload screw: an M4 stainless screw that is self-locking (helix angle 3.6° against a friction angle of 8.5°), with a safety factor of about 22 and less than 4&nbsp;N needed on the knob.</li>
+</ul>
+<h4>Key numbers</h4>
+<div class="stats">
+  <div><b>×8</b><span>needle amplification in phase I</span></div>
+  <div><b>100 N</b><span>maximum force in phase II</span></div>
+  <div><b>12:1</b><span>lever ratio</span></div>
+  <div><b>10⁷</b><span>cycles of fatigue life</span></div>
+</div>
+<div class="plinks"><a href="media/stitchmeter-report.pdf">Full report (PDF) →</a></div>
+</template>
+      </article>
+
+      <article class="project compact reveal" id="p-launcher" data-id="launcher" data-tags="mech">
         <div class="media has-img contain"><img src="media/launcher-iso.jpg" alt="CAD model of the manual squash ball launcher: frame with transparent panels, gear housing, crank and carrying handle" loading="lazy"></div>
         <div>
           <div class="tag-row"><span class="status">EPFL · Machine design</span></div>
@@ -490,173 +768,26 @@ body.locked { overflow: hidden; }
 <div class="plinks"><a href="media/launcher-report.pdf">Full report with drawings (PDF) →</a></div>
 </template>
       </article>
-
-      <article class="project" data-id="stitchmeter">
-        <div class="media has-img contain"><img src="media/stitchmeter-iso.jpg" alt="CAD model of the StitchMeter: housing, actuation lever, wound pads and measuring needles" loading="lazy"></div>
-        <div>
-          <div class="tag-row"><span class="status">EPFL · Mechanism Design</span></div>
-          <h3>StitchMeter</h3>
-          <p>A fully mechanical device, built only with flexure guides, that measures how tight a surgeon ties a stitch and then pulls the thread to failure.</p>
-          <table class="specs">
-            <tr><th>Principle</th><td>Flexure guides: blade stages, RCC pivots, flexure links</td></tr>
-            <tr><th>Range</th><td>Knot tension up to 8 N, thread strength up to 100 N</td></tr>
-            <tr><th>My part</th><td>Flexure sizing, preload screw design</td></tr>
-          </table>
-          <div class="plinks"><a href="media/stitchmeter-report.pdf">Report (PDF) →</a></div>
-          <button class="more" type="button">Read the full story</button>
-        </div>
-      <template class="detail-tpl">
-<div class="tag-row"><span class="status">EPFL · Mechanism Design · Group of 4</span><span class="status">May 2026</span></div>
-<h2>StitchMeter</h2>
-<p class="summary">Getting the knot tension right is essential for a wound to heal, and surgeons need to practise it. The StitchMeter lets them train anywhere, including in disaster areas: it measures how tight a stitch is tied, then tests the thread up to failure. It has no electronics and no sliding joints. Every guide is a flexure, so there is no wear, no play and almost no maintenance.</p>
-<figure class="shot"><img src="media/stitchmeter-top.jpg" alt="Top view of the StitchMeter CAD: lever on the left, blade stages, wound pads and the measuring needles with their scale" loading="lazy"><figcaption>Top view: the actuation lever on the left, the wound pads at the bottom, the blade stages in the middle and the measuring needles on the right.</figcaption></figure>
-<h4>How it works</h4>
-<ul>
-  <li><b>Phase I, knot tension.</b> One wound edge sits on a block guided by a parallel-blade stage. As the knot closes the wound, the block moves up to 2&nbsp;mm against a known stiffness, and a link turns that motion into a needle rotation amplified 8 times. The scale reads up to one tenth of the thread's nominal strength, with a resolution of 1/200 of it.</li>
-  <li><b>Phase II, thread strength.</b> A lever with a 12:1 ratio pushes a second block through three blade stages that engage one after the other. This gives a non-linear spring: fine resolution for small forces, up to 100&nbsp;N at full stroke, for less than 10&nbsp;N on the lever. A drag needle stays at the maximum force when the thread breaks.</li>
-  <li><b>Three thread sizes.</b> A helical spring preloads the first blade stage and lowers its stiffness. Turning a screw changes the preload, so the same 2&nbsp;mm stroke covers the EP3, EP6 or EP9 thread. Notches on the rails show where to stop, so nobody has to count turns.</li>
-</ul>
-<figure class="shot"><img src="media/stitchmeter-preload.jpg" alt="Close-up of the preload spring, its adjustment screw and the blade stages" loading="lazy"><figcaption>The preload spring and its adjustment screw, under the blade stages that set the measuring stiffness.</figcaption></figure>
-<h4>My part</h4>
-<ul>
-  <li>Sized the flexure guides with two teammates: stiffness of each pivot, link and blade stage, and maximum stresses, all kept below the fatigue limit for 10 million cycles.</li>
-  <li>Designed the preload screw: an M4 stainless screw that is self-locking (helix angle 3.6° against a friction angle of 8.5°), with a safety factor of about 22 and less than 4&nbsp;N needed on the knob.</li>
-</ul>
-<h4>Key numbers</h4>
-<div class="stats">
-  <div><b>×8</b><span>needle amplification in phase I</span></div>
-  <div><b>100 N</b><span>maximum force in phase II</span></div>
-  <div><b>12:1</b><span>lever ratio</span></div>
-  <div><b>10⁷</b><span>cycles of fatigue life</span></div>
-</div>
-<div class="plinks"><a href="media/stitchmeter-report.pdf">Full report (PDF) →</a></div>
-</template>
-      </article>
-      <article class="project" data-id="selfbalancing">
-        <div class="media has-img portrait"><img class="fill" src="media/selfbalancing-poster.jpg" alt="" aria-hidden="true" loading="lazy"><video src="media/selfbalancing-video.mp4" poster="media/selfbalancing-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="The self-balancing robot standing upright on two wheels on a workbench"></video></div>
-        <div>
-          <div class="tag-row"><span class="status">Completed</span></div>
-          <h3>Self-balancing robot</h3>
-          <p>A two-wheeled robot that keeps itself upright on its own, built from a first prototype to a working robot.</p>
-          <table class="specs">
-            <tr><th>Type</th><td>Two-wheeled inverted pendulum</td></tr>
-            <tr><th>Power</th><td>3S 21700 Li-ion pack</td></tr>
-            <tr><th>PCB</th><td>OmniBattery 3S power board (EasyEDA)</td></tr>
-          </table>
-          <button class="more" type="button">Read the full story</button>
-        </div>
-        <template class="detail-tpl">
-<div class="tag-row"><span class="status">Completed</span></div>
-<h2>Self-balancing robot</h2>
-<p class="summary">A two-wheeled robot that keeps itself upright. It balances on its own, as in the video above.</p>
-<h4>The robot</h4>
-<p>The robot is built on a stack of plates: two geared DC motors at the bottom, the electronics in the middle and three 21700 cells on top. The control loop reads the tilt and drives the wheels to keep the robot balanced.</p>
-<h4>Prototype</h4>
-<p>Before the final robot, a first prototype was built to test the motors, the sensors and the balance loop.</p>
-<figure class="shot"><video src="media/selfbalancing-proto-video.mp4" poster="media/selfbalancing-proto-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="The first prototype balancing on a table"></video><figcaption>Video of the prototype balancing on its own.</figcaption></figure>
-<figure class="shot"><img src="media/selfbalancing-proto.jpg" alt="The robot frame on the workbench, with the hand-wired electronics between the plates" loading="lazy"><figcaption>On the bench: hand-wired electronics on perfboard between the motor plate and the battery plate.</figcaption></figure>
-<h4>Power board: OmniBattery</h4>
-<p>The robot is powered by <b>OmniBattery</b>, a custom power board that holds three 21700 cells in series and gives the robot everything it needs from one connector. We are now integrating it into the robot, in place of the loose wiring.</p>
-<div class="flow"><span>3 × 21700 (3S)</span><i>→</i><span>5 A fuse</span><i>→</i><span>Switch</span><i>→</i><span>2 × LM2596 buck</span><i>→</i><span>VBAT · 5 V · 3V3 · GND</span></div>
-<ul>
-  <li>The BMS sits on the low side (B− → P−), while the fuse and switch are on the high side. The BMS senses the pack directly, upstream of the fuse.</li>
-  <li>Two ground nets: everything refers to the protected ground P−, and BAT− is a dedicated trace kept out of the pour so current cannot bypass the BMS.</li>
-  <li>Cells on top, power parts on the bottom, which keeps the board at 100 × 100 mm, the cheapest fab tier.</li>
-  <li>Rev B added the 5 A fuse, a 3S BMS and ground pours on both layers stitched with 17 vias.</li>
-</ul>
-<figure class="shot"><img src="media/omnibattery-pcb-3d-top.jpg" alt="3D preview of the OmniBattery PCB, cell side" loading="lazy"><figcaption>3D preview, cell side: the three 21700 holders.</figcaption></figure>
-<figure class="shot"><img src="media/omnibattery-pcb-3d-bottom.jpg" alt="3D preview of the OmniBattery PCB, power side" loading="lazy"><figcaption>3D preview, power side: footprints for the buck modules, BMS, fuse, switch and output terminal.</figcaption></figure>
-<figure class="shot"><img src="media/omnibattery-pcb-top.jpg" alt="OmniBattery PCB layout, top layer" loading="lazy"><figcaption>Top layer layout: the three cell holders and the pack-current paths.</figcaption></figure>
-<figure class="shot"><img src="media/omnibattery-pcb-bottom.jpg" alt="OmniBattery PCB layout, bottom layer" loading="lazy"><figcaption>Bottom layer layout: buck converters, BMS, fuse, switch and output terminal.</figcaption></figure>
-<table class="specs">
-  <tr><th>Board</th><td>100 × 100 mm, 2 layers, 4 × M3</td></tr>
-  <tr><th>Protection</th><td>5 A fuse, 3S BMS (over-charge, over-discharge, short circuit)</td></tr>
-  <tr><th>Tools</th><td>EasyEDA Pro</td></tr>
-</table>
-<h4>Next: OmniBattery v2</h4>
-<p>A single board with no modules: integrated buck converters, an integrated BMS and on-board charging.</p>
-<div class="plinks"><a href="https://github.com/YazidBenmchich/OmniBattery">OmniBattery on GitHub →</a></div>
-</template>
-      </article>
-        </div>
-      </div>
-
-      <div class="group" id="grp-wip" role="tabpanel" aria-labelledby="tab-wip" hidden>
-        <div class="projects">
-      <article class="project" data-id="drone">
-        <div class="media has-img"><img src="media/hotswap-3d.jpg" alt="3D render of the hot-swap PCB: two XT60 battery inputs at the front, four MOSFETs, a bulk capacitor and the XT60 output at the back" loading="lazy" style="background:#000;object-fit:contain"></div>
-        <div>
-          <div class="tag-row"><span class="status">In progress · Electronics Lead</span></div>
-          <h3>Competition drone, EPFL Xplore</h3>
-          <p>Leading the electronics of the team's drone for the European Rover Challenge, including an electrical hot-swap system for the power supply.</p>
-          <table class="specs">
-            <tr><th>Role</th><td>Electronics Lead</td></tr>
-            <tr><th>Power</th><td>Two 6S batteries, hot-swap, 12 V and 5 V rails</td></tr>
-            <tr><th>Avionics</th><td>Pixhawk 6X, Jetson Orin Nano, 4 LiDARs</td></tr>
-          </table>
-          <button class="more" type="button">Read the full story</button>
-        </div>
-        <template class="detail-tpl">
-<div class="tag-row"><span class="status">In progress · Electronics Lead</span></div>
-<h2>Competition drone, EPFL Xplore</h2>
-<p class="summary">The Xplore drone team builds its drone from scratch, and was named the best student drone team in Europe in 2025. I lead the electronics.</p>
-<h4>My role</h4>
-<ul>
-  <li>Electronics Lead: power architecture, wiring and integration of the avionics.</li>
-  <li>Designing an electrical hot-swap system so the batteries can be changed without powering the drone down.</li>
-  <li>Next, I plan to work on navigation and embedded software.</li>
-</ul>
-<h4>Architecture</h4>
-<div class="flow"><span>2 × 6S batteries</span><i>→</i><span>Hot-swap + power module</span><i>→</i><span>12 V / 5 V rails</span><i>→</i><span>Pixhawk 6X · Jetson Orin Nano · ESCs · 4 LiDARs</span></div>
-<p>The Pixhawk 6X handles flight control, while the Jetson Orin Nano runs on-board perception and autonomy using four LiDARs.</p>
-<figure class="shot"><img src="media/drone-schematic.png" alt="KiCad schematic of the drone electronics: dual 6S batteries, power module, ESC, Pixhawk 6X, Jetson Orin Nano and four LiDARs" loading="lazy" style="background:#fff"><figcaption>System schematic of the drone electronics (KiCad).</figcaption></figure>
-<h4>Hot-swap power board</h4>
-<p>I designed a PCB in EasyEDA that lets the team swap a battery without powering the drone down. Each of the two 6S packs plugs into its own XT60 input and feeds a shared bus through an ideal diode: an LM74700 controller drives two MOSFETs in parallel. The bus is always fed by the healthier pack, and current can never flow back from one battery into the other, so one pack can be unplugged while the other keeps the drone running.</p>
-<div class="flow"><span>Battery A (XT60)</span><i>→</i><span>LM74700 + 2 MOSFETs</span><i>→</i><span>Bus</span><i>←</i><span>LM74700 + 2 MOSFETs</span><i>←</i><span>Battery B (XT60)</span></div>
-<ul>
-  <li>Bus output on an XT60, with a 100&nbsp;µF bulk capacitor and four 4.7&nbsp;µF / 100&nbsp;V ceramics to ride through the switchover.</li>
-  <li>SMCJ26A TVS diode on the bus against voltage spikes when a pack is plugged in.</li>
-  <li>Large copper pours for the battery and bus current, with each battery's area kept separate.</li>
-</ul>
-<figure class="shot"><img src="media/hotswap-schematic.png" alt="Hot-swap schematic: two XT60 inputs, each with an LM74700 ideal-diode controller driving two parallel MOSFETs onto a common bus, plus bus capacitors, a TVS diode and the XT60 output" loading="lazy" style="background:#fff"><figcaption>Schematic: one LM74700 ideal-diode stage per battery, both feeding the common bus.</figcaption></figure>
-<figure class="shot"><img src="media/hotswap-layout.jpg" alt="Hot-swap PCB layout, top copper layer" loading="lazy"><figcaption>Top layer layout: battery inputs at the bottom, MOSFETs in the middle, bus capacitors, TVS and output at the top.</figcaption></figure>
-<figure class="shot"><img src="media/hotswap-render.jpg" alt="Hot-swap PCB rendered from above without the connectors" loading="lazy"><figcaption>The bare board seen from above (EasyEDA).</figcaption></figure>
-<h4>Tech</h4>
-<table class="specs">
-  <tr><th>Power</th><td>Two 6S batteries, hot-swap, 12 V and 5 V rails</td></tr>
-  <tr><th>Avionics</th><td>Pixhawk 6X, Jetson Orin Nano, 4 LiDARs</td></tr>
-  <tr><th>Hot-swap</th><td>2 × LM74700 ideal diodes, 4 MOSFETs, XT60 in/out</td></tr>
-  <tr><th>Tools</th><td>KiCad, EasyEDA</td></tr>
-</table>
-</template>
-      </article>
-
-      <article class="project" data-id="humanoid">
-        <div class="media has-img portrait"><img class="fill" src="media/humanoid.jpg" alt="" aria-hidden="true" loading="lazy"><img class="fit" src="media/humanoid.jpg" alt="Simulation render of the humanoid robot" loading="lazy"></div>
-        <div>
-          <div class="tag-row"><span class="status">In progress</span></div>
-          <h3>Humanoid robot</h3>
-          <p>Building a humanoid robot and its software stack, with on-board perception as the next milestone.</p>
-          <table class="specs">
-            <tr><th>Role</th><td>Software</td></tr>
-            <tr><th>Next</th><td>On-board perception pipeline</td></tr>
-          </table>
-          <button class="more" type="button">Read the full story</button>
-        </div>
-        <template class="detail-tpl">
-<div class="tag-row"><span class="status">In progress</span></div>
-<h2>Humanoid robot</h2>
-<p class="summary">A humanoid robot project where I work on the software stack.</p>
-<h4>My role</h4>
-<ul>
-  <li>Software development for the robot, starting in simulation.</li>
-  <li>Next milestone: an on-board perception pipeline, planned over the coming year.</li>
-</ul>
-</template>
-      </article>
-        </div>
-      </div>
     </div>
+  </section>
+
+  <section id="journey">
+    <h2>Journey</h2>
+    <p class="scroll-cue">Most recent first · scroll →</p>
+    <ol class="timeline" tabindex="0" aria-label="Timeline, most recent first">
+      <li class="win"><time>Nov 2026</time><b>Leukerbad Robotics Carnival Hack</b><span>Built <a href="#makai">MAKAI</a>, a robot that tidies a room with two cameras, in one weekend.</span></li>
+      <li><time>Oct 2026 · now</time><b>Electronics Lead, Xplore drone</b><span>Power and avionics of the <a href="#drone">competition drone</a> for the European Rover Challenge.</span></li>
+      <li class="win"><time>Oct 2026</time><b>3rd place, HackTurin</b><span><a href="#helioscan">HelioScan</a>: edge-AI drone payload that finds solar panel defects.</span></li>
+      <li><time>Oct 2026 · now</time><b>Engineering consultant</b><span>Feasibility and patentability studies at Junior Entreprise EPFL.</span></li>
+      <li><time>Sep 2026 · now</time><b>SAPIEN humanoid</b><span>Software for the EPFL AI Team's <a href="#humanoid">humanoid robot</a>.</span></li>
+      <li class="win"><time>May 2026</time><b>2nd place, LauzHack × Huawei</b><span><a href="#moe">Expert placement</a> for Mixture-of-Experts models, 14.2% above DeepSeek's baseline.</span></li>
+      <li><time>May 2026</time><b>RoboHack 2026</b><span>Taught an <a href="#so101">SO-101 arm</a> to pick leaves by imitation learning.</span></li>
+      <li><time>Feb 2026</time><b>Joined the EPFL AI Team</b><span>Robotics member: robot arms first, then the humanoid.</span></li>
+      <li class="win"><time>2025 – 2026</time><b>3rd, Xplore Rover Challenge</b><span>Electronics and autonomy of an <a href="#rover">autonomous rover</a> with sensor fusion.</span></li>
+      <li><time>Jun 2025</time><b>First machine design</b><span>A hand-cranked <a href="#launcher">squash ball launcher</a>, 35 drawings.</span></li>
+      <li><time>Sep 2024</time><b>Started at EPFL</b><span>B.Sc. in Microengineering, Lausanne.</span></li>
+      <li><time>2020 – 2024</time><b>French international school, Jeddah</b><span>Baccalauréat with the jury's highest honours. Founded a Model UN for 5 schools.</span></li>
+    </ol>
   </section>
 
   <section id="about">
@@ -665,16 +796,50 @@ body.locked { overflow: hidden; }
       <div>
         <p>I'm a third-year microengineering student at EPFL in Lausanne. I like the part of robotics where software meets the board: getting sensors to agree, getting models to run on small chips, and getting a robot to do the right thing without a laptop attached.</p>
         <p>Next year I start a master's focused on navigation and perception.</p>
+        <div class="skills">
+          <div><b>Robotics &amp; AI</b><span>ROS 2</span><span>Gazebo</span><span>OpenCV</span><span>PyTorch</span><span>LeRobot</span><span>Imitation learning</span></div>
+          <div><b>Control &amp; estimation</b><span>PID</span><span>Extended Kalman Filter</span><span>Sensor fusion</span></div>
+          <div><b>Embedded &amp; electronics</b><span>ESP32</span><span>Pixhawk 6X</span><span>Jetson Orin Nano</span><span>PCB design</span><span>KiCad</span><span>EasyEDA</span></div>
+          <div><b>Code</b><span>Python</span><span>C / C++</span><span>Linux</span><span>Git</span></div>
+        </div>
       </div>
       <div class="facts">
+        <div><span>Studies</span><span>B.Sc. Microengineering, EPFL (2027)</span></div>
         <div><span>Teams</span><span>EPFL Xplore (drone), EPFL AI Team</span></div>
         <div><span>Consulting</span><span>Junior Entreprise EPFL</span></div>
-        <div><span>Languages</span><span>French, Arabic, English, Spanish</span></div>
-        <div><span>Contact</span>
-          <span class="contact-row">
-            <span class="email" id="email">abid15iyad@gmail.com</span>
-            <button class="copy" id="copy-email" type="button">Copy</button>
-          </span>
+        <div><span>Teaching</span><span>Maths tutor, CVAJ</span></div>
+        <div><span>Languages</span><span>French and Arabic (native), English (C1), Spanish (B2), German (A1)</span></div>
+        <div><span>Based in</span><span>Lausanne, Switzerland</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="beyond">
+    <h2>Beyond robotics</h2>
+    <p class="section-sub">What I do when nothing is on the bench.</p>
+    <div class="beyond">
+      <article class="reveal"><span class="k">Music</span><h3>Percussion in the orchestra</h3><p>I play percussion in a symphony orchestra at EPFL. Counting 60 bars of rest and coming in on time is good training for real-time systems.</p></article>
+      <article class="reveal"><span class="k">Three countries</span><h3>Tunisia, Jeddah, Lausanne</h3><p>Tunisian roots, high school at the French international school of Jeddah, and now Switzerland. I move easily between languages and cultures.</p></article>
+      <article class="reveal"><span class="k">Leadership</span><h3>A Model UN from scratch</h3><p>In high school I founded a Middle East Model United Nations: 5 schools from 3 countries. I led the organisation and chaired a committee.</p></article>
+      <article class="reveal"><span class="k">Travel</span><h3>Always planning the next trip</h3><p>Seville and Barcelona most recently. I like cities I can cross on foot, and practising my Spanish on the way.</p></article>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact">
+      <div>
+        <h2>Get in touch</h2>
+        <p>Email is the fastest way to reach me. I answer in French, English, Arabic or Spanish.</p>
+      </div>
+      <div>
+        <span class="contact-row">
+          <span class="email" id="email">abid15iyad@gmail.com</span>
+          <button class="copy" id="copy-email" type="button">Copy</button>
+        </span>
+        <div class="cta">
+          <a class="btn" href="https://linkedin.com/in/iyad-abid-387715368">LinkedIn</a>
+          <a class="btn" href="https://github.com/Iyad-coder">GitHub</a>
+          <a class="btn" href="cv.pdf">CV (PDF)</a>
         </div>
       </div>
     </div>
@@ -693,25 +858,48 @@ body.locked { overflow: hidden; }
 
 <script>
 (function () {
-  // Project tabs: completed / in progress
-  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
-  function showTab(id) {
-    tabs.forEach(function (t) {
-      var on = t.id === id;
-      t.setAttribute('aria-selected', on ? 'true' : 'false');
-      t.tabIndex = on ? 0 : -1;
-      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+  // Theme toggle
+  var root = document.documentElement;
+  document.getElementById('theme').addEventListener('click', function () {
+    var dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark ? 'light' : 'dark';
+    try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+  });
+
+  // Project filters
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.project'));
+  function applyFilter(f) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', c.dataset.filter === f ? 'true' : 'false'); });
+    cards.forEach(function (c) { c.hidden = f !== 'all' && c.dataset.tags.split(' ').indexOf(f) < 0; });
+    ['featured', 'more'].forEach(function (g) {
+      document.getElementById('sub-' + g).hidden = !document.querySelector('#' + g + ' .project:not([hidden])');
     });
   }
-  tabs.forEach(function (t, i) {
-    t.addEventListener('click', function () { showTab(t.id); });
-    t.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-        var n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
-        showTab(n.id); n.focus(); e.preventDefault();
-      }
-    });
-  });
+  chips.forEach(function (c) { c.addEventListener('click', function () { applyFilter(c.dataset.filter); }); });
+
+  // Play looping clips only while they are on screen
+  function watchVideos(scope) {
+    var vids = scope.querySelectorAll('video[data-autoplay]');
+    if (!('IntersectionObserver' in window)) { vids.forEach(function (v) { v.play(); }); return; }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting) { var r = e.target.play(); if (r && r.catch) r.catch(function () {}); }
+        else e.target.pause();
+      });
+    }, { threshold: 0.35 });
+    vids.forEach(function (v) { io.observe(v); });
+  }
+  watchVideos(document);
+
+  // Reveal on scroll
+  var rev = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var ro = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    rev.forEach(function (el) { ro.observe(el); });
+  } else rev.forEach(function (el) { el.classList.add('in'); });
 
   // Project detail view: click a card (or open #project-id) to see the full story.
   var overlay = document.getElementById('overlay'), panelMedia = document.getElementById('panel-media'),
@@ -719,27 +907,42 @@ body.locked { overflow: hidden; }
   function openProject(id, push) {
     var card = document.querySelector('.project[data-id="' + id + '"]');
     if (!card) return;
-    var grp = card.closest('.group'); if (grp && grp.hidden) showTab(grp.getAttribute('aria-labelledby'));
-    lastFocus = document.activeElement;
+    if (!overlay.classList.contains('open')) lastFocus = document.activeElement;
     panelMedia.innerHTML = '';
     var media = card.querySelector('.media');
-    if (media) panelMedia.appendChild(media.cloneNode(true));
+    if (media) {
+      var m = media.cloneNode(true);
+      m.querySelectorAll('video[data-full]').forEach(function (v) { v.src = v.dataset.full; v.controls = true; v.loop = false; });
+      panelMedia.appendChild(m);
+    }
     panelBody.innerHTML = card.querySelector('.detail-tpl').innerHTML;
+    var i = cards.indexOf(card), prev = cards[(i + cards.length - 1) % cards.length], next = cards[(i + 1) % cards.length];
+    var nav = document.createElement('div'); nav.className = 'pnav';
+    [[prev, 'Previous'], [next, 'Next']].forEach(function (pn) {
+      var b = document.createElement('button'); b.type = 'button';
+      var sm = document.createElement('small'); sm.textContent = pn[1];
+      b.appendChild(sm); b.appendChild(document.createTextNode(pn[0].querySelector('h3').textContent));
+      b.addEventListener('click', function () { openProject(pn[0].dataset.id, true); });
+      nav.appendChild(b);
+    });
+    panelBody.appendChild(nav);
     var h = panelBody.querySelector('h2'); if (h) h.id = 'panel-title';
     overlay.classList.add('open'); overlay.scrollTop = 0;
-    overlay.querySelectorAll('video').forEach(function (v) { var r = v.play(); if (r && r.catch) r.catch(function () {}); });
+    panelMedia.querySelectorAll('video').forEach(function (v) { var r = v.play(); if (r && r.catch) r.catch(function () {}); });
+    watchVideos(panelBody);
     document.body.classList.add('locked');
     document.getElementById('close').focus();
     if (push && location.hash !== '#' + id) history.pushState(null, '', '#' + id);
   }
   function closeProject(push) {
     if (!overlay.classList.contains('open')) return;
+    overlay.querySelectorAll('video').forEach(function (v) { v.pause(); });
     overlay.classList.remove('open');
     document.body.classList.remove('locked');
     if (push && location.hash) history.pushState(null, '', location.pathname + location.search);
     if (lastFocus) lastFocus.focus();
   }
-  document.querySelectorAll('.project').forEach(function (card) {
+  cards.forEach(function (card) {
     card.addEventListener('click', function (e) {
       if (e.target.closest('a')) return;
       openProject(card.dataset.id, true);
@@ -767,3 +970,5 @@ body.locked { overflow: hidden; }
   });
 })();
 </script>
+</body>
+</html>
