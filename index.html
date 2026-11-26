@@ -64,6 +64,12 @@ nav .links { display: flex; gap: 6px 20px; flex-wrap: wrap; align-items: center;
 .theme { font: inherit; color: var(--muted); background: none; border: 1px solid var(--line); border-radius: 6px; padding: 5px 9px; cursor: pointer; }
 .theme:hover { color: var(--fg); border-color: var(--accent); }
 section, .project { scroll-margin-top: 72px; }
+@media (max-width: 640px) {
+  nav { flex-wrap: nowrap; padding-block: 10px; }
+  nav .brand { flex: none; }
+  nav .links { flex-wrap: nowrap; overflow-x: auto; gap: 16px; scrollbar-width: none; white-space: nowrap; }
+  nav .links::-webkit-scrollbar { display: none; }
+}
 nav a { text-decoration: none; color: var(--muted); }
 nav a:hover { color: var(--fg); }
 
@@ -356,6 +362,7 @@ body.locked { overflow: hidden; }
             <tr><th>Autonomy</th><td>HSV detection, LiDAR gap-finding state machine</td></tr>
             <tr><th>Stack</th><td>ROS 2, Gazebo Harmonic, robot_localization</td></tr>
           </table>
+          <div class="plinks"><a href="https://github.com/Iyad-coder/Navigation_xrc">GitHub →</a></div>
           <button class="more" type="button">Read the full story</button>
         </div>
         <template class="detail-tpl">
@@ -539,7 +546,7 @@ body.locked { overflow: hidden; }
         <div>
           <div class="tag-row"><span class="status">Completed</span></div>
           <h3>Self-balancing robot</h3>
-          <p>A two-wheeled robot that keeps itself upright on its own, built from a first prototype to a working robot.</p>
+          <p>A two-wheeled robot that keeps itself upright, recovers when pushed and tunes its own control gains.</p>
           <table class="specs">
             <tr><th>Control</th><td>State feedback at 200 Hz, LQR gains + auto-tuning</td></tr>
             <tr><th>Power</th><td>3S 21700 Li-ion pack</td></tr>
