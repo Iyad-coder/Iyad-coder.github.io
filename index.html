@@ -194,13 +194,24 @@ footer { padding-block: 32px 48px; border-top: 1px solid var(--line); font: 12px
 .skills span { font: 12px var(--font-mono); padding: 5px 9px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
 
 /* Beyond robotics */
-.beyond { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-.beyond article { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+.beyond { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 16px; }
+.beyond article { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; min-width: 0; }
+.beyond article:first-child { grid-row: span 2; }
+.beyond article:last-child { grid-column: span 2; }
+.beyond img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; border-radius: 8px; margin-bottom: 14px; }
 .beyond .k { font: 500 11px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); }
 .beyond h3 { font: 700 18px/1.25 var(--font-display); margin: 10px 0 6px; text-wrap: balance; }
-.beyond p { margin: 0; font-size: 14px; color: var(--muted); }
-@media (max-width: 900px) { .beyond { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 520px) { .beyond { grid-template-columns: minmax(0, 1fr); } }
+.beyond p { margin: 0; font-size: 14px; color: var(--muted); max-width: 46em; }
+@media (max-width: 900px) {
+  .beyond { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .beyond article:first-child { grid-row: auto; grid-column: span 2; }
+  .beyond img { aspect-ratio: 16 / 10; }
+}
+@media (max-width: 520px) {
+  .beyond { grid-template-columns: minmax(0, 1fr); }
+  .beyond article:first-child, .beyond article:last-child { grid-column: auto; }
+  .beyond img { aspect-ratio: 4 / 5; }
+}
 
 /* Contact */
 .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
@@ -818,7 +829,7 @@ body.locked { overflow: hidden; }
     <h2>Beyond robotics</h2>
     <p class="section-sub">What I do when nothing is on the bench.</p>
     <div class="beyond">
-      <article class="reveal"><span class="k">Music</span><h3>Percussion in the orchestra</h3><p>I play percussion in a symphony orchestra at EPFL. Before that I played with the Carthage Symphony Orchestra (CSO) and with the OLFM, the international Orchestre des Lycées Français du Monde. Counting 60 bars of rest and coming in on time is good training for real-time systems.</p></article>
+      <article class="reveal"><img src="media/beyond-music.jpg" alt="Iyad in concert dress behind a snare drum and a cymbal, watching the conductor during an orchestra concert" loading="lazy"><span class="k">Music</span><h3>Percussion in the orchestra</h3><p>I play percussion in a symphony orchestra at EPFL. Before that I played with the Carthage Symphony Orchestra (CSO) and with the OLFM, the international Orchestre des Lycées Français du Monde. Counting 60 bars of rest and coming in on time is good training for real-time systems.</p></article>
       <article class="reveal"><span class="k">Three countries</span><h3>Tunisia, Jeddah, Lausanne</h3><p>Tunisian roots, high school at the French international school of Jeddah, and now Switzerland. I move easily between languages and cultures.</p></article>
       <article class="reveal"><span class="k">Leadership</span><h3>A Model UN from scratch</h3><p>In high school I founded a Middle East Model United Nations: 5 schools from 3 countries. I led the organisation and chaired a committee.</p></article>
       <article class="reveal"><span class="k">Travel</span><h3>Always planning the next trip</h3><p>Seville and Barcelona most recently. I like cities I can cross on foot, and practising my Spanish on the way.</p></article>
